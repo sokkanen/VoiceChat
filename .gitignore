@@ -1,0 +1,28 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/chatfront/node_modules
+/chatfront/.pnp
+/chatfront/.pnp.js
+
+# testing
+chatfront/coverage
+
+# production
+chatfront/build
+
+# misc
+/chatfront/.DS_Store
+/chatfront/.env.local
+/chatfront/.env.development.local
+/chatfront/.env.test.local
+/chatfront/.env.production.local
+
+/chatfront/npm-debug.log*
+/chatfront/yarn-debug.log*
+/chatfront/yarn-error.log*
+
+# animation files
+
+/dokumentaatio/English-pronunciation-Mouth-Alphabet.jpg
+
