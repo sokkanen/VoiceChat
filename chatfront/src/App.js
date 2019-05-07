@@ -10,8 +10,7 @@ function App() {
 
   useEffect(() => {
     socket.on('message', (msg) => {
-      console.log(msg)
-      setMessage(msg)
+      console.log('new received message: ', msg)
       const msgs = messages
       msgs.push(msg)
       if (msgs.length > 5){
@@ -29,6 +28,7 @@ function App() {
       msgs.shift()
     }
     setMessages(msgs)
+    socket.emit('newMessage', (message))
     setMessage('')
   }
 
