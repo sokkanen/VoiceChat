@@ -4,6 +4,7 @@
 /chatfront/node_modules
 /chatfront/.pnp
 /chatfront/.pnp.js
+chatfront/package-lock.json
 
 # testing
 chatfront/coverage
@@ -26,3 +27,7 @@ chatfront/build
 
 /dokumentaatio/English-pronunciation-Mouth-Alphabet.jpg
 
+# Backend
+
+/chatback/node_modules
+/chatback/package-lock.json
