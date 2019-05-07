@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import openSocket from 'socket.io-client'
 
 const socket = openSocket('http://localhost:3003/')
 
-function App() {
+const App = () =>  {
 
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
     socket.on('message', (msg) => {
@@ -17,18 +18,13 @@ function App() {
         msgs.shift()
       }
       setMessages(msgs)
+      forceUpdate()
     })
   }, [])
 
-  const addMessage = (event) => {
+  const sendMessage = async (event) => {
     event.preventDefault()
-    const msgs = messages
-    msgs.push(message)
-    if (msgs.length > 5){
-      msgs.shift()
-    }
-    setMessages(msgs)
-    socket.emit('newMessage', (message))
+    await socket.emit('newMessage', (message))
     setMessage('')
   }
 
@@ -37,7 +33,7 @@ function App() {
       <ul>
         {messages.map(msg => <li key={msg}>{msg}</li>)}
       </ul>
-      <form onSubmit={addMessage}>
+      <form onSubmit={sendMessage}>
         <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
         <button type="submit">Send</button>
       </form>

@@ -10,6 +10,7 @@ io.on('connection', (client) => {
     })
     client.on('newMessage', (message) => {
         console.log('new message: ', message)
+        console.log(client.id)
         io.emit('message', message)
     })
     client.on('disconnect', () => {
