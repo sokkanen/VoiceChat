@@ -7,4 +7,5 @@ päivä | aika | mitä tein
 6.5   | 1    | Frontin alkeisversio 
 7.5   | 2    | Ensimmäinen bäkkäriversio. Bäkki juttelee frontille Socket.io:lla
 7.5   | 2    | Viesti välittyy molempiin suuntiin. Alkeellinen chat toimii.
-YHT   | 6
+11.5  | 2    | TekstiChatin hahmottelua. Tekstichatin piilotusmahdollisuus.
+YHT   | 8

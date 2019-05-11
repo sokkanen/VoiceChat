@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import openSocket from 'socket.io-client'
+import ChatText from './ChatText'
 
 const socket = openSocket('http://localhost:3003/')
 
@@ -7,6 +8,9 @@ const App = () =>  {
 
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
+  const [count, setCount] = useState(5)
+  const [chatBoxVisible, setChatBoxVisible] = useState(true)
+  const [buttonMsg, setButtonMsg] = useState('Hide textchat')
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
@@ -14,7 +18,7 @@ const App = () =>  {
       console.log('new received message: ', msg)
       const msgs = messages
       msgs.push(msg)
-      if (msgs.length > 5){
+      if (msgs.length > count){
         msgs.shift()
       }
       setMessages(msgs)
@@ -28,11 +32,19 @@ const App = () =>  {
     setMessage('')
   }
 
+  const setVisible = () => {
+    setChatBoxVisible(!chatBoxVisible)
+    if (buttonMsg === 'Hide textchat'){
+      setButtonMsg('Show textchat')
+    } else {
+      setButtonMsg('Hide textchat')
+    }
+  }
+
   return (
     <div>
-      <ul>
-        {messages.map(msg => <li key={msg}>{msg}</li>)}
-      </ul>
+      <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
+      <button onClick={setVisible}>{buttonMsg}</button>
       <form onSubmit={sendMessage}>
         <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
         <button type="submit">Send</button>
@@ -41,4 +53,4 @@ const App = () =>  {
   );
 }
 
-export default App;
+export default App
