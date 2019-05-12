@@ -8,4 +8,5 @@ päivä | aika | mitä tein
 7.5   | 2    | Ensimmäinen bäkkäriversio. Bäkki juttelee frontille Socket.io:lla
 7.5   | 2    | Viesti välittyy molempiin suuntiin. Alkeellinen chat toimii.
 11.5  | 2    | TekstiChatin hahmottelua. Tekstichatin piilotusmahdollisuus.
-YHT   | 8
+13.5  | 3    | Viestin läpikäynnin hahmottelua, animoidun "hymiön" kuvat.
+YHT   | 11
