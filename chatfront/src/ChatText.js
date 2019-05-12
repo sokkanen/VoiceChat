@@ -13,7 +13,7 @@ const ChatText = ({messages, msgcount, visible}) => {
         margin: '20px',
         border: '5px solid black',
         height: `${heightCounter()}px`,
-        'background-color': 'gray',
+        backgroundColor: 'gray',
         color: 'white'
     }
 

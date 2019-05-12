@@ -11,6 +11,7 @@ const App = () =>  {
   const [count, setCount] = useState(5)
   const [chatBoxVisible, setChatBoxVisible] = useState(true)
   const [buttonMsg, setButtonMsg] = useState('Hide textchat')
+  const [user, setUser] = useState('')
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
@@ -28,8 +29,14 @@ const App = () =>  {
 
   const sendMessage = async (event) => {
     event.preventDefault()
-    await socket.emit('newMessage', (message))
+    await socket.emit('newMessage', (user + ': ' + message))
     setMessage('')
+  }
+
+  const setCurrentUser = (event) => {
+    event.preventDefault()
+    setUser(event.target.username.value)
+    event.target.username.value = ''
   }
 
   const setVisible = () => {
@@ -43,6 +50,13 @@ const App = () =>  {
 
   return (
     <div>
+      <div>
+      <form onSubmit={setCurrentUser}>
+        <input type="text" name="username"/>
+        <button type="submit">Set User</button>
+      </form>
+      Current user: <b>{user}</b>
+      </div>
       <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
       <button onClick={setVisible}>{buttonMsg}</button>
       <form onSubmit={sendMessage}>
