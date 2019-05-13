@@ -9,4 +9,5 @@ päivä | aika | mitä tein
 7.5   | 2    | Viesti välittyy molempiin suuntiin. Alkeellinen chat toimii.
 11.5  | 2    | TekstiChatin hahmottelua. Tekstichatin piilotusmahdollisuus.
 13.5  | 3    | Viestin läpikäynnin hahmottelua, animoidun "hymiön" kuvat.
-YHT   | 11
+14.5  | 2    | Kirjaimittain animoitu pää toimii (melkein)
+YHT   | 13

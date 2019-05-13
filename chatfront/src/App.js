@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import openSocket from 'socket.io-client'
 import ChatText from './ChatText'
-import defaultFace from './1default.png'
+import Head from './Components/Head'
 
 const socket = openSocket('http://localhost:3003/')
 
@@ -13,7 +13,7 @@ const App = () =>  {
   const [chatBoxVisible, setChatBoxVisible] = useState(true)
   const [buttonMsg, setButtonMsg] = useState('Hide textchat')
   const [user, setUser] = useState('')
-  const [img, setImg] = useState(defaultFace)
+  const [letter, setLetter] = useState('')
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
@@ -38,10 +38,12 @@ const App = () =>  {
 
   const Speak = (msg) => {
     const xx = msg.split(':')
-    console.log('MOI')
     for (let i = 1; i < xx[1].length; i++){
-      console.log(xx[1].charAt(i))
+      setTimeout(() => {
+        setLetter(xx[1].charAt(i))
+      }, 100 * i);
     }
+    setLetter('')
   }
 
   const setCurrentUser = (event) => {
@@ -71,7 +73,7 @@ const App = () =>  {
       <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
       <button onClick={setVisible}>{buttonMsg}</button>
       <div>
-        <img src={img}></img>
+        <Head letter={letter}/>
       </div>
       <form onSubmit={sendMessage}>
         <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
