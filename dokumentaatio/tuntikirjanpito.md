@@ -11,4 +11,5 @@ päivä | aika | mitä tein
 13.5  | 3    | Viestin läpikäynnin hahmottelua, animoidun "hymiön" kuvat.
 14.5  | 2    | Kirjaimittain animoitu pää toimii (melkein)
 22.5  | 4    | Puhe toimii (Chromella). Synkronointi OK. Käyttäjähallinnan alkeet bäkkärillä
-YHT   | 17
+22.5  | 1    | Notifikaatio. Ilmoitus muuttuneesta käyttäjänimestä
+YHT   | 18
