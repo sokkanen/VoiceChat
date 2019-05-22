@@ -10,12 +10,19 @@ const addNewUser = (newUser) => {
     } else {
         let idFound = users.find(u => u.id === newUser.id)
         if (idFound !== undefined){
+            const oldUsername = idFound.name
             users.map(u => u.id === newUser.id ? u.name = newUser.name : u)
+            if (newUser.name !== oldUsername){
+                const changeInfo = {
+                    newUserName: newUser.name,
+                    oldUsername: oldUsername
+                }
+                io.emit('changedUsername', changeInfo)
+            }
         } else {
             users.push(newUser)
         }
     }
-    console.log(users)
 }
 
 io.on('connection', (client) => {

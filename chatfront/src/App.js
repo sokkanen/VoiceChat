@@ -3,6 +3,7 @@ import openSocket from 'socket.io-client'
 import Speech from 'speak-tts'
 import ChatText from './ChatText'
 import Head from './Components/Head'
+import Notification from './Components/Notification'
 
 const socket = openSocket('http://localhost:3003/')
 const speech = new Speech()
@@ -18,6 +19,8 @@ const App = () =>  {
   const [letter, setLetter] = useState('')
   const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  const [notification, setNotification] = useState('')
+  const [textColor, setTextColor] = useState('')
 
   useEffect(() => {
     initializeSpeech()
@@ -31,6 +34,13 @@ const App = () =>  {
       setMessages(msgs)
       speak(msg)
       forceUpdate()
+    })
+    socket.on('changedUsername', (changeInfo) => {
+      setNotification(`'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`)
+      setTextColor('#62f442')
+      setTimeout(() => {
+        setNotification('')
+      }, 5000);
     })
   }, [])
 
@@ -87,6 +97,9 @@ const App = () =>  {
   return (
     <div>
       <div>
+        <div>
+          <Notification notification={notification} textColor={textColor}/>
+        </div>
       <form onSubmit={setCurrentUser}>
         <input type="text" name="username"/>
         <button type="submit">Set User</button>
