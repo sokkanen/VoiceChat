@@ -22,8 +22,12 @@ const qw = /[qw]/
 const r = /[r]/
 const u = /[u]/
 
-const Head = ({letter}) => {
+const Head = ({letter, user}) => {
     const [img, setImg] = useState(defaultFace)
+
+    if (user === ''){
+        user = 'Anonymous'
+    }
 
     useEffect(() => {
         if (aie.test(letter)){
@@ -52,7 +56,10 @@ const Head = ({letter}) => {
     })
 
     return (
-        <img src={img} alt="Cartoon head"></img>
+        <div>
+            <img src={img} alt="Cartoon head"></img>
+            <h4>{user}</h4>
+        </div>
     )
 }
 

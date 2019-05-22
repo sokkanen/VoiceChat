@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import openSocket from 'socket.io-client'
+import Speech from 'speak-tts'
 import ChatText from './ChatText'
 import Head from './Components/Head'
 
 const socket = openSocket('http://localhost:3003/')
+const speech = new Speech()
 
 const App = () =>  {
 
@@ -14,9 +16,11 @@ const App = () =>  {
   const [buttonMsg, setButtonMsg] = useState('Hide textchat')
   const [user, setUser] = useState('')
   const [letter, setLetter] = useState('')
+  const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
+    initializeSpeech()
     socket.on('message', (msg) => {
       console.log('new received message: ', msg)
       const msgs = messages
@@ -25,10 +29,20 @@ const App = () =>  {
         msgs.shift()
       }
       setMessages(msgs)
-      Speak(msg)
+      speak(msg)
       forceUpdate()
     })
   }, [])
+
+  const initializeSpeech = () => {
+    speech.init().then((data) => {
+      console.log('Speech is ready ')
+      const vc = data.voices.map(v => v.name)
+      setVoices(vc)
+    }).catch(error => {
+      console.log(error)
+    })
+  }
 
   const sendMessage = async (event) => {
     event.preventDefault()
@@ -36,8 +50,17 @@ const App = () =>  {
     setMessage('')
   }
 
-  const Speak = (msg) => {
+  const speak = (msg) => {
     const xx = msg.split(':')
+    speech.speak({
+      text: xx[1],
+      queue: true,
+      listeners: {
+          onend: () => {
+            setLetter('')
+          } 
+      }
+    })
     for (let i = 1; i < xx[1].length; i++){
       setTimeout(() => {
         setLetter(xx[1].charAt(i))
@@ -73,7 +96,7 @@ const App = () =>  {
       <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
       <button onClick={setVisible}>{buttonMsg}</button>
       <div>
-        <Head letter={letter}/>
+        <Head letter={letter} user={user}/>
       </div>
       <form onSubmit={sendMessage}>
         <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>

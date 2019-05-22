@@ -10,4 +10,5 @@ päivä | aika | mitä tein
 11.5  | 2    | TekstiChatin hahmottelua. Tekstichatin piilotusmahdollisuus.
 13.5  | 3    | Viestin läpikäynnin hahmottelua, animoidun "hymiön" kuvat.
 14.5  | 2    | Kirjaimittain animoitu pää toimii (melkein)
-YHT   | 13
+22.5  | 4    | Puhe toimii (Chromella). Synkronointi OK. Käyttäjähallinnan alkeet bäkkärillä
+YHT   | 17
