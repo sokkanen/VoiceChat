@@ -25,10 +25,6 @@ const u = /[u]/
 const Head = ({letter, user}) => {
     const [img, setImg] = useState(defaultFace)
 
-    if (user === ''){
-        user = 'Anonymous'
-    }
-
     useEffect(() => {
         if (aie.test(letter)){
             setImg(aieFace)

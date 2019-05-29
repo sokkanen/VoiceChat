@@ -12,4 +12,5 @@ päivä | aika | mitä tein
 14.5  | 2    | Kirjaimittain animoitu pää toimii (melkein)
 22.5  | 4    | Puhe toimii (Chromella). Synkronointi OK. Käyttäjähallinnan alkeet bäkkärillä
 22.5  | 1    | Notifikaatio. Ilmoitus muuttuneesta käyttäjänimestä
-YHT   | 18
+28.5  | 2    | Käyttäjälistan hallintaa
+YHT   | 20

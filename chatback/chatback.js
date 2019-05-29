@@ -1,6 +1,6 @@
 require('dotenv').config()
 const io = require('socket.io')()
-const users = []
+let users = []
 
 const SOCKETPORT = 3003
 
@@ -23,6 +23,7 @@ const addNewUser = (newUser) => {
             users.push(newUser)
         }
     }
+    io.emit('users', users)
 }
 
 io.on('connection', (client) => {
@@ -41,6 +42,8 @@ io.on('connection', (client) => {
         io.emit('message', message)
     })
     client.on('disconnect', () => {
+        users = users.filter(u => u.id !== client.id)
+        io.emit('users', users)
         console.log('Client disconnected')
     })
 })

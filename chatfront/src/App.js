@@ -15,12 +15,13 @@ const App = () =>  {
   const [count, setCount] = useState(5)
   const [chatBoxVisible, setChatBoxVisible] = useState(true)
   const [buttonMsg, setButtonMsg] = useState('Hide textchat')
-  const [user, setUser] = useState('')
+  const [user, setUser] = useState('Anonymous')
   const [letter, setLetter] = useState('')
   const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   const [notification, setNotification] = useState('')
   const [textColor, setTextColor] = useState('')
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
     initializeSpeech()
@@ -41,6 +42,10 @@ const App = () =>  {
       setTimeout(() => {
         setNotification('')
       }, 5000);
+    })
+    socket.on('users', (changedUsers) => {
+      console.log('users:')
+      console.log(changedUsers)
     })
   }, [])
 
