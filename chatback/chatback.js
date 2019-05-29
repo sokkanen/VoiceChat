@@ -21,6 +21,7 @@ const addNewUser = (newUser) => {
             }
         } else {
             users.push(newUser)
+            io.emit('newUser', newUser.name)
         }
     }
     io.emit('users', users)
@@ -28,6 +29,11 @@ const addNewUser = (newUser) => {
 
 io.on('connection', (client) => {
     console.log('Client connected')
+    const newUser = {
+        name: 'Anonymous',
+        id: client.id
+    }
+    addNewUser(newUser)
     client.on('messages', () => {
         console.log('Client subscribed for message')
     })
@@ -42,7 +48,14 @@ io.on('connection', (client) => {
         io.emit('message', message)
     })
     client.on('disconnect', () => {
+        let usr = users.find(u => u.id === client.id)
         users = users.filter(u => u.id !== client.id)
+        if (!usr){
+          usr = {
+              name: 'Anonymous'
+          }
+        }
+        io.emit('disconnected', usr.name)
         io.emit('users', users)
         console.log('Client disconnected')
     })

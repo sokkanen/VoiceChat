@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import openSocket from 'socket.io-client'
 import Speech from 'speak-tts'
 import ChatText from './ChatText'
-import Head from './Components/Head'
+import Heads from './Components/Heads'
 import Notification from './Components/Notification'
 
 const socket = openSocket('http://localhost:3003/')
@@ -22,6 +22,7 @@ const App = () =>  {
   const [notification, setNotification] = useState('')
   const [textColor, setTextColor] = useState('')
   const [users, setUsers] = useState([])
+  const [speaking, setSpeaking] = useState('')
 
   useEffect(() => {
     initializeSpeech()
@@ -33,19 +34,34 @@ const App = () =>  {
         msgs.shift()
       }
       setMessages(msgs)
-      speak(msg)
+      const splittedMsg = msg.split(':')
+      speak(splittedMsg[1])
+      setSpeaking(splittedMsg[0])
       forceUpdate()
     })
     socket.on('changedUsername', (changeInfo) => {
-      setNotification(`'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`)
+        setNotification(`'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`)
+        setTextColor('#62f442')
+        setTimeout(() => {
+          setNotification('')
+        }, 5000)
+    })
+    socket.on('newUser', (username) => {
+        setNotification(`'${username}' joined chat.`)
+        setTextColor('#62f442')
+        setTimeout(() => {
+          setNotification('')
+        }, 5000)
+    })
+    socket.on('disconnected', (username) => {
+      setNotification(`User '${username}' disconnected.`)
       setTextColor('#62f442')
       setTimeout(() => {
         setNotification('')
       }, 5000);
     })
     socket.on('users', (changedUsers) => {
-      console.log('users:')
-      console.log(changedUsers)
+      setUsers(changedUsers)
     })
   }, [])
 
@@ -66,9 +82,8 @@ const App = () =>  {
   }
 
   const speak = (msg) => {
-    const xx = msg.split(':')
     speech.speak({
-      text: xx[1],
+      text: msg,
       queue: true,
       listeners: {
           onend: () => {
@@ -76,9 +91,9 @@ const App = () =>  {
           } 
       }
     })
-    for (let i = 1; i < xx[1].length; i++){
+    for (let i = 1; i < msg.length; i++){
       setTimeout(() => {
-        setLetter(xx[1].charAt(i))
+        setLetter(msg.charAt(i))
       }, 100 * i);
     }
     setLetter('')
@@ -114,7 +129,7 @@ const App = () =>  {
       <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
       <button onClick={setVisible}>{buttonMsg}</button>
       <div>
-        <Head letter={letter} user={user}/>
+        <Heads speaking={speaking} users={users} letter={letter}/>
       </div>
       <form onSubmit={sendMessage}>
         <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
