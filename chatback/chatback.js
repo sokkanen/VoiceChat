@@ -47,6 +47,13 @@ io.on('connection', (client) => {
         addNewUser(newUser)
         io.emit('message', message)
     })
+    client.on('newUserName', (user) => {
+        const newUser = {
+            id: client.id,
+            name: user
+        }
+        addNewUser(newUser)
+    })
     client.on('disconnect', () => {
         let usr = users.find(u => u.id === client.id)
         users = users.filter(u => u.id !== client.id)

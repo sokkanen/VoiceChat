@@ -14,4 +14,5 @@ päivä | aika | mitä tein
 22.5  | 1    | Notifikaatio. Ilmoitus muuttuneesta käyttäjänimestä
 28.5  | 2    | Käyttäjälistan hallintaa
 29.5  | 2    | Jokaisella käyttäjällä oma puhuva pää. Oikea pää puhuu tekstit.
-YHT   | 22
+29.5  | 1    | Käyttäjänimi päivittyy kaikille. Notifikaation parannus.
+YHT   | 23

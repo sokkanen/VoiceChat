@@ -20,7 +20,7 @@ const App = () =>  {
   const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   const [notification, setNotification] = useState('')
-  const [textColor, setTextColor] = useState('')
+  const [textColor, setTextColor] = useState('#62f442')
   const [users, setUsers] = useState([])
   const [speaking, setSpeaking] = useState('')
 
@@ -40,25 +40,16 @@ const App = () =>  {
       forceUpdate()
     })
     socket.on('changedUsername', (changeInfo) => {
-        setNotification(`'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`)
-        setTextColor('#62f442')
-        setTimeout(() => {
-          setNotification('')
-        }, 5000)
+      const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
+      notificate(ms)
     })
     socket.on('newUser', (username) => {
-        setNotification(`'${username}' joined chat.`)
-        setTextColor('#62f442')
-        setTimeout(() => {
-          setNotification('')
-        }, 5000)
+      const ms = `'${username}' joined chat.`
+      notificate(ms)
     })
     socket.on('disconnected', (username) => {
-      setNotification(`User '${username}' disconnected.`)
-      setTextColor('#62f442')
-      setTimeout(() => {
-        setNotification('')
-      }, 5000);
+      const ms = `User '${username}' disconnected.`
+      notificate(ms)
     })
     socket.on('users', (changedUsers) => {
       setUsers(changedUsers)
@@ -73,6 +64,13 @@ const App = () =>  {
     }).catch(error => {
       console.log(error)
     })
+  }
+
+  const notificate = (message) => {
+    setNotification(message)
+    setTimeout(() => {
+      setNotification('')
+    }, 5000)
   }
 
   const sendMessage = async (event) => {
@@ -102,6 +100,7 @@ const App = () =>  {
   const setCurrentUser = (event) => {
     event.preventDefault()
     setUser(event.target.username.value)
+    socket.emit('newUserName', (event.target.username.value))
     event.target.username.value = ''
   }
 
