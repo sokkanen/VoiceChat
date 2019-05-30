@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import openSocket from 'socket.io-client'
 import Speech from 'speak-tts'
+import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
+
 import ChatText from './ChatText'
 import Heads from './Components/Heads'
 import Notification from './Components/Notification'
+import Chatrooms from './Components/Chatrooms'
+import UserRegister from './Components/UserRegister'
 
 const socket = openSocket('http://localhost:3003/')
 const speech = new Speech()
@@ -113,29 +117,49 @@ const App = () =>  {
     }
   }
 
-  return (
-    <div>
+  const Home = () => {
+    return (
       <div>
         <div>
-          <Notification notification={notification} textColor={textColor}/>
+          <div>
+            <Notification notification={notification} textColor={textColor}/>
+          </div>
+        <form onSubmit={setCurrentUser}>
+          <input type="text" name="username"/>
+          <button type="submit">Set Username</button>
+        </form>
         </div>
-      <form onSubmit={setCurrentUser}>
-        <input type="text" name="username"/>
-        <button type="submit">Set User</button>
-      </form>
-      Current user: <b>{user}</b>
+        <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
+        <button onClick={setVisible}>{buttonMsg}</button>
+        <div>
+          <Heads speaking={speaking} users={users} letter={letter}/>
+        </div>
+        <form onSubmit={sendMessage}>
+          <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
+          <button type="submit">Send</button>
+        </form>
       </div>
-      <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
-      <button onClick={setVisible}>{buttonMsg}</button>
+    )
+  }
+
+  const style = { padding: 10 }
+
+  return (
       <div>
-        <Heads speaking={speaking} users={users} letter={letter}/>
-      </div>
-      <form onSubmit={sendMessage}>
-        <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
-        <button type="submit">Send</button>
-      </form>
+        <div>
+          <Router>
+            <div>
+              <Link style={style} to="/">Home</Link>
+              <Link style={style} to="/rooms">Chatrooms</Link>
+              <Link style={style} to="/register">New User</Link>
+            </div>
+            <Route exact path="/" render={() => <Home/>}/>
+            <Route path="/rooms" render={() => <Chatrooms/>}/>
+            <Route path="/register" render={() => <UserRegister/>}/>
+          </Router>
+        </div>
     </div>
-  );
+  )
 }
 
 export default App
