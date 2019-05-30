@@ -15,5 +15,5 @@ päivä | aika | mitä tein
 28.5  | 2    | Käyttäjälistan hallintaa
 29.5  | 2    | Jokaisella käyttäjällä oma puhuva pää. Oikea pää puhuu tekstit.
 29.5  | 1    | Käyttäjänimi päivittyy kaikille. Notifikaation parannus.
-30.5  | 2    | React Router. Huonenäkymän ja rekisteröinnin hahmottelua.
-YHT   | 25
+30.5  | 3    | React Router. Huonenäkymän ja rekisteröinnin hahmottelua.
+YHT   | 26

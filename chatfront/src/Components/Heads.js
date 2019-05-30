@@ -9,11 +9,15 @@ const Heads = ({users, letter, speaking}) => {
     return (
         <div>
             <table>
+                <tbody>
                 <tr>
                 {users.map(
-                    user => user.name === speaking ? <td><Head letter={letter} user={user.name}/></td> : <td><Head letter='' user={user.name}/></td>
+                    user => user.name === speaking ? 
+                    <td><Head key={user.name} letter={letter} user={user.name}/></td> : 
+                    <td><Head key={user.name} letter='' user={user.name}/></td>
                 )}
-                </tr>
+                </tr>              
+                </tbody>
             </table>
         </div>
     )

@@ -1,0 +1,9 @@
+.user-form { padding:20px; }
+
+.user-form .field { padding: 4px; margin:1px; background: rgb(165, 165, 165); }
+
+.user-form .field label { display:inline-block; width:120px; margin-left:5px; }
+
+.user-form .field input { display:inline-block; }
+
+.user-form .field textarea { display:inline-block; }
