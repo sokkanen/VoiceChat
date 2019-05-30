@@ -154,7 +154,7 @@ const App = () =>  {
               <Link style={style} to="/register">New User</Link>
             </div>
             <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/rooms" render={() => <Chatrooms/>}/>
+            <Route path="/rooms" render={() => <Chatrooms socket={socket}/>}/>
             <Route path="/register" render={() => <UserRegister/>}/>
           </Router>
         </div>
