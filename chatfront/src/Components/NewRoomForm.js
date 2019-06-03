@@ -15,8 +15,12 @@ const NewRoomForm = ({socket, visible}) => {
         event.target.title.value = ''
         event.target.description.value = ''
         event.target.private.value = 'NO'
-        await socket.emit('newRoom', room)
-        alert(`New room '${room.title}' was created!`)
+        if (room.title === ''){
+            alert(`New room must have a title!`)
+        } else {
+            await socket.emit('newRoom', room)
+            alert(`New room '${room.title}' was created!`)
+        }
     }
 
     if (!visible){

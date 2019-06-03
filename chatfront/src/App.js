@@ -27,6 +27,7 @@ const App = () =>  {
   const [textColor, setTextColor] = useState('#62f442')
   const [users, setUsers] = useState([])
   const [speaking, setSpeaking] = useState('')
+  const [rooms, setRooms] = useState([])
 
   useEffect(() => {
     initializeSpeech()
@@ -58,6 +59,9 @@ const App = () =>  {
     socket.on('users', (changedUsers) => {
       setUsers(changedUsers)
     })
+    socket.on('rooms', (rooms) => {
+      setRooms(rooms)
+  })
   }, [])
 
   const initializeSpeech = () => {
@@ -144,6 +148,11 @@ const App = () =>  {
 
   const style = { padding: 10 }
 
+  const RenderChatRooms = () => {
+    socket.emit('requestRooms')
+    return <Chatrooms socket={socket} rooms={rooms}/>
+  }
+
   return (
       <div>
         <div>
@@ -154,7 +163,7 @@ const App = () =>  {
               <Link style={style} to="/register">New User</Link>
             </div>
             <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/rooms" render={() => <Chatrooms socket={socket}/>}/>
+            <Route path="/rooms" render={RenderChatRooms}/>
             <Route path="/register" render={() => <UserRegister/>}/>
           </Router>
         </div>

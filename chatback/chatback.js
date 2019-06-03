@@ -1,6 +1,7 @@
 require('dotenv').config()
 const io = require('socket.io')()
 let users = []
+let rooms = []
 
 const SOCKETPORT = 3003
 
@@ -25,6 +26,11 @@ const addNewUser = (newUser) => {
         }
     }
     io.emit('users', users)
+}
+
+const addNewRoom = (newRoom) => {
+    rooms.push(newRoom)
+    io.emit('rooms', rooms)
 }
 
 io.on('connection', (client) => {
@@ -55,7 +61,11 @@ io.on('connection', (client) => {
         addNewUser(newUser)
     })
     client.on('newRoom', (room) => {
-        console.log(room)
+        const newRoom = {...room, user: 'not implemented yet'}
+        addNewRoom(newRoom)
+    })
+    client.on('requestRooms', () => {
+        io.emit('rooms', rooms)
     })
     client.on('disconnect', () => {
         let usr = users.find(u => u.id === client.id)
