@@ -1,12 +1,20 @@
 import React from 'react'
 import './Chatrooms.css'
 
-const NewRoomForm = () => {
+const NewRoomForm = ({socket}) => {
 
-    const createNew = (event) => {
+    const createNew = async (event) => {
         event.preventDefault()
-        alert(`New room '${event.target.title.value}' was created!`)
+        const room = {
+            title: event.target.title.value,
+            description: event.target.description.value,
+            private: event.target.private.value,
+        }
         event.target.title.value = ''
+        event.target.description.value = ''
+        event.target.private.value = 'NO'
+        await socket.emit('newRoom', room)
+        alert(`New room '${room.title}' was created!`)
     }
 
     return (
@@ -22,6 +30,11 @@ const NewRoomForm = () => {
                 <div className="field">
                     <label>Description:</label>
                     <textarea name="description" rows="5" cols="50"></textarea>
+                </div>
+                <div className="field">
+                    <label>Private:</label>
+                    <input type="radio" name="private" value="YES"></input> Yes
+                    <input type="radio" name="private" value="NO" defaultChecked></input> No
                 </div>
                 <div className="field">
                     <button type="submit">Create</button>

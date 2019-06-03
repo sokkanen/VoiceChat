@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import './Chatrooms.css'
 import NewRoomForm from './NewRoomForm'
 
-const Chatrooms = (socket) => {
+const Chatrooms = ({socket}) => {
 
     const loading = [{title: 'loading...', description: ''}]
     const [rooms, setRooms] = useState(loading)
 
     return (
         <div>
-            <NewRoomForm/>
+            <NewRoomForm socket={socket}/>
             <h2>Rooms</h2>
             <div>
                 <table>
