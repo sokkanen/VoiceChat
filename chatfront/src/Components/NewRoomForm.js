@@ -1,7 +1,9 @@
 import React from 'react'
 import './Chatrooms.css'
 
-const NewRoomForm = ({socket}) => {
+// TULEE NÄKYMÄÄN VAIN REKISTERÖITYNEILLE KÄYTTÄJILLE!
+
+const NewRoomForm = ({socket, visible}) => {
 
     const createNew = async (event) => {
         event.preventDefault()
@@ -15,6 +17,10 @@ const NewRoomForm = ({socket}) => {
         event.target.private.value = 'NO'
         await socket.emit('newRoom', room)
         alert(`New room '${room.title}' was created!`)
+    }
+
+    if (!visible){
+        return <div></div>
     }
 
     return (

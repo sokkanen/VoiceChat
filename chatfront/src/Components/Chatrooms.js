@@ -6,10 +6,22 @@ const Chatrooms = ({socket}) => {
 
     const loading = [{title: 'loading...', description: ''}]
     const [rooms, setRooms] = useState(loading)
+    const [visible, setVisible] = useState(false)
+    const [newRoomText, setNewRoomText] = useState('Create a New Room')
+
+    const newRoomVisible = () => {
+        setVisible(!visible)
+        if (newRoomText === 'Create a New Room'){
+            setNewRoomText('Close')
+        } else {
+            setNewRoomText('Create a New Room')
+        }
+    }
 
     return (
         <div>
-            <NewRoomForm socket={socket}/>
+            <NewRoomForm socket={socket} visible={visible}/>
+            <button onClick={newRoomVisible}>{newRoomText}</button>
             <h2>Rooms</h2>
             <div>
                 <table>

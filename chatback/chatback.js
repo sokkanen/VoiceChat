@@ -54,6 +54,9 @@ io.on('connection', (client) => {
         }
         addNewUser(newUser)
     })
+    client.on('newRoom', (room) => {
+        console.log(room)
+    })
     client.on('disconnect', () => {
         let usr = users.find(u => u.id === client.id)
         users = users.filter(u => u.id !== client.id)
