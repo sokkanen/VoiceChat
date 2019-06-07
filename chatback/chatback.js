@@ -28,9 +28,18 @@ const addNewUser = (newUser) => {
     io.emit('users', users)
 }
 
-const addNewRoom = (newRoom) => {
-    rooms.push(newRoom)
-    io.emit('rooms', rooms)
+const addNewRoom = (newRoom, id) => {
+    const roomNames = rooms.map(r => r.title)
+    if (roomNames.includes(newRoom.title)){
+        const msg = {
+            message: `Room with a name '${newRoom.title}' already exists`,
+            id: id
+        }
+        io.emit('error', msg)
+    } else {
+        rooms.push(newRoom)
+        io.emit('rooms', rooms)
+    }
 }
 
 io.on('connection', (client) => {
@@ -62,7 +71,7 @@ io.on('connection', (client) => {
     })
     client.on('newRoom', (room) => {
         const newRoom = {...room, user: 'not implemented yet'}
-        addNewRoom(newRoom)
+        addNewRoom(newRoom, client.id)
     })
     client.on('requestRooms', () => {
         io.emit('rooms', rooms)

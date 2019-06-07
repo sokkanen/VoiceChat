@@ -61,7 +61,13 @@ const App = () =>  {
     })
     socket.on('rooms', (rooms) => {
       setRooms(rooms)
-  })
+    })
+    socket.on('error', (msg) => {
+      if (msg.id === socket.id){
+        setTextColor('#ed1f10')
+        notificate(msg.message)
+      }
+    })
   }, [])
 
   const initializeSpeech = () => {
@@ -78,6 +84,7 @@ const App = () =>  {
     setNotification(message)
     setTimeout(() => {
       setNotification('')
+      setTextColor('#62f442')
     }, 5000)
   }
 
@@ -125,9 +132,6 @@ const App = () =>  {
     return (
       <div>
         <div>
-          <div>
-            <Notification notification={notification} textColor={textColor}/>
-          </div>
         <form onSubmit={setCurrentUser}>
           <input type="text" name="username"/>
           <button type="submit">Set Username</button>
@@ -155,6 +159,9 @@ const App = () =>  {
 
   return (
       <div>
+        <div>
+          <Notification notification={notification} textColor={textColor}/>
+        </div>
         <div>
           <Router>
             <div>

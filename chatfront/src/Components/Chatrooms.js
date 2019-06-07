@@ -9,10 +9,14 @@ const Chatrooms = ({socket, rooms}) => {
     const newRoomVisible = () => {
         setVisible(!visible)
         if (newRoomText === 'Create a New Room'){
-            setNewRoomText('Close')
+            setNewRoomText('Close room creation')
         } else {
             setNewRoomText('Create a New Room')
         }
+    }
+
+    const joinRoom = (room) => () => {
+        console.log(room.title)
     }
 
     return (
@@ -29,10 +33,10 @@ const Chatrooms = ({socket, rooms}) => {
                             <th>Join</th>
                         </tr>
                         {rooms.map(r => 
-                        <tr>
+                        <tr key={r.title}>
                             <td>{r.title}</td>
                             <td>{r.description}</td>
-                            <td><button>Join</button></td>
+                            <td><button onClick={joinRoom(r)}>Join</button></td>
                         </tr>
                         )}
                     </tbody>

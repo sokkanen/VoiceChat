@@ -19,7 +19,6 @@ const NewRoomForm = ({socket, visible}) => {
             alert(`New room must have a title!`)
         } else {
             await socket.emit('newRoom', room)
-            alert(`New room '${room.title}' was created!`)
         }
     }
 
