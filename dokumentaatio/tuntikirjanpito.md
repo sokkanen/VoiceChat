@@ -17,5 +17,5 @@ päivä | aika | mitä tein
 29.5  | 1    | Käyttäjänimi päivittyy kaikille. Notifikaation parannus.
 30.5  | 3    | React Router. Huonenäkymän ja rekisteröinnin hahmottelua.
 3.6   | 3    | Huoneiden luonti, listaus, päivitys.
-7.6   | 1    | Huoneiden uniikit nimet, huoneisiin liittymisen hahmottelua
-YHT   | 30
+7.6   | 3    | Huoneiden uniikit nimet, huoneisiin liittymisen hahmottelua
+YHT   | 32
