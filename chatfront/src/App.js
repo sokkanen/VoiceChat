@@ -8,6 +8,7 @@ import Heads from './Components/Heads'
 import Notification from './Components/Notification'
 import Chatrooms from './Components/Chatrooms'
 import UserRegister from './Components/UserRegister'
+import Room from './Components/Room'
 
 const socket = openSocket('http://localhost:3003/')
 const speech = new Speech()
@@ -31,6 +32,7 @@ const App = () =>  {
 
   useEffect(() => {
     initializeSpeech()
+    socket.emit('requestRooms')
     socket.on('message', (msg) => {
       console.log('new received message: ', msg)
       const msgs = messages
@@ -152,10 +154,7 @@ const App = () =>  {
 
   const style = { padding: 10 }
 
-  const RenderChatRooms = () => {
-    socket.emit('requestRooms')
-    return <Chatrooms socket={socket} rooms={rooms}/>
-  }
+  const roomByTitle = (title) => rooms.find(r => r.title === title)
 
   return (
       <div>
@@ -170,8 +169,11 @@ const App = () =>  {
               <Link style={style} to="/register">New User</Link>
             </div>
             <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/rooms" render={RenderChatRooms}/>
             <Route path="/register" render={() => <UserRegister/>}/>
+            <Route exact path="/rooms" render={() => <Chatrooms socket={socket} rooms={rooms} Link={Link}/>}/>
+            <Route exact path="/rooms/:title" render={({ match }) =>
+              <Room room={roomByTitle(match.params.title)} />
+            } />
           </Router>
         </div>
     </div>

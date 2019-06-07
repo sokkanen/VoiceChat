@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './Chatrooms.css'
 import NewRoomForm from './NewRoomForm'
 
-const Chatrooms = ({socket, rooms}) => {
+const Chatrooms = ({socket, rooms, Link}) => {
     const [visible, setVisible] = useState(false)
     const [newRoomText, setNewRoomText] = useState('Create a New Room')
 
@@ -13,10 +13,6 @@ const Chatrooms = ({socket, rooms}) => {
         } else {
             setNewRoomText('Create a New Room')
         }
-    }
-
-    const joinRoom = (room) => () => {
-        console.log(room.title)
     }
 
     return (
@@ -30,13 +26,13 @@ const Chatrooms = ({socket, rooms}) => {
                         <tr>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Join</th>
                         </tr>
                         {rooms.map(r => 
                         <tr key={r.title}>
-                            <td>{r.title}</td>
+                            <td>
+                                <Link to={`/rooms/${r.title}`}>{r.title}</Link>
+                            </td>
                             <td>{r.description}</td>
-                            <td><button onClick={joinRoom(r)}>Join</button></td>
                         </tr>
                         )}
                     </tbody>
