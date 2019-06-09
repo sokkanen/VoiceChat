@@ -18,4 +18,5 @@ päivä | aika | mitä tein
 30.5  | 3    | React Router. Huonenäkymän ja rekisteröinnin hahmottelua.
 3.6   | 3    | Huoneiden luonti, listaus, päivitys.
 7.6   | 3    | Huoneiden uniikit nimet, huoneisiin liittymisen hahmottelua
-YHT   | 32
+9.6   | 2    | Huoneet aukeavat listauksesta. Käyttäjien / viestien erittely huoneiden välillä ei vielä toimi.
+YHT   | 34

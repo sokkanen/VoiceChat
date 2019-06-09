@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import './Chatrooms.css'
 import NewRoomForm from './NewRoomForm'
+import Notification from './Notification'
 
-const Chatrooms = ({socket, rooms, Link}) => {
+const Chatrooms = ({ socket, Link, rooms }) => {
     const [visible, setVisible] = useState(false)
     const [newRoomText, setNewRoomText] = useState('Create a New Room')
+    const [notification, setNotification] = useState('')
+    const [textColor, setTextColor] = useState('#62f442')
+  
+    useEffect(() => {
+      socket.on('error', (msg) => {
+        if (msg.id === socket.id){
+          setTextColor('#ed1f10')
+          notificate(msg.message)
+        }
+      })
+    }, [])
 
     const newRoomVisible = () => {
         setVisible(!visible)
@@ -15,9 +27,20 @@ const Chatrooms = ({socket, rooms, Link}) => {
         }
     }
 
+    const notificate = (message) => {
+        setNotification(message)
+        setTimeout(() => {
+          setNotification('')
+          setTextColor('#62f442')
+        }, 5000)
+    }
+
     return (
         <div>
-            <NewRoomForm socket={socket} visible={visible}/>
+            <div>
+                <Notification notification={notification} textColor={textColor}/>
+            </div>
+                <NewRoomForm socket={socket} visible={visible}/>
             <button onClick={newRoomVisible}>{newRoomText}</button>
             <h2>Rooms</h2>
             <div>
