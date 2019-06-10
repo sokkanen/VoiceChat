@@ -21,24 +21,27 @@ const Room = ({ room, socket }) => {
     const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
     const [notification, setNotification] = useState('')
     const [textColor, setTextColor] = useState('#62f442')
-    const [roomName, setRoomName] = useState('')
+    const [title, setTitle] = useState('')
 
     useEffect(() => {
         initializeSpeech()
-        roomNameHandler()
+        if (room){
+            window.localStorage.setItem('title', room.title)
+        }
         socket.on('message', (msg) => {
-          console.log('new received message: ', msg)
-          console.log(msg.room.title, roomName)
-          const msgs = messages
-          const ms = msg.user + ': ' + msg.message
-          msgs.push(ms)
-          if (msgs.length > count){
-            msgs.shift()
+          if (msg.room.title === window.localStorage.getItem('title')){
+              console.log('new received message: ', msg)
+              const msgs = messages
+              const ms = msg.user + ': ' + msg.message
+              msgs.push(ms)
+              if (msgs.length > count){
+                msgs.shift()
+              }
+              setMessages(msgs)
+              speak(msg.message)
+              setSpeaking(msg.user)
+              forceUpdate()
           }
-          setMessages(msgs)
-          speak(msg.message)
-          setSpeaking(msg.user)
-          forceUpdate()
         })
         socket.on('changedUsername', (changeInfo) => {
           const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
@@ -56,12 +59,6 @@ const Room = ({ room, socket }) => {
           setUsers(changedUsers)
         })
     }, [])
-
-    const roomNameHandler = async () => {
-        if (room){
-            await setRoomName(room.title)
-        }
-    }
 
     const initializeSpeech = () => {
         speech.init().then((data) => {
