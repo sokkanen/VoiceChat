@@ -54,9 +54,8 @@ io.on('connection', (client) => {
     })
     client.on('newMessage', (message) => {
         console.log('new message:', message)
-        const splittedMessage = message.split(':')
         const newUser = {
-            name: splittedMessage[0],
+            name: message.user,
             id: client.id
         }
         addNewUser(newUser)

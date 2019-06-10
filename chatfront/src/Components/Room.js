@@ -8,7 +8,6 @@ import Notification from './Notification'
 const Room = ({ room, socket }) => {
 
     const speech = new Speech()
-
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
     const [user, setUser] = useState('Anonymous')
@@ -22,20 +21,23 @@ const Room = ({ room, socket }) => {
     const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
     const [notification, setNotification] = useState('')
     const [textColor, setTextColor] = useState('#62f442')
+    const [roomName, setRoomName] = useState('')
 
     useEffect(() => {
         initializeSpeech()
+        roomNameHandler()
         socket.on('message', (msg) => {
           console.log('new received message: ', msg)
+          console.log(msg.room.title, roomName)
           const msgs = messages
-          msgs.push(msg)
+          const ms = msg.user + ': ' + msg.message
+          msgs.push(ms)
           if (msgs.length > count){
             msgs.shift()
           }
           setMessages(msgs)
-          const splittedMsg = msg.split(':')
-          speak(splittedMsg[1])
-          setSpeaking(splittedMsg[0])
+          speak(msg.message)
+          setSpeaking(msg.user)
           forceUpdate()
         })
         socket.on('changedUsername', (changeInfo) => {
@@ -54,6 +56,12 @@ const Room = ({ room, socket }) => {
           setUsers(changedUsers)
         })
     }, [])
+
+    const roomNameHandler = async () => {
+        if (room){
+            await setRoomName(room.title)
+        }
+    }
 
     const initializeSpeech = () => {
         speech.init().then((data) => {
@@ -109,7 +117,12 @@ const Room = ({ room, socket }) => {
 
     const sendMessage = async (event) => {
         event.preventDefault()
-        await socket.emit('newMessage', (user + ': ' + message))
+        const msg = {
+            user: user,
+            message: message,
+            room: room
+        }
+        await socket.emit('newMessage', msg)
         setMessage('')
     }
 
