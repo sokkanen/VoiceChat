@@ -35,6 +35,15 @@ const Chatrooms = ({ socket, Link, rooms }) => {
         }, 5000)
     }
 
+    const joinRoomHandler = (event) => {
+        event.preventDefault()
+        const joinRoomInfo = {
+            id: socket.id,
+            room: event.target.name
+        }
+        socket.emit('roomJoin', joinRoomInfo)
+    }
+
     return (
         <div>
             <div>
@@ -52,8 +61,8 @@ const Chatrooms = ({ socket, Link, rooms }) => {
                         </tr>
                         {rooms.map(r => 
                         <tr key={r.title}>
-                            <td>
-                                <Link to={`/rooms/${r.title}`}>{r.title}</Link>
+                            <td onClick={joinRoomHandler}>
+                                <Link name={r.title} to={`/rooms/${r.title}`}>{r.title}</Link>
                             </td>
                             <td>{r.description}</td>
                         </tr>

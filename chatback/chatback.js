@@ -16,13 +16,14 @@ const addNewUser = (newUser) => {
             if (newUser.name !== oldUsername){
                 const changeInfo = {
                     newUserName: newUser.name,
-                    oldUsername: oldUsername
+                    oldUsername: oldUsername,
+                    room: newUser.room
                 }
                 io.emit('changedUsername', changeInfo)
             }
         } else {
             users.push(newUser)
-            io.emit('newUser', newUser.name)
+            io.emit('newUser', newUser)
         }
     }
     io.emit('users', users)
@@ -46,7 +47,8 @@ io.on('connection', (client) => {
     console.log('Client connected')
     const newUser = {
         name: 'Anonymous',
-        id: client.id
+        id: client.id,
+        room: null
     }
     addNewUser(newUser)
     client.on('messages', () => {
@@ -56,7 +58,8 @@ io.on('connection', (client) => {
         console.log('new message:', message)
         const newUser = {
             name: message.user,
-            id: client.id
+            id: client.id,
+            room: message.room
         }
         addNewUser(newUser)
         io.emit('message', message)
@@ -64,7 +67,8 @@ io.on('connection', (client) => {
     client.on('newUserName', (user) => {
         const newUser = {
             id: client.id,
-            name: user
+            name: user.name,
+            room: user.room
         }
         addNewUser(newUser)
     })
@@ -75,6 +79,9 @@ io.on('connection', (client) => {
     client.on('requestRooms', () => {
         io.emit('rooms', rooms)
     })
+    client.on('roomJoin', (info) => {
+        console.log(info) // TOIMII, LOGIIKKA PITÄÄ VIELÄ RAKENTAA
+    })
     client.on('disconnect', () => {
         let usr = users.find(u => u.id === client.id)
         users = users.filter(u => u.id !== client.id)
@@ -83,7 +90,7 @@ io.on('connection', (client) => {
               name: 'Anonymous'
           }
         }
-        io.emit('disconnected', usr.name)
+        io.emit('disconnected', usr)
         io.emit('users', users)
         console.log('Client disconnected')
     })

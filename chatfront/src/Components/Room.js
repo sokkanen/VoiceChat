@@ -47,13 +47,16 @@ const Room = ({ room, socket }) => {
           const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
           notificate(ms)
         })
-        socket.on('newUser', (username) => {
-          const ms = `'${username}' joined chat.`
+        socket.on('newUser', (user) => {
+          console.log(user)
+          const ms = `'${user.name}' joined chat.`
           notificate(ms)
         })
-        socket.on('disconnected', (username) => {
-          const ms = `User '${username}' disconnected.`
-          notificate(ms)
+        socket.on('disconnected', (user) => {
+          if (user.room === window.localStorage.getItem('title')){
+            const ms = `User '${user.name}' disconnected.`
+            notificate(ms)
+          }
         })
         socket.on('users', (changedUsers) => {
           setUsers(changedUsers)
@@ -99,7 +102,11 @@ const Room = ({ room, socket }) => {
     const setCurrentUser = (event) => {
         event.preventDefault()
         setUser(event.target.username.value)
-        socket.emit('newUserName', (event.target.username.value))
+        const userInfo = {
+            name: event.target.username.value,
+            room: window.localStorage.getItem('title')
+        }
+        socket.emit('newUserName', userInfo)
         event.target.username.value = ''
     }
 
@@ -114,13 +121,17 @@ const Room = ({ room, socket }) => {
 
     const sendMessage = async (event) => {
         event.preventDefault()
-        const msg = {
-            user: user,
-            message: message,
-            room: room
+        if (user === 'Anonymous'){
+            alert('Please choose a username before messaging')
+        } else {
+            const msg = {
+                user: user,
+                message: message,
+                room: room
+            }
+            await socket.emit('newMessage', msg)
+            setMessage('')
         }
-        await socket.emit('newMessage', msg)
-        setMessage('')
     }
 
     if (room === undefined){

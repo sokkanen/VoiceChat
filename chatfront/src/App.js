@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import openSocket from 'socket.io-client'
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 
