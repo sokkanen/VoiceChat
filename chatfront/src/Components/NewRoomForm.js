@@ -1,8 +1,6 @@
 import React from 'react'
 import './Chatrooms.css'
 
-// TULEE NÄKYMÄÄN VAIN REKISTERÖITYNEILLE KÄYTTÄJILLE!
-
 const NewRoomForm = ({socket, visible}) => {
 
     const createNew = async (event) => {

@@ -55,11 +55,10 @@ io.on('connection', (client) => {
         console.log('Client subscribed for message')
     })
     client.on('newMessage', (message) => {
-        console.log('new message:', message)
         const newUser = {
             name: message.user,
             id: client.id,
-            room: message.room
+            room: message.room.title
         }
         addNewUser(newUser)
         io.emit('message', message)
@@ -73,14 +72,17 @@ io.on('connection', (client) => {
         addNewUser(newUser)
     })
     client.on('newRoom', (room) => {
-        const newRoom = {...room, user: 'not implemented yet'}
+        let usr = users.find(u => u.id === client.id)
+        const newRoom = {...room, user: usr}
         addNewRoom(newRoom, client.id)
     })
     client.on('requestRooms', () => {
         io.emit('rooms', rooms)
     })
     client.on('roomJoin', (info) => {
-        console.log(info) // TOIMII, LOGIIKKA PITÄÄ VIELÄ RAKENTAA
+        let usr = users.find(u => u.id === info.id)
+        usr.room = info.room
+        addNewUser(usr)
     })
     client.on('disconnect', () => {
         let usr = users.find(u => u.id === client.id)

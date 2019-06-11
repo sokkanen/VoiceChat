@@ -21,4 +21,5 @@ päivä | aika | mitä tein
 9.6   | 2    | Huoneet aukeavat listauksesta. Käyttäjien / viestien erittely huoneiden välillä ei vielä toimi.
 10.6  | 2    | Viestit menevät oikeaan chattiin. Huone toimii myös refresh jälkeen.
 10.6  | 3    | Ilmoitusten optimointia ja refaktorointia usealle chathuoneelle.
-YHT   | 39
+11.6  | 2    | Oikeat käyttäjät oikeissa huoneissa. Socketin säätöä
+YHT   | 41

@@ -10,7 +10,7 @@ const Room = ({ room, socket }) => {
     const speech = new Speech()
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
-    const [user, setUser] = useState('Anonymous')
+    const [user, setUser] = useState(window.localStorage.getItem('username') ? window.localStorage.getItem('username'): 'Anonymous')
     const [users, setUsers] = useState([])
     const [speaking, setSpeaking] = useState('')
     const [message, setMessage] = useState('')
@@ -21,46 +21,58 @@ const Room = ({ room, socket }) => {
     const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
     const [notification, setNotification] = useState('')
     const [textColor, setTextColor] = useState('#62f442')
-    const [title, setTitle] = useState('')
 
     useEffect(() => {
         initializeSpeech()
+        if (window.localStorage.getItem('username')){
+            const event = undefined
+            setCurrentUser(event)
+        }
         if (room){
             window.localStorage.setItem('title', room.title)
         }
+        if (socket._callbacks.$message){
+            console.log('on jo')
+        }
         socket.on('message', (msg) => {
-          if (msg.room.title === window.localStorage.getItem('title')){
-              console.log('new received message: ', msg)
-              const msgs = messages
-              const ms = msg.user + ': ' + msg.message
-              msgs.push(ms)
-              if (msgs.length > count){
-                msgs.shift()
-              }
-              setMessages(msgs)
-              speak(msg.message)
-              setSpeaking(msg.user)
-              forceUpdate()
-          }
+            if (msg.room.title === window.localStorage.getItem('title')){
+                console.log('message received')
+                const msgs = messages
+                const ms = msg.user + ': ' + msg.message
+                msgs.push(ms)
+                if (msgs.length > count){
+                  msgs.shift()
+                }
+                setMessages(msgs)
+                speak(msg.message)
+                setSpeaking(msg.user)
+                forceUpdate()
+            } else {
+                console.log('Message to some other room')
+            }
         })
         socket.on('changedUsername', (changeInfo) => {
-          const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
-          notificate(ms)
-        })
-        socket.on('newUser', (user) => {
-          console.log(user)
-          const ms = `'${user.name}' joined chat.`
-          notificate(ms)
-        })
-        socket.on('disconnected', (user) => {
-          if (user.room === window.localStorage.getItem('title')){
-            const ms = `User '${user.name}' disconnected.`
-            notificate(ms)
-          }
-        })
-        socket.on('users', (changedUsers) => {
-          setUsers(changedUsers)
-        })
+            if (changeInfo.room === window.localStorage.getItem('title')){
+              const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
+              notificate(ms)
+            }
+          })
+          socket.on('newUser', (user) => {
+            if (user.room === window.localStorage.getItem('title')){
+              const ms = `'${user.name}' joined chat.`
+              notificate(ms)
+            }
+          })
+          socket.on('disconnected', (user) => {
+            if (user.room === window.localStorage.getItem('title')){
+              const ms = `User '${user.name}' disconnected.`
+              notificate(ms)
+            }
+          })
+          socket.on('users', (changedUsers) => {
+            const roomUsers = changedUsers.filter(u => u.room === window.localStorage.getItem('title'))
+            setUsers(roomUsers)
+          })
     }, [])
 
     const initializeSpeech = () => {
@@ -100,14 +112,24 @@ const Room = ({ room, socket }) => {
     }
 
     const setCurrentUser = (event) => {
-        event.preventDefault()
-        setUser(event.target.username.value)
-        const userInfo = {
-            name: event.target.username.value,
-            room: window.localStorage.getItem('title')
+        if (event === undefined){
+            setUser(window.localStorage.getItem('username'))
+            const userInfo = {
+                name: user,
+                room: window.localStorage.getItem('title')
+            }
+            socket.emit('newUserName', userInfo)
+        } else {
+            event.preventDefault()
+            setUser(event.target.username.value)
+            window.localStorage.setItem('username', event.target.username.value)
+            const userInfo = {
+                name: event.target.username.value,
+                room: window.localStorage.getItem('title')
+            }
+            socket.emit('newUserName', userInfo)
+            event.target.username.value = ''
         }
-        socket.emit('newUserName', userInfo)
-        event.target.username.value = ''
     }
 
     const setVisible = () => {
