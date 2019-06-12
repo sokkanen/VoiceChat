@@ -24,6 +24,10 @@ const Room = ({ room, socket }) => {
 
     useEffect(() => {
         initializeSpeech()
+        if (socket._callbacks.$message){
+            console.log(socket._callbacks.$message[0])
+        }
+
         if (window.localStorage.getItem('username')){
             const event = undefined
             setCurrentUser(event)
@@ -31,26 +35,25 @@ const Room = ({ room, socket }) => {
         if (room){
             window.localStorage.setItem('title', room.title)
         }
-        if (socket._callbacks.$message){
-            console.log('on jo')
-        }
-        socket.on('message', (msg) => {
-            if (msg.room.title === window.localStorage.getItem('title')){
-                console.log('message received')
-                const msgs = messages
-                const ms = msg.user + ': ' + msg.message
-                msgs.push(ms)
-                if (msgs.length > count){
-                  msgs.shift()
+        //if (!socket._callbacks.$message){
+            socket.on('message', (msg) => {
+                if (msg.room.title === window.localStorage.getItem('title')){
+                    console.log('message received')
+                    const msgs = messages
+                    const ms = msg.user + ': ' + msg.message
+                    msgs.push(ms)
+                    if (msgs.length > count){
+                      msgs.shift()
+                    }
+                    setMessages(msgs)
+                    speak(msg.message)
+                    setSpeaking(msg.user)
+                    forceUpdate()
+                } else {
+                    console.log('Message to some other room')
                 }
-                setMessages(msgs)
-                speak(msg.message)
-                setSpeaking(msg.user)
-                forceUpdate()
-            } else {
-                console.log('Message to some other room')
-            }
-        })
+            }) 
+        //}
         socket.on('changedUsername', (changeInfo) => {
             if (changeInfo.room === window.localStorage.getItem('title')){
               const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
