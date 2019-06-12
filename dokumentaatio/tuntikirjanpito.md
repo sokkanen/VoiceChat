@@ -22,4 +22,5 @@ päivä | aika | mitä tein
 10.6  | 2    | Viestit menevät oikeaan chattiin. Huone toimii myös refresh jälkeen.
 10.6  | 3    | Ilmoitusten optimointia ja refaktorointia usealle chathuoneelle.
 11.6  | 2    | Oikeat käyttäjät oikeissa huoneissa. Socketin säätöä
-YHT   | 41
+12.6  | 1    | Redux käyttöön tilahallinnan helpottamiseksi
+YHT   | 42
