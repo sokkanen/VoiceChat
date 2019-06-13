@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
 import Speech from 'speak-tts'
 import { setNotification } from '../Reducers/NotificationReducer'
+import { setUser } from '../Reducers/UserReducer'
 
 import ChatText from '../ChatText'
 import Heads from './Heads'
@@ -15,7 +16,6 @@ const Room = (props) => {
     const speech = new Speech()
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
-    const [user, setUser] = useState(window.localStorage.getItem('username') ? window.localStorage.getItem('username'): 'Anonymous')
     const [users, setUsers] = useState([])
     const [speaking, setSpeaking] = useState('')
     const [message, setMessage] = useState('')
@@ -24,35 +24,30 @@ const Room = (props) => {
     const [letter, setLetter] = useState('')
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
-    const [notification, setNotification] = useState('')
     const [textColor, setTextColor] = useState('#62f442')
 
     useEffect(() => {
         initializeSpeech()
-        if (window.localStorage.getItem('username')){
-            const event = undefined
-            setCurrentUser(event)
-        }
         if (room){
             window.localStorage.setItem('title', room.title)
         }
-            socket.on('message', (msg) => {
-                if (msg.room.title === window.localStorage.getItem('title')){
-                    console.log('message received')
-                    const msgs = messages
-                    const ms = msg.user + ': ' + msg.message
-                    msgs.push(ms)
-                    if (msgs.length > count){
-                      msgs.shift()
-                    }
-                    setMessages(msgs)
-                    speak(msg.message)
-                    setSpeaking(msg.user)
-                    forceUpdate()
-                } else {
-                    console.log('Message to some other room')
+        socket.on('message', (msg) => {
+            if (msg.room.title === window.localStorage.getItem('title')){
+                console.log('message received')
+                const msgs = messages
+                const ms = msg.user + ': ' + msg.message
+                msgs.push(ms)
+                if (msgs.length > count){
+                  msgs.shift()
                 }
-            }) 
+                setMessages(msgs)
+                speak(msg.message)
+                setSpeaking(msg.user)
+                forceUpdate()
+            } else {
+                console.log('Message to some other room')
+            }
+        }) 
         socket.on('changedUsername', (changeInfo) => {
             if (changeInfo.room === window.localStorage.getItem('title')){
               const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
@@ -73,6 +68,7 @@ const Room = (props) => {
           })
           socket.on('users', (changedUsers) => {
             const roomUsers = changedUsers.filter(u => u.room === window.localStorage.getItem('title'))
+            console.log(roomUsers)
             setUsers(roomUsers)
           })
     }, [])
@@ -114,24 +110,14 @@ const Room = (props) => {
     }
 
     const setCurrentUser = (event) => {
-        if (event === undefined){
-            setUser(window.localStorage.getItem('username'))
-            const userInfo = {
-                name: user,
-                room: window.localStorage.getItem('title')
-            }
-            socket.emit('newUserName', userInfo)
-        } else {
-            event.preventDefault()
-            setUser(event.target.username.value)
-            window.localStorage.setItem('username', event.target.username.value)
-            const userInfo = {
-                name: event.target.username.value,
-                room: window.localStorage.getItem('title')
-            }
-            socket.emit('newUserName', userInfo)
-            event.target.username.value = ''
-        }
+      event.preventDefault()
+      props.setUser(event.target.username.value)
+      const userInfo = {
+          name: event.target.username.value,
+          room: window.localStorage.getItem('title')
+      }
+      socket.emit('newUserName', userInfo)
+      event.target.username.value = ''     
     }
 
     const setVisible = () => {
@@ -145,11 +131,11 @@ const Room = (props) => {
 
     const sendMessage = async (event) => {
         event.preventDefault()
-        if (user === 'Anonymous'){
+        if (props.user === 'Anonymous'){
             alert('Please choose a username before messaging')
         } else {
             const msg = {
-                user: user,
+                user: props.user,
                 message: message,
                 room: room
             }
@@ -191,12 +177,14 @@ const Room = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    notification: state.notification
+    notification: state.notification,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = {
   setNotification,
+  setUser
 }
 
 const connectedRoom = connect(mapStateToProps, mapDispatchToProps)(Room)
