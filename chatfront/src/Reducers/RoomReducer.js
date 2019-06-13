@@ -1,8 +1,11 @@
 
 const roomReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET':
-    return action.data
+    case 'SETROOM':
+      return action.data
+    case 'REMOVE': // TESTAAMATTA
+      const newRooms = state.rooms.filter(r => r.title !== action.data.room)
+      return {...state, rooms: newRooms}
     default: return state
   }
 }
@@ -12,8 +15,17 @@ export default roomReducer
 export const setRooms = (rooms) => {
   return async dispatch => {
     dispatch ({
-      type: 'SET',
+      type: 'SETROOM',
       data: rooms
+      })
+  }
+}
+
+export const removeRoom = (room) => {
+  return async dispatch => {
+    dispatch ({
+      type: 'REMOVE',
+      data: room
       })
   }
 }

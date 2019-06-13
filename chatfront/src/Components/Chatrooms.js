@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { setNotification } from '../Reducers/NotificationReducer'
 import './Chatrooms.css'
 import NewRoomForm from './NewRoomForm'
 import Notification from './Notification'
 
-const Chatrooms = ({ socket, Link, rooms }) => {
+const Chatrooms = (props) => {
     const [visible, setVisible] = useState(false)
     const [newRoomText, setNewRoomText] = useState('Create a New Room')
-    const [notification, setNotification] = useState('')
     const [textColor, setTextColor] = useState('#62f442')
+
+    const socket = props.socket
+    const Link = props.Link
   
     useEffect(() => {
       socket.on('error', (msg) => {
@@ -16,7 +20,7 @@ const Chatrooms = ({ socket, Link, rooms }) => {
           notificate(msg.message)
         }
       })
-    }, [])
+    },[])
 
     const newRoomVisible = () => {
         setVisible(!visible)
@@ -28,9 +32,9 @@ const Chatrooms = ({ socket, Link, rooms }) => {
     }
 
     const notificate = (message) => {
-        setNotification(message)
+        props.setNotification(message)
         setTimeout(() => {
-          setNotification('')
+          props.setNotification('')
           setTextColor('#62f442')
         }, 5000)
     }
@@ -47,7 +51,7 @@ const Chatrooms = ({ socket, Link, rooms }) => {
     return (
         <div>
             <div>
-                <Notification notification={notification} textColor={textColor}/>
+                <Notification textColor={textColor}/>
             </div>
                 <NewRoomForm socket={socket} visible={visible}/>
             <button onClick={newRoomVisible}>{newRoomText}</button>
@@ -59,7 +63,7 @@ const Chatrooms = ({ socket, Link, rooms }) => {
                             <th>Name</th>
                             <th>Description</th>
                         </tr>
-                        {rooms.map(r => 
+                        {props.rooms.map(r => 
                         <tr key={r.title}>
                             <td onClick={joinRoomHandler}>
                                 <Link name={r.title} to={`/rooms/${r.title}`}>{r.title}</Link>
@@ -74,4 +78,17 @@ const Chatrooms = ({ socket, Link, rooms }) => {
     )
 }
 
-export default Chatrooms
+const mapStateToProps = (state) => {
+    return {
+      rooms: state.rooms,
+      notification: state.notification
+    }
+  }
+
+  const mapDispatchToProps = {
+    setNotification,
+  }
+  
+  const connectedChatRooms = connect(mapStateToProps, mapDispatchToProps)(Chatrooms)
+  
+  export default connectedChatRooms

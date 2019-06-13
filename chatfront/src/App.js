@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import openSocket from 'socket.io-client'
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -11,7 +11,7 @@ import Room from './Components/Room'
 const socket = openSocket('http://localhost:3003/')
 
 const App = (props) =>  {
-
+  
   useEffect(() => {
     socket.emit('requestRooms')
     socket.on('rooms', (rooms) => {
@@ -45,7 +45,7 @@ const App = (props) =>  {
             </div>
             <Route exact path="/" render={() => <Home/>}/>
             <Route path="/register" render={() => <UserRegister/>}/>
-            <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} rooms={props.rooms}/>}/>
+            <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
             <Route exact path="/rooms/:title" render={({ match }) =>
               <Room room={roomByTitle(match.params.title)} socket={socket} />
             } />

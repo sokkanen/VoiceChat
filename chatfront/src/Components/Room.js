@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useReducer } from 'react'
+import { connect } from 'react-redux'
 import Speech from 'speak-tts'
+import { setNotification } from '../Reducers/NotificationReducer'
 
 import ChatText from '../ChatText'
 import Heads from './Heads'
 import Notification from './Notification'
 
-const Room = ({ room, socket }) => {
+const Room = (props) => {
+
+    const room = props.room
+    const socket = props.socket
 
     const speech = new Speech()
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
@@ -24,10 +29,6 @@ const Room = ({ room, socket }) => {
 
     useEffect(() => {
         initializeSpeech()
-        if (socket._callbacks.$message){
-            console.log(socket._callbacks.$message[0])
-        }
-
         if (window.localStorage.getItem('username')){
             const event = undefined
             setCurrentUser(event)
@@ -35,7 +36,6 @@ const Room = ({ room, socket }) => {
         if (room){
             window.localStorage.setItem('title', room.title)
         }
-        //if (!socket._callbacks.$message){
             socket.on('message', (msg) => {
                 if (msg.room.title === window.localStorage.getItem('title')){
                     console.log('message received')
@@ -53,7 +53,6 @@ const Room = ({ room, socket }) => {
                     console.log('Message to some other room')
                 }
             }) 
-        //}
         socket.on('changedUsername', (changeInfo) => {
             if (changeInfo.room === window.localStorage.getItem('title')){
               const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
@@ -89,9 +88,9 @@ const Room = ({ room, socket }) => {
     }
 
     const notificate = (message) => {
-        setNotification(message)
+        props.setNotification(message)
         setTimeout(() => {
-          setNotification('')
+          props.setNotification('')
           setTextColor('#62f442')
         }, 5000)
     }
@@ -166,7 +165,7 @@ const Room = ({ room, socket }) => {
     return (
         <div>
             <div>
-                <Notification notification={notification} textColor={textColor}/>
+                <Notification textColor={textColor}/>
             </div>
             <h1>{room.title}</h1>
         <div>
@@ -190,4 +189,16 @@ const Room = ({ room, socket }) => {
     )
 }
 
-export default Room
+const mapStateToProps = (state) => {
+  return {
+    notification: state.notification
+  }
+}
+
+const mapDispatchToProps = {
+  setNotification,
+}
+
+const connectedRoom = connect(mapStateToProps, mapDispatchToProps)(Room)
+
+export default connectedRoom
