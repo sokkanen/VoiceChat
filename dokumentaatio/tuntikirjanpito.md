@@ -23,4 +23,5 @@ päivä | aika | mitä tein
 10.6  | 3    | Ilmoitusten optimointia ja refaktorointia usealle chathuoneelle.
 11.6  | 2    | Oikeat käyttäjät oikeissa huoneissa. Socketin säätöä
 12.6  | 1    | Redux käyttöön tilahallinnan helpottamiseksi
-YHT   | 42
+13.6  | 1    | Store toimii. Ensimmäinen reducer toimii
+YHT   | 43

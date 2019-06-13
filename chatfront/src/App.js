@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import openSocket from 'socket.io-client'
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setRooms } from './Reducers/RoomReducer'
 
 import Chatrooms from './Components/Chatrooms'
 import UserRegister from './Components/UserRegister'
@@ -8,14 +10,12 @@ import Room from './Components/Room'
 
 const socket = openSocket('http://localhost:3003/')
 
-const App = () =>  {
-
-  const [rooms, setRooms] = useState([])
+const App = (props) =>  {
 
   useEffect(() => {
     socket.emit('requestRooms')
     socket.on('rooms', (rooms) => {
-      setRooms(rooms)
+      props.setRooms(rooms)
     })
   }, [])
 
@@ -30,7 +30,7 @@ const App = () =>  {
     )
   }
 
-  const roomByTitle = (title) => rooms.find(r => r.title === title)
+  const roomByTitle = (title) => props.rooms.find(r => r.title === title)
 
   const style = { padding: 10 }
 
@@ -45,7 +45,7 @@ const App = () =>  {
             </div>
             <Route exact path="/" render={() => <Home/>}/>
             <Route path="/register" render={() => <UserRegister/>}/>
-            <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} rooms={rooms}/>}/>
+            <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} rooms={props.rooms}/>}/>
             <Route exact path="/rooms/:title" render={({ match }) =>
               <Room room={roomByTitle(match.params.title)} socket={socket} />
             } />
@@ -55,4 +55,19 @@ const App = () =>  {
   )
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return {
+    rooms: state.rooms
+  }
+}
+
+const mapDispatchToProps = {
+  setRooms,
+}
+
+const connectedApp = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+
+export default connectedApp

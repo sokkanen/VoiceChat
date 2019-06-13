@@ -1,11 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
 
-//import var1Reducer from './reducers/var1Reducer'
+import roomReducer from './Reducers/RoomReducer'
+
 //import var2Reducer from './reducers/var2Reducer'
 
 const reducer = combineReducers({
-  variable1: null,
+  rooms: roomReducer,
   variable2: null,
 })
 
