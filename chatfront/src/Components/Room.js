@@ -12,6 +12,7 @@ const Room = (props) => {
 
     const room = props.room
     const socket = props.socket
+    //const users = props.users.filter(u => u.room === room)
 
     const speech = new Speech()
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
@@ -178,7 +179,8 @@ const Room = (props) => {
 const mapStateToProps = (state) => {
   return {
     notification: state.notification,
-    user: state.user
+    user: state.user,
+    users: state.users
   }
 }
 
