@@ -5,6 +5,7 @@ import { setNotification } from '../Reducers/NotificationReducer'
 import { setUser } from '../Reducers/UserReducer'
 import { setUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
+import { setSpeaking } from '../Reducers/SpeakingReducer'
 
 import ChatText from '../ChatText'
 import Heads from './Heads'
@@ -19,7 +20,6 @@ const Room = (props) => {
     const speech = new Speech()
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
-    const [speaking, setSpeaking] = useState('')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
     const [count, setCount] = useState(5)
@@ -43,7 +43,7 @@ const Room = (props) => {
                 }
                 setMessages(msgs)
                 speak(msg.message)
-                setSpeaking(msg.user)
+                props.setSpeaking(msg.user)
                 forceUpdate()
             } else {
                 console.log('Message to some other room')
@@ -165,7 +165,7 @@ const Room = (props) => {
             <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
             <button onClick={setVisible}>{buttonMsg}</button>
         <div>
-            <Heads speaking={speaking}/>
+            <Heads/>
         </div>
         <form onSubmit={sendMessage}>
           <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
@@ -189,7 +189,8 @@ const mapDispatchToProps = {
   setNotification,
   setUser,
   setUsers,
-  setLetter
+  setLetter,
+  setSpeaking
 }
 
 const connectedRoom = connect(mapStateToProps, mapDispatchToProps)(Room)

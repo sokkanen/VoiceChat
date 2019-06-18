@@ -4,15 +4,13 @@ import Head from './Head'
 
 const Heads = (props) => {
 
-    const speaking = props.speaking
-
     return (
         <div>
             <table>
                 <tbody>
                 <tr>
                 {props.users.map(
-                    user => user.name === speaking ? 
+                    user => user.name === props.speaking ? 
                     <td key={user.name}><Head letter={props.letter} user={user.name}/></td> : 
                     <td key={user.name}><Head letter='' user={user.name}/></td>
                 )}
@@ -26,7 +24,8 @@ const Heads = (props) => {
 const mapStateToProps = (state) => {
     return {
       users: state.users,
-      letter: state.letter
+      letter: state.letter,
+      speaking: state.speaking
     }
   }
   

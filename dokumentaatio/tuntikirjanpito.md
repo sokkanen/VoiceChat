@@ -24,5 +24,5 @@ päivä | aika | mitä tein
 11.6  | 2    | Oikeat käyttäjät oikeissa huoneissa. Socketin säätöä
 12.6  | 1    | Redux käyttöön tilahallinnan helpottamiseksi
 13.6  | 4    | Store toimii. Neljä tilaa storessa
-18.6  | 1    | Redux devtools käyttöön
-YHT   | 47
+18.6  | 2    | Redux devtools käyttöön. Lisää reducereita. SocketServicen hahmottelua.
+YHT   | 48

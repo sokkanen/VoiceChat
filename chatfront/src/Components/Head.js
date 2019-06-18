@@ -24,7 +24,6 @@ const u = /[u]/
 
 const Head = ({letter, user}) => {
     const [img, setImg] = useState(defaultFace)
-
     useEffect(() => {
         if (aie.test(letter)){
             setImg(aieFace)
@@ -49,7 +48,7 @@ const Head = ({letter, user}) => {
         } else {
             setImg(defaultFace)
         }
-    }, [])
+    }, [letter])
 
     return (
         <div>
