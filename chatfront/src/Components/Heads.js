@@ -1,18 +1,19 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Head from './Head'
 
-const Heads = ({users, letter, speaking}) => {
-    if (users.length === 0){
-        users[0] = {name: 'Anonymous'}
-    }
+const Heads = (props) => {
+
+    const speaking = props.speaking
+
     return (
         <div>
             <table>
                 <tbody>
                 <tr>
-                {users.map(
+                {props.users.map(
                     user => user.name === speaking ? 
-                    <td key={user.name}><Head letter={letter} user={user.name}/></td> : 
+                    <td key={user.name}><Head letter={props.letter} user={user.name}/></td> : 
                     <td key={user.name}><Head letter='' user={user.name}/></td>
                 )}
                 </tr>              
@@ -22,4 +23,13 @@ const Heads = ({users, letter, speaking}) => {
     )
 }
 
-export default Heads
+const mapStateToProps = (state) => {
+    return {
+      users: state.users,
+      letter: state.letter
+    }
+  }
+  
+  const connectedHeads = connect(mapStateToProps)(Heads)
+
+  export default connectedHeads

@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import Speech from 'speak-tts'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUser } from '../Reducers/UserReducer'
+import { setUsers } from '../Reducers/UsersReducer'
+import { setLetter } from '../Reducers/LetterReducer'
 
 import ChatText from '../ChatText'
 import Heads from './Heads'
@@ -17,12 +19,10 @@ const Room = (props) => {
     const speech = new Speech()
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
-    const [users, setUsers] = useState([])
     const [speaking, setSpeaking] = useState('')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
     const [count, setCount] = useState(5)
-    const [letter, setLetter] = useState('')
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
     const [textColor, setTextColor] = useState('#62f442')
@@ -34,7 +34,7 @@ const Room = (props) => {
         }
         socket.on('message', (msg) => {
             if (msg.room.title === window.localStorage.getItem('title')){
-                console.log('message received')
+                console.log('message: ', msg.message, ' from: ', msg.user)
                 const msgs = messages
                 const ms = msg.user + ': ' + msg.message
                 msgs.push(ms)
@@ -70,7 +70,7 @@ const Room = (props) => {
           socket.on('users', (changedUsers) => {
             const roomUsers = changedUsers.filter(u => u.room === window.localStorage.getItem('title'))
             console.log(roomUsers)
-            setUsers(roomUsers)
+            props.setUsers(roomUsers)
           })
     }, [])
 
@@ -98,16 +98,16 @@ const Room = (props) => {
           queue: true,
           listeners: {
               onend: () => {
-                setLetter('')
+                props.setLetter('')
               } 
           }
         })
         for (let i = 1; i < msg.length; i++){
           setTimeout(() => {
-            setLetter(msg.charAt(i))
+            props.setLetter(msg.charAt(i))
           }, 100 * i);
         }
-        setLetter('')
+        props.setLetter('')
     }
 
     const setCurrentUser = (event) => {
@@ -165,7 +165,7 @@ const Room = (props) => {
             <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
             <button onClick={setVisible}>{buttonMsg}</button>
         <div>
-            <Heads speaking={speaking} users={users} letter={letter}/>
+            <Heads speaking={speaking}/>
         </div>
         <form onSubmit={sendMessage}>
           <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
@@ -180,13 +180,16 @@ const mapStateToProps = (state) => {
   return {
     notification: state.notification,
     user: state.user,
-    users: state.users
+    users: state.users,
+    letter: state.letter
   }
 }
 
 const mapDispatchToProps = {
   setNotification,
-  setUser
+  setUser,
+  setUsers,
+  setLetter
 }
 
 const connectedRoom = connect(mapStateToProps, mapDispatchToProps)(Room)

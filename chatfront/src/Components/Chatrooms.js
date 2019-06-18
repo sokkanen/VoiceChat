@@ -86,7 +86,7 @@ const mapStateToProps = (state) => {
   }
 
   const mapDispatchToProps = {
-    setNotification,
+    setNotification
   }
   
   const connectedChatRooms = connect(mapStateToProps, mapDispatchToProps)(Chatrooms)

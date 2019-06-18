@@ -49,7 +49,7 @@ const Head = ({letter, user}) => {
         } else {
             setImg(defaultFace)
         }
-    })
+    }, [])
 
     return (
         <div>
