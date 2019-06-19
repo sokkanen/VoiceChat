@@ -17,7 +17,6 @@ const Room = (props) => {
     const room = props.room
     const socket = props.socket
     const msg = props.message
-    //const users = props.users.filter(u => u.room === room)
 
     const speech = new Speech()
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
@@ -33,8 +32,8 @@ const Room = (props) => {
         initializeSpeech()
         if (room){
             window.localStorage.setItem('title', room.title)
+            socket.emit('requestUsers')
         }
-
         if (msg.length !== 0){
           if (msg.room.title === window.localStorage.getItem('title')){
             console.log('message: ', msg.message, ' from: ', msg.user)
@@ -71,7 +70,6 @@ const Room = (props) => {
           })
           socket.on('users', (changedUsers) => {
             const roomUsers = changedUsers.filter(u => u.room === window.localStorage.getItem('title'))
-            console.log(roomUsers)
             props.setUsers(roomUsers)
           })
     }, [msg])

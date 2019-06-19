@@ -6,6 +6,7 @@ let rooms = []
 const SOCKETPORT = 3003
 
 const addNewUser = (newUser) => {
+    console.log(newUser)
     if (users.length === 0){
         users.push(newUser)
     } else {
@@ -79,9 +80,15 @@ io.on('connection', (client) => {
     client.on('requestRooms', () => {
         io.emit('rooms', rooms)
     })
+    client.on('requestUsers', () => {
+        io.emit('users', users)
+    })
     client.on('roomJoin', (info) => {
         let usr = users.find(u => u.id === info.id)
         usr.room = info.room
+        if (!usr.name){
+            usr.name = 'Anonymous'
+        }
         addNewUser(usr)
     })
     client.on('disconnect', () => {
