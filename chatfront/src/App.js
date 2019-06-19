@@ -3,6 +3,7 @@ import openSocket from 'socket.io-client'
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setRooms } from './Reducers/RoomReducer'
+import { newMessage } from './Reducers/MessageReducer'
 
 import Chatrooms from './Components/Chatrooms'
 import UserRegister from './Components/UserRegister'
@@ -17,6 +18,9 @@ const App = (props) =>  {
     socket.on('rooms', (rooms) => {
       props.setRooms(rooms)
     })
+    socket.on('message', (msg) => {
+      props.newMessage(msg)
+  })
   }, [])
   
 
@@ -64,6 +68,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setRooms,
+  newMessage
 }
 
 const connectedApp = connect(

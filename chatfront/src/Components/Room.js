@@ -6,6 +6,7 @@ import { setUser } from '../Reducers/UserReducer'
 import { setUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
 import { setSpeaking } from '../Reducers/SpeakingReducer'
+import { newMessage } from '../Reducers/MessageReducer'
 
 import ChatText from '../ChatText'
 import Heads from './Heads'
@@ -15,6 +16,7 @@ const Room = (props) => {
 
     const room = props.room
     const socket = props.socket
+    const msg = props.message
     //const users = props.users.filter(u => u.room === room)
 
     const speech = new Speech()
@@ -32,23 +34,23 @@ const Room = (props) => {
         if (room){
             window.localStorage.setItem('title', room.title)
         }
-        socket.on('message', (msg) => {
-            if (msg.room.title === window.localStorage.getItem('title')){
-                console.log('message: ', msg.message, ' from: ', msg.user)
-                const msgs = messages
-                const ms = msg.user + ': ' + msg.message
-                msgs.push(ms)
-                if (msgs.length > count){
-                  msgs.shift()
-                }
-                setMessages(msgs)
-                speak(msg.message)
-                props.setSpeaking(msg.user)
-                forceUpdate()
-            } else {
-                console.log('Message to some other room')
+
+        if (msg.length !== 0){
+          if (msg.room.title === window.localStorage.getItem('title')){
+            console.log('message: ', msg.message, ' from: ', msg.user)
+            const msgs = messages
+            const ms = msg.user + ': ' + msg.message
+            msgs.push(ms)
+            if (msgs.length > count){
+              msgs.shift()
             }
-        }) 
+            setMessages(msgs)
+            speak(msg.message)
+            props.setSpeaking(msg.user)
+            forceUpdate()
+            props.newMessage('')
+          }
+        }
         socket.on('changedUsername', (changeInfo) => {
             if (changeInfo.room === window.localStorage.getItem('title')){
               const ms = `'${changeInfo.oldUsername}' changed username to '${changeInfo.newUserName}'`
@@ -72,7 +74,7 @@ const Room = (props) => {
             console.log(roomUsers)
             props.setUsers(roomUsers)
           })
-    }, [])
+    }, [msg])
 
     const initializeSpeech = () => {
         speech.init().then((data) => {
@@ -181,7 +183,8 @@ const mapStateToProps = (state) => {
     notification: state.notification,
     user: state.user,
     users: state.users,
-    letter: state.letter
+    letter: state.letter,
+    message: state.message
   }
 }
 
@@ -190,7 +193,8 @@ const mapDispatchToProps = {
   setUser,
   setUsers,
   setLetter,
-  setSpeaking
+  setSpeaking,
+  newMessage
 }
 
 const connectedRoom = connect(mapStateToProps, mapDispatchToProps)(Room)

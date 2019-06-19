@@ -17,7 +17,7 @@ const reducer = combineReducers({
   users: usersReducer,
   letter: letterReducer,
   speaking: speakingReducer,
-  messages: messageReducer
+  message: messageReducer
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
