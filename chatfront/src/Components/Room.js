@@ -7,6 +7,7 @@ import { setUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
 import { setSpeaking } from '../Reducers/SpeakingReducer'
 import { newMessage } from '../Reducers/MessageReducer'
+import { setRoom } from '../Reducers/RoomReducer'
 
 import ChatText from '../ChatText'
 import Heads from './Heads'
@@ -68,9 +69,12 @@ const Room = (props) => {
               notificate(ms)
             }
           })
-          socket.on('users', (changedUsers) => {
-            const roomUsers = changedUsers.filter(u => u.room === window.localStorage.getItem('title'))
-            props.setUsers(roomUsers)
+          socket.on('left', (user) => {
+            console.log(user)
+            if (user.oldroom === window.localStorage.getItem('title')){
+              const ms = `User '${user.name}' left to another chatroom.`
+              notificate(ms)
+            }
           })
     }, [msg])
 
@@ -165,7 +169,7 @@ const Room = (props) => {
             <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
             <button onClick={setVisible}>{buttonMsg}</button>
         <div>
-            <Heads/>
+            <Heads room={room}/>
         </div>
         <form onSubmit={sendMessage}>
           <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
@@ -192,7 +196,8 @@ const mapDispatchToProps = {
   setUsers,
   setLetter,
   setSpeaking,
-  newMessage
+  newMessage,
+  setRoom
 }
 
 const connectedRoom = connect(mapStateToProps, mapDispatchToProps)(Room)

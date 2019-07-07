@@ -3,6 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk';
 
 import roomReducer from './Reducers/RoomReducer'
+import roomsReducer from './Reducers/RoomsReducer'
 import notificationReducer from './Reducers/NotificationReducer'
 import userReducer from './Reducers/UserReducer'
 import usersReducer from './Reducers/UsersReducer'
@@ -11,7 +12,8 @@ import speakingReducer from './Reducers/SpeakingReducer'
 import messageReducer from './Reducers/MessageReducer'
 
 const reducer = combineReducers({
-  rooms: roomReducer,
+  rooms: roomsReducer,
+  room: roomReducer,
   notification: notificationReducer,
   user: userReducer,
   users: usersReducer,

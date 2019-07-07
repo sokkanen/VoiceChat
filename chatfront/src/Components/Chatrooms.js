@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setNotification } from '../Reducers/NotificationReducer'
+import { setRoom } from '../Reducers/RoomReducer'
+import { setRooms } from '../Reducers/RoomsReducer'
 import './Chatrooms.css'
 import NewRoomForm from './NewRoomForm'
 import Notification from './Notification'
@@ -14,11 +16,21 @@ const Chatrooms = (props) => {
     const Link = props.Link
   
     useEffect(() => {
+      socket.emit('requestUsers')
+      socket.emit('requestRooms')
+
       socket.on('error', (msg) => {
         if (msg.id === socket.id){
           setTextColor('#ed1f10')
           notificate(msg.message)
         }
+      })
+      socket.on('room', (room) => {
+          props.setRoom(room)
+          console.log(room)
+      })
+      socket.on('rooms', (rooms) => {
+        props.setRooms(rooms)
       })
     },[])
 
@@ -43,7 +55,8 @@ const Chatrooms = (props) => {
         event.preventDefault()
         const joinRoomInfo = {
             id: socket.id,
-            room: event.target.name
+            room: event.target.name,
+            oldroom: window.localStorage.getItem('title')
         }
         socket.emit('roomJoin', joinRoomInfo)
     }
@@ -81,12 +94,15 @@ const Chatrooms = (props) => {
 const mapStateToProps = (state) => {
     return {
       rooms: state.rooms,
-      notification: state.notification
+      notification: state.notification,
+      room: state.room
     }
   }
 
   const mapDispatchToProps = {
-    setNotification
+    setNotification,
+    setRoom,
+    setRooms
   }
   
   const connectedChatRooms = connect(mapStateToProps, mapDispatchToProps)(Chatrooms)

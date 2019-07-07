@@ -4,12 +4,14 @@ import Head from './Head'
 
 const Heads = (props) => {
 
+    const users = props.users.filter(u => u.room === props.room.title)
+
     return (
         <div>
             <table>
                 <tbody>
                 <tr>
-                {props.users.map(
+                {users.map(
                     user => user.name === props.speaking ? 
                     <td key={user.name}><Head letter={props.letter} user={user.name}/></td> : 
                     <td key={user.name}><Head letter='' user={user.name}/></td>

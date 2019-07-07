@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import openSocket from 'socket.io-client'
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setRooms } from './Reducers/RoomReducer'
+import { setRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
+import { setUsers } from './Reducers/UsersReducer'
+
 
 import Chatrooms from './Components/Chatrooms'
 import UserRegister from './Components/UserRegister'
@@ -12,15 +14,15 @@ import Room from './Components/Room'
 const socket = openSocket('http://localhost:3003/')
 
 const App = (props) =>  {
-  
+
   useEffect(() => {
     socket.emit('requestRooms')
-    socket.on('rooms', (rooms) => {
-      props.setRooms(rooms)
-    })
     socket.on('message', (msg) => {
       props.newMessage(msg)
-  })
+    })
+    socket.on('users', (changedUsers) => {
+      props.setUsers(changedUsers)
+    })
   }, [])
   
 
@@ -68,7 +70,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setRooms,
-  newMessage
+  newMessage,
+  setUsers
 }
 
 const connectedApp = connect(

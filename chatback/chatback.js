@@ -6,7 +6,6 @@ let rooms = []
 const SOCKETPORT = 3003
 
 const addNewUser = (newUser) => {
-    console.log(newUser)
     if (users.length === 0){
         users.push(newUser)
     } else {
@@ -44,7 +43,7 @@ const addNewRoom = (newRoom, id) => {
     }
 }
 
-io.on('connection', (client) => {
+    io.on('connection', (client) => {
     console.log('Client connected')
     const newUser = {
         name: 'Anonymous',
@@ -56,12 +55,6 @@ io.on('connection', (client) => {
         console.log('Client subscribed for message')
     })
     client.on('newMessage', (message) => {
-        const newUser = {
-            name: message.user,
-            id: client.id,
-            room: message.room.title
-        }
-        addNewUser(newUser)
         io.emit('message', message)
     })
     client.on('newUserName', (user) => {
@@ -84,12 +77,18 @@ io.on('connection', (client) => {
         io.emit('users', users)
     })
     client.on('roomJoin', (info) => {
+        console.log(info)
         let usr = users.find(u => u.id === info.id)
         usr.room = info.room
+        usr.oldroom = info.oldroom
         if (!usr.name){
             usr.name = 'Anonymous'
         }
         addNewUser(usr)
+        io.emit('room', info.room)
+        if (info.oldroom !== info.room){
+            io.emit('left', usr)
+        }
     })
     client.on('disconnect', () => {
         let usr = users.find(u => u.id === client.id)
