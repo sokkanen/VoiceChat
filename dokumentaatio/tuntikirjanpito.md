@@ -26,5 +26,5 @@ päivä | aika | mitä tein
 13.6  | 4    | Store toimii. Neljä tilaa storessa
 18.6  | 2    | Redux devtools käyttöön. Lisää reducereita. SocketServicen hahmottelua.
 19.6  | 3    | Viestit toimivat oikein huoneesta siirtymisessä
-7.7   | 2    | Käyttäjäilmoitukset paremmaksi. Käyttäjähallintaa huoneiden välillä.
-YHT   | 53
+7.7   | 3    | Käyttäjäilmoitukset paremmaksi. Käyttäjähallintaa huoneiden välillä. Rekisteröinnin alkeet
+YHT   | 54
