@@ -150,7 +150,7 @@ const Room = (props) => {
     }
 
     if (room === undefined){
-        return <div>loading...</div>
+        return <div><h4>Please choose a room from "Chatrooms"</h4></div>
     }
 
     return (
@@ -169,7 +169,7 @@ const Room = (props) => {
             <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
             <button onClick={setVisible}>{buttonMsg}</button>
         <div>
-            <Heads room={room}/>
+            <Heads room={window.localStorage.getItem('title')}/>
         </div>
         <form onSubmit={sendMessage}>
           <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>

@@ -27,4 +27,6 @@ päivä | aika | mitä tein
 18.6  | 2    | Redux devtools käyttöön. Lisää reducereita. SocketServicen hahmottelua.
 19.6  | 3    | Viestit toimivat oikein huoneesta siirtymisessä
 7.7   | 3    | Käyttäjäilmoitukset paremmaksi. Käyttäjähallintaa huoneiden välillä. Rekisteröinnin alkeet
-YHT   | 54
+8.7   | 2    | Postgres ja .env konfigurointi.
+9.7   | 1    | Bäkkärin erillisiin komponentteihin. 
+YHT   | 57

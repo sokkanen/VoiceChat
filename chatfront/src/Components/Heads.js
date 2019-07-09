@@ -4,7 +4,7 @@ import Head from './Head'
 
 const Heads = (props) => {
 
-    const users = props.users.filter(u => u.room === props.room.title)
+    const users = props.users.filter(u => u.room === props.room)
 
     return (
         <div>

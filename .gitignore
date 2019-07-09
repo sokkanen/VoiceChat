@@ -32,3 +32,4 @@ chatfront/build
 
 /chatback/node_modules
 /chatback/package-lock.json
+/chatback/.env

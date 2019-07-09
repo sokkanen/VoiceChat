@@ -8,8 +8,8 @@ import { setUsers } from './Reducers/UsersReducer'
 
 
 import Chatrooms from './Components/Chatrooms'
-import UserRegister from './Components/UserRegister'
 import Room from './Components/Room'
+import NewUserForm from './Components/NewUserForm'
 
 const socket = openSocket('http://localhost:3003/')
 
@@ -49,9 +49,10 @@ const App = (props) =>  {
               <Link style={style} to="/">Home</Link>
               <Link style={style} to="/rooms">Chatrooms</Link>
               <Link style={style} to="/register">New User</Link>
+              <Link style={style} to="/login">Login</Link>
             </div>
             <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/register" render={() => <UserRegister/>}/>
+            <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
             <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
             <Route exact path="/rooms/:title" render={({ match }) =>
               <Room room={roomByTitle(match.params.title)} socket={socket} />
