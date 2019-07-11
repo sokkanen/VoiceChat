@@ -24,7 +24,7 @@ const Room = (props) => {
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
-    const [count, setCount] = useState(5)
+    const [count, setCount] = useState(7)
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
     const [textColor, setTextColor] = useState('#62f442')
