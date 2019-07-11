@@ -1,5 +1,6 @@
 require('dotenv').config()
 const io = require('socket.io')()
+const query = require('./database/dbQueries')
 const SOCKETPORT = process.env.SOCKETPORT
 
 let users = []
@@ -101,8 +102,9 @@ console.log('Client connected')
         io.emit('users', users)
         console.log('Client disconnected')
     })
-    client.on('newUserRegister', (newUser) => {
-        console.log(newUser)
+    client.on('newUserRegister', async (newUser) => {
+        const success = await query.addNewUser(newUser.username, newUser.email, newUser.password)
+        io.emit('newUserRegister', success, client.id, newUser.username)
     })
 })
 

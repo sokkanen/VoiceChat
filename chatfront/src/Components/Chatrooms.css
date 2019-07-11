@@ -1,9 +1,15 @@
 .user-form { padding:20px; }
 
-.user-form .field { padding: 4px; margin:1px; background: rgb(165, 165, 165); }
+.user-form .field {font-family: Georgia, 'Times New Roman', Times, serif; font-size: large; padding: 5px; margin:1px; background: rgb(203, 216, 128); }
 
-.user-form .field label { display:inline-block; width:120px; margin-left:5px; }
+.user-form .error_field {font-family: Georgia, 'Times New Roman', Times, serif; font-size: large; padding: 5px; margin:1px; background: rgb(226, 122, 122); }
 
-.user-form .field input { display:inline-block; }
+.user-form .error_field label { display:inline-block; width:200px; margin-left:10px; }
+
+.user-form .error_field input { display:inline-block; width: 500px; }
+
+.user-form .field label { display:inline-block; width:200px; margin-left:10px; }
+
+.user-form .field input { display:inline-block; width: 500px; }
 
 .user-form .field textarea { display:inline-block; }

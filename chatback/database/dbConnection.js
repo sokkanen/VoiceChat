@@ -1,31 +1,23 @@
 require('dotenv').config()
 const { Client } = require('pg')
-const bcrypt = require('bcrypt')
-const uuid = require('uuid/v1')
 
 const client = new Client()
 
 const getConnection = async () => {
     console.log('Connecting to postgres')
     await client.connect()
-    
-    /*const id = uuid()
-    const values = [id]
-    const sql = ("INSERT INTO users(id, username, email, passhash) VALUES ($1, 'Markku', 'markku@makela.com', 'ABCDE12345');")
-    const res = await client.query(sql, values)*/
-
     console.log('Connected to postgres')
 }
 
 const createTables = () => {
-    client.query("CREATE TABLE IF NOT EXISTS room (id varchar(48) PRIMARY KEY, name varchar(64) NOT NULL, owner varchar(64));")
+    client.query("CREATE TABLE IF NOT EXISTS room (id varchar(48) PRIMARY KEY, name varchar(64) NOT NULL UNIQUE, owner varchar(64));")
     .then(result => {
         console.log(result.command)
     })
     .catch(error => {
         console.log(error)
     })
-    client.query("CREATE TABLE IF NOT EXISTS chatter (id varchar(48) PRIMARY KEY, username varchar(64) NOT NULL, email varchar(128) NOT NULL, passhash varchar(128) NOT NULL, invite varchar(64));")
+    client.query("CREATE TABLE IF NOT EXISTS chatter (id varchar(48) PRIMARY KEY, username varchar(64) NOT NULL UNIQUE, email varchar(128) NOT NULL, passhash varchar(128) NOT NULL );")
     .then(result => {
         console.log(result.command)
     })
@@ -48,4 +40,4 @@ const createTables = () => {
     })
 }
 
-module.exports = { getConnection, createTables }
+module.exports = { getConnection, createTables, client }

@@ -29,5 +29,5 @@ päivä | aika | mitä tein
 7.7   | 3    | Käyttäjäilmoitukset paremmaksi. Käyttäjähallintaa huoneiden välillä. Rekisteröinnin alkeet
 8.7   | 2    | Postgres ja .env konfigurointi.
 9.7   | 1    | Bäkkärin erillisiin komponentteihin. 
-11.7  | 2    | bcrypt, jsonwebtoken, uuid ja psql:n taulut bäkkäriin.
-YHT   | 59
+11.7  | 4    | bcrypt, jsonwebtoken, uuid ja psql:n taulut bäkkäriin. Uusi käyttäjä frontilta tietokantaan. Validointi.
+YHT   | 61

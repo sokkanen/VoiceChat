@@ -1,4 +1,4 @@
-const dbclient = require('./dbConnection')
+const dbclient = require('./database/dbConnection')
 const io = require('./socketService')
 
 const initializeDatabase = async () => {
