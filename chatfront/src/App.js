@@ -6,10 +6,10 @@ import { setRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
 
-
 import Chatrooms from './Components/Chatrooms'
 import Room from './Components/Room'
 import NewUserForm from './Components/NewUserForm'
+import LoginForm from './Components/LoginForm'
 
 const socket = openSocket('http://localhost:3003/')
 
@@ -50,9 +50,11 @@ const App = (props) =>  {
               <Link style={style} to="/rooms">Chatrooms</Link>
               <Link style={style} to="/register">New User</Link>
               <Link style={style} to="/login">Login</Link>
+              {props.user ? 'Logged in: ' + props.user : null}
             </div>
             <Route exact path="/" render={() => <Home/>}/>
             <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
+            <Route path="/login" render={() => <LoginForm socket={socket}/>}/>
             <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
             <Route exact path="/rooms/:title" render={({ match }) =>
               <Room room={roomByTitle(match.params.title)} socket={socket} />
@@ -65,14 +67,15 @@ const App = (props) =>  {
 
 const mapStateToProps = (state) => {
   return {
-    rooms: state.rooms
+    rooms: state.rooms,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = {
   setRooms,
   newMessage,
-  setUsers
+  setUsers,
 }
 
 const connectedApp = connect(

@@ -106,6 +106,14 @@ console.log('Client connected')
         const success = await query.addNewUser(newUser.username, newUser.email, newUser.password)
         io.emit('newUserRegister', success, client.id, newUser.username)
     })
+    client.on('login', async (credentials) => {
+        const loginValue = await query.login(credentials)
+        if (loginValue === false){
+            io.emit('login', false, client.id, null)
+        } else {
+            io.emit('login', true, client.id, loginValue)
+        }
+    })
 })
 
 const listen = () => {

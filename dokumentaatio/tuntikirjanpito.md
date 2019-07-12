@@ -30,4 +30,5 @@ päivä | aika | mitä tein
 8.7   | 2    | Postgres ja .env konfigurointi.
 9.7   | 1    | Bäkkärin erillisiin komponentteihin. 
 11.7  | 4    | bcrypt, jsonwebtoken, uuid ja psql:n taulut bäkkäriin. Uusi käyttäjä frontilta tietokantaan. Validointi.
-YHT   | 61
+12.7  | 1    | kirjautuminen toimii, mutta käyttäjänimi ei vielä välity chattiin.
+YHT   | 62
