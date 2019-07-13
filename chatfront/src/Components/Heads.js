@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Head from './Head'
 
 const Heads = (props) => {
-
+    
     const users = props.users.filter(u => u.room === props.room)
 
     return (
@@ -12,9 +12,9 @@ const Heads = (props) => {
                 <tbody>
                 <tr>
                 {users.map(
-                    user => user.name === props.speaking ? 
-                    <td key={user.name}><Head letter={props.letter} user={user.name}/></td> : 
-                    <td key={user.name}><Head letter='' user={user.name}/></td>
+                    user => user.chatnick === props.speaking ? 
+                    <td key={user.chatnick}><Head letter={props.letter} user={user.chatnick}/></td> : 
+                    <td key={user.chatnick}><Head letter='' user={user.chatnick}/></td>
                 )}
                 </tr>              
                 </tbody>

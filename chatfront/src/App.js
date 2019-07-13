@@ -5,11 +5,14 @@ import { connect } from 'react-redux'
 import { setRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
+import { logoutUser } from './Reducers/UserReducer'
+import { removeChatnick } from './Reducers/ChatnickReducer'
 
 import Chatrooms from './Components/Chatrooms'
 import Room from './Components/Room'
 import NewUserForm from './Components/NewUserForm'
 import LoginForm from './Components/LoginForm'
+import Home from './Components/Home'
 
 const socket = openSocket('http://localhost:3003/')
 
@@ -25,21 +28,40 @@ const App = (props) =>  {
     })
   }, [])
   
-
-  const Home = () => {
-    return (
-      <div>
-        <div>
-          <h1>Welcome to voicechat!</h1>
-        </div>
-        <em>Copyright Joel Sokkanen 2019</em>
-      </div>
-    )
-  }
-
   const roomByTitle = (title) => props.rooms.find(r => r.title === title)
 
-  const style = { padding: 10 }
+  const style = { padding: 10 } // CSS-tiedostoon
+
+  const logOutHandler = () => {
+    props.logoutUser()
+    props.removeChatnick()
+  }
+
+  if (props.user){
+    return (
+      <div>
+      <div>
+        <Router>
+          <div>
+            <Link style={style} to="/">Home</Link>
+            <Link style={style} to="/rooms">Chatrooms</Link>
+            <Link style={style} to="/register">New User</Link>
+            {'Logged in: ' + props.user}
+            <button onClick={logOutHandler}>LogOut</button>
+          </div>
+            <Route exact path="/" render={() => <Home/>}/>
+            <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
+            <Route path="/login" render={() => <LoginForm socket={socket}/>}/>
+            <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
+            <Route exact path="/rooms/:title" render={({ match }) => 
+              props.chatnick === '' ? <Redirect to="/rooms"/> :
+              <Room room={roomByTitle(match.params.title)} socket={socket} />
+            }/>
+        </Router>
+      </div>
+  </div>
+    )
+  }
 
   return (
       <div>
@@ -50,15 +72,15 @@ const App = (props) =>  {
               <Link style={style} to="/rooms">Chatrooms</Link>
               <Link style={style} to="/register">New User</Link>
               <Link style={style} to="/login">Login</Link>
-              {props.user ? 'Logged in: ' + props.user : null}
             </div>
-            <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
-            <Route path="/login" render={() => <LoginForm socket={socket}/>}/>
-            <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
-            <Route exact path="/rooms/:title" render={({ match }) =>
-              <Room room={roomByTitle(match.params.title)} socket={socket} />
-            } />
+              <Route exact path="/" render={() => <Home/>}/>
+              <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
+              <Route path="/login" render={() => <LoginForm socket={socket}/>}/>
+              <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
+              <Route exact path="/rooms/:title" render={({ match }) => 
+                props.chatnick === '' ? <Redirect to="/rooms"/> :
+                <Room room={roomByTitle(match.params.title)} socket={socket} />
+              }/>
           </Router>
         </div>
     </div>
@@ -68,7 +90,8 @@ const App = (props) =>  {
 const mapStateToProps = (state) => {
   return {
     rooms: state.rooms,
-    user: state.user
+    user: state.user,
+    chatnick: state.chatnick
   }
 }
 
@@ -76,6 +99,8 @@ const mapDispatchToProps = {
   setRooms,
   newMessage,
   setUsers,
+  logoutUser,
+  removeChatnick
 }
 
 const connectedApp = connect(

@@ -1,7 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import './Chatrooms.css'
 
-const NewRoomForm = ({socket, visible}) => {
+const NewRoomForm = (props) => {
+
+    const socket = props.socket
+    const visible = props.visible
 
     const createNew = async (event) => {
         event.preventDefault()
@@ -24,6 +28,19 @@ const NewRoomForm = ({socket, visible}) => {
         return <div></div>
     }
 
+    if (props.user === ''){
+        return (
+            <form className="user-form" onSubmit={createNew}>
+                <div className="field">
+                    <h4>Please register to create a new chatroom!</h4>
+                </div>
+            <div className="field">
+                <button disabled="true" type="submit">Create</button>
+            </div>
+        </form>
+        )
+    }
+
     return (
         <div>
             <form className="user-form" onSubmit={createNew}>
@@ -38,7 +55,7 @@ const NewRoomForm = ({socket, visible}) => {
                     <label>Description:</label>
                     <textarea name="description" rows="5" cols="50"></textarea>
                 </div>
-                <div className="field">
+                <div className="button_field">
                     <label>Private:</label>
                     <input type="radio" name="private" value="YES"></input> Yes
                     <input type="radio" name="private" value="NO" defaultChecked></input> No
@@ -51,8 +68,15 @@ const NewRoomForm = ({socket, visible}) => {
     )
 }
 
-export default NewRoomForm
-
+const mapStateToProps = (state) => {
+    return {
+      user: state.user
+    }
+  }
+  
+  const connectedNewRoomForm = connect(mapStateToProps, null)(NewRoomForm)
+  
+  export default connectedNewRoomForm
 
 
 

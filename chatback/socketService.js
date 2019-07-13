@@ -7,26 +7,12 @@ let users = []
 let rooms = []
 
 const addNewUser = (newUser) => {
-    if (users.length === 0){
-        users.push(newUser)
-    } else {
-        let idFound = users.find(u => u.id === newUser.id)
-        if (idFound !== undefined){
-            const oldUsername = idFound.name
-            users.map(u => u.id === newUser.id ? u.name = newUser.name : u)
-            if (newUser.name !== oldUsername){
-                const changeInfo = {
-                    newUserName: newUser.name,
-                    oldUsername: oldUsername,
-                    room: newUser.room
-                }
-                io.emit('changedUsername', changeInfo)
-            }
-        } else {
-            users.push(newUser)
-            io.emit('newUser', newUser)
-        }
-    }
+    users.push(newUser)
+    io.emit('users', users)
+}
+
+const changeRoom = (user) => {
+    users = users.map(u => u.id === user.id ? user : u)
     io.emit('users', users)
 }
 
@@ -46,25 +32,9 @@ const addNewRoom = (newRoom, id) => {
 
 io.on('connection', (client) => {
 console.log('Client connected')
-    const newUser = {
-        name: 'Anonymous',
-        id: client.id,
-        room: null
-    }
-    addNewUser(newUser)
-    client.on('messages', () => {
-        console.log('Client subscribed for message')
-    })
+
     client.on('newMessage', (message) => {
         io.emit('message', message)
-    })
-    client.on('newUserName', (user) => {
-        const newUser = {
-            id: client.id,
-            name: user.name,
-            room: user.room
-        }
-        addNewUser(newUser)
     })
     client.on('newRoom', (room) => {
         let usr = users.find(u => u.id === client.id)
@@ -79,25 +49,21 @@ console.log('Client connected')
     })
     client.on('roomJoin', (info) => {
         let usr = users.find(u => u.id === info.id)
-        usr.room = info.room
-        usr.oldroom = info.oldroom
-        if (!usr.name){
-            usr.name = 'Anonymous'
+        if (usr === undefined){
+            addNewUser(info)
+        } else {
+            usr.oldroom = usr.room
+            usr.room = info.room
+            changeRoom(usr)
+            if (info.oldroom !== info.room){
+                io.emit('left', usr)
+            }
         }
-        addNewUser(usr)
-        io.emit('room', info.room)
-        if (info.oldroom !== info.room){
-            io.emit('left', usr)
-        }
+        io.emit('room', info.room, info.id)
     })
     client.on('disconnect', () => {
         let usr = users.find(u => u.id === client.id)
         users = users.filter(u => u.id !== client.id)
-        if (!usr){
-            usr = {
-                name: 'Anonymous'
-            }
-        }
         io.emit('disconnected', usr)
         io.emit('users', users)
         console.log('Client disconnected')

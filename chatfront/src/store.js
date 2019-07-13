@@ -10,6 +10,7 @@ import usersReducer from './Reducers/UsersReducer'
 import letterReducer from './Reducers/LetterReducer'
 import speakingReducer from './Reducers/SpeakingReducer'
 import messageReducer from './Reducers/MessageReducer'
+import chatnickReducer from './Reducers/ChatnickReducer';
 
 const reducer = combineReducers({
   rooms: roomsReducer,
@@ -19,7 +20,8 @@ const reducer = combineReducers({
   users: usersReducer,
   letter: letterReducer,
   speaking: speakingReducer,
-  message: messageReducer
+  message: messageReducer,
+  chatnick: chatnickReducer
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))

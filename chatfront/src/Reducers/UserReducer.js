@@ -1,10 +1,11 @@
 
-const userReducer = (state = 'Anonymous', action) => {
+const userReducer = (state = '', action) => {
     switch (action.type) {
       case 'SETUSER':
         return action.data
-      case 'LOGOUTUSER': // TESTAAMATTA
-        return 'Anonymous'
+      case 'LOGOUTUSER':
+        window.localStorage.setItem('user', null)
+        return ''
       default: return state
     }
   }
