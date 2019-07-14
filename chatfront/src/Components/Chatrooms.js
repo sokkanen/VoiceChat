@@ -101,11 +101,16 @@ const Chatrooms = (props) => {
                             <th>Description</th>
                         </tr>
                         {props.rooms.map(r =>
-                        <tr key={r.title}>
+                        <tr key={r.name}>
                             <td onClick={joinRoomHandler}>
-                                <Link name={r.title} to={`/rooms/${r.title}`}>{r.title}</Link>
+                                <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                             </td>
                             <td>{r.description}</td>
+                            <td>{r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
+                            <button>Remove room</button> 
+                            : 
+                            null
+                            }</td>
                         </tr>
                         )}
                     </tbody>
@@ -134,7 +139,7 @@ const Chatrooms = (props) => {
                             <th>Name</th>
                             <th>Description</th>
                         </tr>
-                        {props.rooms.map(r => <tr key={r.title}><td><p>{r.title}</p></td><td>{r.description}</td></tr>)}
+                        {props.rooms.map(r => <tr key={r.name}><td><p>{r.name}</p></td><td>{r.description}</td></tr>)}
                     </tbody>
                 </table>
             </div>

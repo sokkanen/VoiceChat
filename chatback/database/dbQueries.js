@@ -19,6 +19,23 @@ const validatePassword = (password, passhash) => {
     return validated
 }
 
+const addNewRoom = async (room, user) => {
+    const verified = jwt.verify(user.token, process.env.TOKENSECRET)
+    if (!verified.id || !user.token){
+        return false
+    }
+    const sql = ("INSERT INTO room (id, name, description, private, owner_id) values ($1, $2, $3, $4, $5)")
+    const id = uuid()
+    const values = [id, room.title, room.description, room.private, verified.id]
+    try {
+        await client.query(sql, values)
+        return true
+    } catch (error){
+        console.log(error.detail)
+        return false
+    }
+}
+
 const addNewUser = async (username, email, password) => {
     const id = uuid()
     const passhash = createHash(password)
@@ -49,6 +66,7 @@ const login = async (credentials) => {
         const userInfo = {
             token: token,
             username: returnvalue.rows[0].username,
+            id: returnvalue.rows[0].id
         }
         return userInfo
     } catch (error) {
@@ -70,4 +88,15 @@ const checkChatnickAwailability = async (chatnick) => {
     }
 }
 
-module.exports = { addNewUser, login, checkChatnickAwailability }
+const getPublicRooms = async () => {
+    const sql = ("SELECT * FROM room WHERE private = false;")
+    try {
+        const rooms = await client.query(sql)
+        return rooms.rows
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+module.exports = { addNewUser, login, checkChatnickAwailability, addNewRoom, getPublicRooms }

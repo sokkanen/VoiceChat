@@ -12,7 +12,7 @@ const NewRoomForm = (props) => {
         const room = {
             title: event.target.title.value,
             description: event.target.description.value,
-            private: event.target.private.value,
+            private: event.target.private.value === 'YES' ? true : false,
         }
         event.target.title.value = ''
         event.target.description.value = ''
@@ -20,7 +20,12 @@ const NewRoomForm = (props) => {
         if (room.title === ''){
             alert(`New room must have a title!`)
         } else {
-            await socket.emit('newRoom', room)
+            const usr = {
+                name: props.user,
+                token: JSON.parse(window.localStorage.getItem('user')).token
+            }
+            await socket.emit('newRoom', room, usr)
+            socket.emit('requestRooms')
         }
     }
 

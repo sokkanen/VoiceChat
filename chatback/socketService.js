@@ -16,18 +16,19 @@ const changeRoom = (user) => {
     io.emit('users', users)
 }
 
-const addNewRoom = (newRoom, id) => {
-    const roomNames = rooms.map(r => r.title)
-    if (roomNames.includes(newRoom.title)){
+const newRoomHandler = async (room, user, id) => {
+    const success = await query.addNewRoom(room, user)
+    if (success){
+        rooms.push(room)
+    } else {
         const msg = {
-            message: `Room with a name '${newRoom.title}' already exists`,
-            id: id
+            id: id,
+            message: `Room ${room.title} already exists. Please choose another roomname.`
         }
         io.emit('error', msg)
-    } else {
-        rooms.push(newRoom)
-        io.emit('rooms', rooms)
     }
+    io.emit('rooms', rooms)
+    
 }
 
 io.on('connection', (client) => {
@@ -36,12 +37,11 @@ console.log('Client connected')
     client.on('newMessage', (message) => {
         io.emit('message', message)
     })
-    client.on('newRoom', (room) => {
-        let usr = users.find(u => u.id === client.id)
-        const newRoom = {...room, user: usr}
-        addNewRoom(newRoom, client.id)
+    client.on('newRoom', (room, user) => {
+        newRoomHandler(room, user, client.id)
     })
-    client.on('requestRooms', () => {
+    client.on('requestRooms', async () => {
+        rooms = await query.getPublicRooms()
         io.emit('rooms', rooms)
     })
     client.on('requestUsers', () => {

@@ -33,4 +33,5 @@ päivä | aika | mitä tein
 12.7  | 1    | kirjautuminen toimii, mutta käyttäjänimi ei vielä välity chattiin.
 13.7  | 5    | Rekisteröityneen ja rekisteröitymättömän näkymät. Chat toimimaan uudella nimimerkkisysteemillä.
 14.7  | 1    | Rekisteröitymätön käyttäjä ei voi valita rekiströityneen nimimerkkiä.
-YHT   | 68
+14.7  | 2    | Huoneiden tallennus ja haku tietokannasta. Huoneen poistopainike huoneen luojalle.
+YHT   | 70
