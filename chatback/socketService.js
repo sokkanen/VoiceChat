@@ -27,8 +27,6 @@ const newRoomHandler = async (room, user, id) => {
         }
         io.emit('error', msg)
     }
-    io.emit('rooms', rooms)
-    
 }
 
 io.on('connection', (client) => {
@@ -40,9 +38,12 @@ console.log('Client connected')
     client.on('newRoom', (room, user) => {
         newRoomHandler(room, user, client.id)
     })
-    client.on('requestRooms', async () => {
+    client.on('requestRooms', async (id) => {
         rooms = await query.getPublicRooms()
-        io.emit('rooms', rooms)
+        let privateRooms = []
+        if (id)
+            privateRooms = await query.getPrivateRooms(id)
+        io.emit('rooms', rooms, privateRooms)
     })
     client.on('requestUsers', () => {
         io.emit('users', users)

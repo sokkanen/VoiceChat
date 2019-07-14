@@ -2,7 +2,7 @@
 
 VoiceChat on selaimen puhesyntetisaattoria käyttävä chat -ohjelma.
 
-Ohjelma tullaan rakentamaan Node-stackille (React - Node - MongoDB).
+Ohjelma tullaan rakentamaan stackille React - NodeJS - Postgresql.
 
 Alustavat keskeiset ominaisuudet:
 
@@ -12,6 +12,8 @@ Alustavat keskeiset ominaisuudet:
 - Keskusteluhuoneet
 - Rekisteröityneet käyttäjät
 	- Personoitava puhuva pää
+	- Yksityishuoneet
+	- Kutsuminen yksityishuoneeseen
 - Tervetulo / infobotti
 
 - Aikataulun salliessa:

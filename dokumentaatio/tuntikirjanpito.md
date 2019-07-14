@@ -34,4 +34,5 @@ päivä | aika | mitä tein
 13.7  | 5    | Rekisteröityneen ja rekisteröitymättömän näkymät. Chat toimimaan uudella nimimerkkisysteemillä.
 14.7  | 1    | Rekisteröitymätön käyttäjä ei voi valita rekiströityneen nimimerkkiä.
 14.7  | 2    | Huoneiden tallennus ja haku tietokannasta. Huoneen poistopainike huoneen luojalle.
-YHT   | 70
+14.7  | 2    | Privaattihuoneiden tallennus ja haku. Näkymä vain huoneeseen kutsutuille ja huoneen perustajalle.
+YHT   | 72

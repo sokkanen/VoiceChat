@@ -11,9 +11,11 @@ import letterReducer from './Reducers/LetterReducer'
 import speakingReducer from './Reducers/SpeakingReducer'
 import messageReducer from './Reducers/MessageReducer'
 import chatnickReducer from './Reducers/ChatnickReducer';
+import privateRoomsReducer from './Reducers/PrivateRoomsReducer';
 
 const reducer = combineReducers({
   rooms: roomsReducer,
+  privateRooms: privateRoomsReducer,
   room: roomReducer,
   notification: notificationReducer,
   user: userReducer,

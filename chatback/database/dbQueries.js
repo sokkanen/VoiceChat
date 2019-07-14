@@ -24,16 +24,23 @@ const addNewRoom = async (room, user) => {
     if (!verified.id || !user.token){
         return false
     }
+    await client.query("BEGIN;") // Beginning transaction
     const sql = ("INSERT INTO room (id, name, description, private, owner_id) values ($1, $2, $3, $4, $5)")
     const id = uuid()
     const values = [id, room.title, room.description, room.private, verified.id]
+    await client.query(sql, values)
+    if (room.private){
+        const sql2 = ("INSERT INTO room_chatter (chatter_id, room_id) values ($1, $2)")
+        const values2 = [verified.id, id]
+        await client.query(sql2, values2)
+    }
     try {
-        await client.query(sql, values)
-        return true
+        await client.query("COMMIT;") // Commiting transaction
     } catch (error){
-        console.log(error.detail)
+        console.log(error)
         return false
     }
+    return true
 }
 
 const addNewUser = async (username, email, password) => {
@@ -99,4 +106,16 @@ const getPublicRooms = async () => {
     }
 }
 
-module.exports = { addNewUser, login, checkChatnickAwailability, addNewRoom, getPublicRooms }
+const getPrivateRooms = async (id) => {
+    const sql = ("SELECT * FROM room LEFT JOIN room_chatter ON room.id = room_id WHERE room_id IS NOT NULL AND chatter_id = $1;")
+    const values = [id]
+    try {
+        const rooms = await client.query(sql, values)
+        return rooms.rows
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+module.exports = { addNewUser, login, checkChatnickAwailability, addNewRoom, getPublicRooms, getPrivateRooms }

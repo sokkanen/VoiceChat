@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setRoom } from '../Reducers/RoomReducer'
 import { setRooms } from '../Reducers/RoomsReducer'
+import { setPrivateRooms } from '../Reducers/PrivateRoomsReducer'
 import { setChatnick} from '../Reducers/ChatnickReducer'
 import './Chatrooms.css'
 import NewRoomForm from './NewRoomForm'
@@ -18,7 +19,7 @@ const Chatrooms = (props) => {
   
     useEffect(() => {
       socket.emit('requestUsers')
-      socket.emit('requestRooms')
+      socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
 
       socket.on('error', (msg) => {
         if (msg.id === socket.id){
@@ -31,8 +32,9 @@ const Chatrooms = (props) => {
             props.setRoom(room)
           }
       })
-      socket.on('rooms', (rooms) => {
+      socket.on('rooms', (rooms, privateRooms) => {
         props.setRooms(rooms)
+        props.setPrivateRooms(privateRooms)
       })
       socket.on('checkChatnick', (available, id, chatnick) => {
           console.log(available, id, chatnick)
@@ -91,8 +93,7 @@ const Chatrooms = (props) => {
                 <NewRoomForm socket={socket} visible={visible}/>
                 <button onClick={newRoomVisible}>{newRoomText}</button>
             </div>
-            <h2>Rooms</h2>
-            <h3>{props.chatnick}</h3>
+            <h2>Public rooms</h2>
             <div>
                 <table>
                     <tbody>
@@ -106,6 +107,32 @@ const Chatrooms = (props) => {
                                 <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                             </td>
                             <td>{r.description}</td>
+                            <td>{r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
+                            <button>Remove room</button> 
+                            : 
+                            null
+                            }</td>
+                        </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            <h2>{props.chatnick}'s Private rooms</h2>
+            <div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Users</th>
+                        </tr>
+                        {props.privateRooms.map(r =>
+                        <tr key={r.name}>
+                            <td onClick={joinRoomHandler}>
+                                <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
+                            </td>
+                            <td>{r.description}</td>
+                            <td>TÄHÄN KÄYTTÄJÄVALIKKO</td>
                             <td>{r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                             <button>Remove room</button> 
                             : 
@@ -150,6 +177,7 @@ const Chatrooms = (props) => {
 const mapStateToProps = (state) => {
     return {
       rooms: state.rooms,
+      privateRooms: state.privateRooms,
       notification: state.notification,
       room: state.room,
       chatnick: state.chatnick,
@@ -161,6 +189,7 @@ const mapStateToProps = (state) => {
     setNotification,
     setRoom,
     setRooms,
+    setPrivateRooms,
     setChatnick
   }
   

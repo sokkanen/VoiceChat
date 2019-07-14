@@ -25,6 +25,7 @@ const LoginForm = (props) => {
 
     const loginValidator = async (success, user) => {
         if (success){
+            socket.emit('requestRooms', user.id)
             const welcome = `Welcome ${user.username}!`
             window.localStorage.setItem('user', JSON.stringify(user))
             props.setUser(user.username)

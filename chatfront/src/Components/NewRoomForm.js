@@ -25,7 +25,7 @@ const NewRoomForm = (props) => {
                 token: JSON.parse(window.localStorage.getItem('user')).token
             }
             await socket.emit('newRoom', room, usr)
-            socket.emit('requestRooms')
+            socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
         }
     }
 
