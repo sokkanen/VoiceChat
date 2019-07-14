@@ -80,6 +80,10 @@ console.log('Client connected')
             io.emit('login', true, client.id, loginValue)
         }
     })
+    client.on('checkChatnick', async (chatnick) => {
+        const available = await query.checkChatnickAwailability(chatnick)
+        io.emit('checkChatnick', available, client.id, chatnick)
+    })
 })
 
 const listen = () => {

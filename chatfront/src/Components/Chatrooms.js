@@ -34,6 +34,16 @@ const Chatrooms = (props) => {
       socket.on('rooms', (rooms) => {
         props.setRooms(rooms)
       })
+      socket.on('checkChatnick', (available, id, chatnick) => {
+          console.log(available, id, chatnick)
+          if (id === socket.id){
+              if (available){
+                props.setChatnick(chatnick)
+              } else {
+                alert(`${chatnick} not available. Please try another.`)
+              }
+          }
+      })
     },[])
 
     const newRoomVisible = () => {
@@ -67,7 +77,7 @@ const Chatrooms = (props) => {
 
     const setChatNickname = (event) => {
         event.preventDefault()
-        props.setChatnick(event.target.chatnick.value)
+        socket.emit('checkChatnick', event.target.chatnick.value)
         event.target.chatnick.value = ''
       }
 

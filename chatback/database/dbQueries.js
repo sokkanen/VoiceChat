@@ -56,4 +56,18 @@ const login = async (credentials) => {
     }
 }
 
-module.exports = { addNewUser, login }
+const checkChatnickAwailability = async (chatnick) => {
+    const sql = ("SELECT * FROM chatter WHERE username = $1;")
+    const values = [chatnick]
+    try {
+        const returnvalue = await client.query(sql, values)
+        if (returnvalue.rowCount !== 0){
+            return false
+        }
+        return true
+    } catch (error) {
+        return false
+    }
+}
+
+module.exports = { addNewUser, login, checkChatnickAwailability }
