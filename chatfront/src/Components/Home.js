@@ -1,4 +1,5 @@
 import React from 'react'
+import InvitePopUp from './InvitePopUp'
 
 const Home = () => {
     return (
@@ -6,8 +7,12 @@ const Home = () => {
         <div>
           <h1>Welcome to voicechat!</h1>
         </div>
+        <div>
+          <InvitePopUp/>
+        </div>
         <em>Copyright Joel Sokkanen 2019</em>
       </div>
+
     )
 }
 

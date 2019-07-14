@@ -118,4 +118,19 @@ const getPrivateRooms = async (id) => {
     }
 }
 
-module.exports = { addNewUser, login, checkChatnickAwailability, addNewRoom, getPublicRooms, getPrivateRooms }
+const getPrivateRoomUsers = (rooms) => {
+    const privateUsers = []
+    const sql = ("SELECT id, username, email FROM chatter LEFT JOIN room_chatter ON chatter.id = room_chatter.chatter_id WHERE room_id = $1;")
+    rooms.forEach(room => {
+        const values = [room.id]
+        client.query(sql, values)
+        .then(result => {
+            console.log('ROOM: ', room.id, ':')
+            console.log(result.rows)
+            privateUsers.push(result.rows) 
+        })
+    })
+    //console.log(privateUsers)
+}
+
+module.exports = { addNewUser, login, checkChatnickAwailability, addNewRoom, getPublicRooms, getPrivateRooms, getPrivateRoomUsers }

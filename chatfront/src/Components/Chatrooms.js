@@ -5,6 +5,7 @@ import { setRoom } from '../Reducers/RoomReducer'
 import { setRooms } from '../Reducers/RoomsReducer'
 import { setPrivateRooms } from '../Reducers/PrivateRoomsReducer'
 import { setChatnick} from '../Reducers/ChatnickReducer'
+import InvitePopUp from './InvitePopUp'
 import './Chatrooms.css'
 import NewRoomForm from './NewRoomForm'
 import Notification from './Notification'
@@ -19,8 +20,11 @@ const Chatrooms = (props) => {
   
     useEffect(() => {
       socket.emit('requestUsers')
-      socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
-
+      if (props.user){
+        socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
+      } else {
+        socket.emit('requestRooms')
+      }
       socket.on('error', (msg) => {
         if (msg.id === socket.id){
           setTextColor('#ed1f10')
@@ -37,7 +41,6 @@ const Chatrooms = (props) => {
         props.setPrivateRooms(privateRooms)
       })
       socket.on('checkChatnick', (available, id, chatnick) => {
-          console.log(available, id, chatnick)
           if (id === socket.id){
               if (available){
                 props.setChatnick(chatnick)
@@ -107,18 +110,19 @@ const Chatrooms = (props) => {
                                 <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                             </td>
                             <td>{r.description}</td>
-                            <td>{r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
+                            <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                             <button>Remove room</button> 
                             : 
                             null
-                            }</td>
+                            : null}</td>
                         </tr>
                         )}
                     </tbody>
                 </table>
             </div>
-            <h2>{props.chatnick}'s Private rooms</h2>
+            {props.user ?
             <div>
+                <h2>{props.chatnick}'s Private rooms</h2>
                 <table>
                     <tbody>
                         <tr>
@@ -132,17 +136,17 @@ const Chatrooms = (props) => {
                                 <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                             </td>
                             <td>{r.description}</td>
-                            <td>TÄHÄN KÄYTTÄJÄVALIKKO</td>
-                            <td>{r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
+                            <td><InvitePopUp users={props.users}/></td>
+                            <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                             <button>Remove room</button> 
-                            : 
-                            null
-                            }</td>
+                            : null
+                            : null}</td>
                         </tr>
                         )}
                     </tbody>
                 </table>
             </div>
+            : null }
         </div>
         )
     }
@@ -181,7 +185,8 @@ const mapStateToProps = (state) => {
       notification: state.notification,
       room: state.room,
       chatnick: state.chatnick,
-      user: state.user
+      user: state.user,
+      users: state.users
     }
   }
 

@@ -40,7 +40,7 @@ const NewRoomForm = (props) => {
                     <h4>Please register to create a new chatroom!</h4>
                 </div>
             <div className="field">
-                <button disabled="true" type="submit">Create</button>
+                <button disabled={true} type="submit">Create</button>
             </div>
         </form>
         )

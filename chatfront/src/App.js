@@ -7,6 +7,7 @@ import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
 import { logoutUser } from './Reducers/UserReducer'
 import { removeChatnick } from './Reducers/ChatnickReducer'
+import { removePrivateRooms } from './Reducers/PrivateRoomsReducer'
 
 import Chatrooms from './Components/Chatrooms'
 import Room from './Components/Room'
@@ -17,7 +18,6 @@ import Home from './Components/Home'
 const socket = openSocket('http://localhost:3003/')
 
 const App = (props) =>  {
-
   useEffect(() => {
     socket.emit('requestRooms')
     socket.on('message', (msg) => {
@@ -35,6 +35,8 @@ const App = (props) =>  {
   const logOutHandler = () => {
     props.logoutUser()
     props.removeChatnick()
+    props.removePrivateRooms()
+    window.localStorage.removeItem('user')
   }
 
   if (props.user){
@@ -100,7 +102,8 @@ const mapDispatchToProps = {
   newMessage,
   setUsers,
   logoutUser,
-  removeChatnick
+  removeChatnick,
+  removePrivateRooms
 }
 
 const connectedApp = connect(
