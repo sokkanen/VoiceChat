@@ -107,7 +107,7 @@ const getPublicRooms = async () => {
 }
 
 const getPrivateRooms = async (id) => {
-    const sql = ("SELECT * FROM room LEFT JOIN room_chatter ON room.id = room_id WHERE room_id IS NOT NULL AND chatter_id = $1;")
+    const sql = ("SELECT id, name, description, private, owner_id FROM room LEFT JOIN room_chatter ON room.id = room_id WHERE room_id IS NOT NULL AND chatter_id = $1;")
     const values = [id]
     try {
         const rooms = await client.query(sql, values)
@@ -118,19 +118,23 @@ const getPrivateRooms = async (id) => {
     }
 }
 
-const getPrivateRoomUsers = (rooms) => {
-    const privateUsers = []
-    const sql = ("SELECT id, username, email FROM chatter LEFT JOIN room_chatter ON chatter.id = room_chatter.chatter_id WHERE room_id = $1;")
-    rooms.forEach(room => {
-        const values = [room.id]
-        client.query(sql, values)
-        .then(result => {
-            console.log('ROOM: ', room.id, ':')
-            console.log(result.rows)
-            privateUsers.push(result.rows) 
-        })
-    })
-    //console.log(privateUsers)
+const getPrivateRoomUsers = async (rooms) => {
+    const users = []
+    for(i=0;i<rooms.length;i++){
+        const values = [ rooms[i].id ]
+        const sql = `SELECT id, username FROM Chatter JOIN room_chatter ON chatter.id = room_chatter.chatter_id WHERE Room_chatter.room_id = $1;`
+        const result = await client.query(sql, values)
+        room = {
+            id: rooms[i].id,
+            name: rooms[i].name,
+            //description: rooms[i].description,
+            //owner_id: rooms[i].owner_id,
+            users: result.rows
+        }
+        users.push(room)
+    }
+    console.log(users)
+    return users
 }
 
 module.exports = { addNewUser, login, checkChatnickAwailability, addNewRoom, getPublicRooms, getPrivateRooms, getPrivateRoomUsers }

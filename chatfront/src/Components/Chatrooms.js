@@ -38,7 +38,7 @@ const Chatrooms = (props) => {
       })
       socket.on('rooms', (rooms, privateRooms) => {
         props.setRooms(rooms)
-        props.setPrivateRooms(privateRooms)
+        props.setPrivateRooms(privateRooms) // TÄSSÄ MENOSSA: BACKI PÄIVITETTY!!!
       })
       socket.on('checkChatnick', (available, id, chatnick) => {
           if (id === socket.id){
