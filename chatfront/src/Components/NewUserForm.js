@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { connect } from 'react-redux'
 import Notification from './Notification'
-import './Chatrooms.css'
+import './Forms.css'
 
 const NewUserForm = (props) => {
 

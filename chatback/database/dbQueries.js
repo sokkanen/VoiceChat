@@ -127,13 +127,12 @@ const getPrivateRoomUsers = async (rooms) => {
         room = {
             id: rooms[i].id,
             name: rooms[i].name,
-            //description: rooms[i].description,
-            //owner_id: rooms[i].owner_id,
+            description: rooms[i].description,
+            owner_id: rooms[i].owner_id,
             users: result.rows
         }
         users.push(room)
     }
-    console.log(users)
     return users
 }
 

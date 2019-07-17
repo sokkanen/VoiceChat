@@ -4,7 +4,7 @@ import { setUser } from '../Reducers/UserReducer'
 import { setChatnick } from '../Reducers/ChatnickReducer'
 import { connect } from 'react-redux'
 import Notification from './Notification'
-import './Chatrooms.css'
+import './Forms.css'
 
 const LoginForm = (props) => {
 

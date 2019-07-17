@@ -36,4 +36,5 @@ päivä | aika | mitä tein
 14.7  | 2    | Huoneiden tallennus ja haku tietokannasta. Huoneen poistopainike huoneen luojalle.
 14.7  | 3    | Privaattihuoneiden tallennus ja haku. Näkymä vain huoneeseen kutsutuille ja huoneen perustajalle.
 16.7  | 1    | Privaattihuoneiden käyttäjien haku ja palautus.
-YHT   | 74
+17.7  | 2    | Privaattihuoneiden hallinnoinnin hahmottelua ja rakentamista.
+YHT   | 76

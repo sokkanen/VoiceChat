@@ -43,8 +43,8 @@ console.log('Client connected')
         let privateRooms = []
         if (id)
             privateRooms = await query.getPrivateRooms(id)
-            const roomUsers = await query.getPrivateRoomUsers(privateRooms)
-        io.emit('rooms', rooms, roomUsers)
+            privateRooms = await query.getPrivateRoomUsers(privateRooms)
+        io.emit('rooms', rooms, privateRooms)
     })
     client.on('requestUsers', () => {
         io.emit('users', users)

@@ -6,7 +6,7 @@ import { setRooms } from '../Reducers/RoomsReducer'
 import { setPrivateRooms } from '../Reducers/PrivateRoomsReducer'
 import { setChatnick} from '../Reducers/ChatnickReducer'
 import InvitePopUp from './InvitePopUp'
-import './Chatrooms.css'
+import './Forms.css'
 import NewRoomForm from './NewRoomForm'
 import Notification from './Notification'
 
@@ -38,7 +38,7 @@ const Chatrooms = (props) => {
       })
       socket.on('rooms', (rooms, privateRooms) => {
         props.setRooms(rooms)
-        props.setPrivateRooms(privateRooms) // TÄSSÄ MENOSSA: BACKI PÄIVITETTY!!!
+        props.setPrivateRooms(privateRooms)
       })
       socket.on('checkChatnick', (available, id, chatnick) => {
           if (id === socket.id){
@@ -136,7 +136,7 @@ const Chatrooms = (props) => {
                                 <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                             </td>
                             <td>{r.description}</td>
-                            <td><InvitePopUp users={props.users}/></td>
+                            <td><InvitePopUp currentRoom={r.name}/></td>
                             <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                             <button>Remove room</button> 
                             : null
