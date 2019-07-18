@@ -37,4 +37,5 @@ päivä | aika | mitä tein
 14.7  | 3    | Privaattihuoneiden tallennus ja haku. Näkymä vain huoneeseen kutsutuille ja huoneen perustajalle.
 16.7  | 1    | Privaattihuoneiden käyttäjien haku ja palautus.
 17.7  | 2    | Privaattihuoneiden hallinnoinnin hahmottelua ja rakentamista.
-YHT   | 76
+18.7  | 2    | Privaattihuoneisiin kutsuminen 90% valmis. Oman chattinaaman toteutuksen suunnittelua.
+YHT   | 78

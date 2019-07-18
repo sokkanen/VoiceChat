@@ -28,6 +28,8 @@ const Room = (props) => {
     const [textColor, setTextColor] = useState('#62f442')
 
     useEffect(() => {
+      let isSubscribed = true
+      if (isSubscribed) {
         initializeSpeech()
         socket.emit('requestUsers')
         if (msg.length !== 0){
@@ -58,6 +60,8 @@ const Room = (props) => {
               notificate(ms)
             }
           })
+        }
+        return () => (isSubscribed = false)
     }, [msg, props.room])
 
     const initializeSpeech = () => {

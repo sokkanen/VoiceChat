@@ -5,6 +5,7 @@ import Head from './Head'
 const Heads = (props) => {
     
     const users = props.users.filter(u => u.room === props.room)
+    // PROPS.CHATNICK SOTKEE! ELI LOGIIKKA CHATROOMISISSA PITÄÄ TSEKATA!
 
     return (
         <div>

@@ -6,14 +6,18 @@ const InvitePopUp = (props) => {
 
     const [inviteFormVisible, setInviteFormVisible] = useState(false)
 
-    const currentRoom = props.currentRoom
+    const socket = props.socket
+    const currentRoom = props.currentRoom.name
     const privateRoom = props.privateRooms.filter(r => r.name === currentRoom)[0]
     const privateRoomUsers = privateRoom.users
 
     const invite = (event) => {
         event.preventDefault()
-        console.log(event.target.invited.value) // TÄMÄ ETEENPÄIN.
-        alert('Invitation sent!')
+        const invitation = {
+            emailOrUsername: event.target.invited.value,
+            roomId: privateRoom.id
+        }
+        socket.emit('invitation', invitation)
         event.target.invited.value = ''
     }
 

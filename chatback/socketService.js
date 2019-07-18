@@ -35,9 +35,11 @@ console.log('Client connected')
     client.on('newMessage', (message) => {
         io.emit('message', message)
     })
+
     client.on('newRoom', (room, user) => {
         newRoomHandler(room, user, client.id)
     })
+
     client.on('requestRooms', async (id) => {
         rooms = await query.getPublicRooms()
         let privateRooms = []
@@ -46,9 +48,11 @@ console.log('Client connected')
             privateRooms = await query.getPrivateRoomUsers(privateRooms)
         io.emit('rooms', rooms, privateRooms)
     })
+
     client.on('requestUsers', () => {
         io.emit('users', users)
     })
+
     client.on('roomJoin', (info) => {
         let usr = users.find(u => u.id === info.id)
         if (usr === undefined){
@@ -63,6 +67,7 @@ console.log('Client connected')
         }
         io.emit('room', info.room, info.id)
     })
+
     client.on('disconnect', () => {
         let usr = users.find(u => u.id === client.id)
         users = users.filter(u => u.id !== client.id)
@@ -70,10 +75,12 @@ console.log('Client connected')
         io.emit('users', users)
         console.log('Client disconnected')
     })
+
     client.on('newUserRegister', async (newUser) => {
         const success = await query.addNewUser(newUser.username, newUser.email, newUser.password)
         io.emit('newUserRegister', success, client.id, newUser.username)
     })
+
     client.on('login', async (credentials) => {
         const loginValue = await query.login(credentials)
         if (loginValue === false){
@@ -82,9 +89,22 @@ console.log('Client connected')
             io.emit('login', true, client.id, loginValue)
         }
     })
+
     client.on('checkChatnick', async (chatnick) => {
         const available = await query.checkChatnickAwailability(chatnick)
         io.emit('checkChatnick', available, client.id, chatnick)
+    })
+
+    client.on('invitation', async (invitation) => {
+        values = {
+            id: client.id,
+            success: false
+        }
+        const chatterId = await query.searchForEmailOrUsername(invitation.emailOrUsername)
+        chatterId === undefined ? 
+            io.emit('invitation', values)
+        : values.success = query.insertInvitation(chatterId, invitation.roomId)
+        io.emit('invitation', values)
     })
 })
 

@@ -49,6 +49,11 @@ const Chatrooms = (props) => {
               }
           }
       })
+      socket.on('invitation', (values) => {
+          if (values.id === socket.id){
+              console.log(values.success)
+          }
+      })
     },[])
 
     const newRoomVisible = () => {
@@ -136,7 +141,7 @@ const Chatrooms = (props) => {
                                 <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                             </td>
                             <td>{r.description}</td>
-                            <td><InvitePopUp currentRoom={r.name}/></td>
+                            <td><InvitePopUp currentRoom={r} socket={socket}/></td>
                             <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                             <button>Remove room</button> 
                             : null

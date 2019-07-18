@@ -136,4 +136,25 @@ const getPrivateRoomUsers = async (rooms) => {
     return users
 }
 
-module.exports = { addNewUser, login, checkChatnickAwailability, addNewRoom, getPublicRooms, getPrivateRooms, getPrivateRoomUsers }
+const searchForEmailOrUsername = async (searchPhrase) => {
+    const sql = ("SELECT id FROM Chatter WHERE username = $1 OR email = $1")
+    const values = [searchPhrase]
+    const result = await client.query(sql, values)
+    return result.rows.length === 1 ? result.rows[0].id : console.warn('No matching user found with phrase `',searchPhrase,'`.')
+}
+
+const insertInvitation = (chatterId, roomId) => {
+    return true
+}
+
+module.exports = { 
+    addNewUser, 
+    login, 
+    checkChatnickAwailability, 
+    addNewRoom, 
+    getPublicRooms, 
+    getPrivateRooms, 
+    getPrivateRoomUsers, 
+    searchForEmailOrUsername,
+    insertInvitation
+}
