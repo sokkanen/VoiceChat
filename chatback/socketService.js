@@ -87,7 +87,18 @@ console.log('Client connected')
             io.emit('login', false, client.id, null)
         } else {
             io.emit('login', true, client.id, loginValue)
+            const oldUser = users.filter(u => u.id === client.id)[0]
+            if (oldUser !== undefined){
+                const usr = {...oldUser, chatnick: loginValue.username, registered: true}
+                users = users.map(u => u.id === client.id ? usr : u)
+                io.emit('users', users)
+            }
         }
+    })
+
+    client.on('logout', () => {
+        users = users.filter(u => u.id !== client.id)
+        io.emit('users', users)
     })
 
     client.on('checkChatnick', async (chatnick) => {

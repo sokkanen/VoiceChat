@@ -54,6 +54,13 @@ const Chatrooms = (props) => {
               console.log(values.success)
           }
       })
+      return() => {
+        socket.off('error')
+        socket.off('rooms')
+        socket.off('checkChatnick')
+        socket.on('invitation')
+      }
+
     },[])
 
     const newRoomVisible = () => {
@@ -75,11 +82,13 @@ const Chatrooms = (props) => {
 
     const joinRoomHandler = (event) => {
         event.preventDefault()
+        const registered = props.user !== "" ? true : false
         const joinRoomInfo = {
             id: socket.id,
             chatnick: props.chatnick,
             room: event.target.name,
-            oldroom: window.localStorage.getItem('title')
+            oldroom: window.localStorage.getItem('title'),
+            registered: registered
         }
         socket.emit('roomJoin', joinRoomInfo)
     }

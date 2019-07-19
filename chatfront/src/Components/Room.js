@@ -28,8 +28,6 @@ const Room = (props) => {
     const [textColor, setTextColor] = useState('#62f442')
 
     useEffect(() => {
-      let isSubscribed = true
-      if (isSubscribed) {
         initializeSpeech()
         socket.emit('requestUsers')
         if (msg.length !== 0){
@@ -49,9 +47,11 @@ const Room = (props) => {
           }
         }
           socket.on('disconnected', async (user) => {
-            if (user.room === props.room){
-              const ms = `User '${user.chatnick}' disconnected.`
-              notificate(ms)
+            if (props.room !== null && user !== null){
+              if (user.room === props.room){
+                const ms = `User '${user.chatnick}' disconnected.`
+                notificate(ms)
+              }
             }
           })
           socket.on('left', (user) => {
@@ -60,8 +60,10 @@ const Room = (props) => {
               notificate(ms)
             }
           })
-        }
-        return () => (isSubscribed = false)
+          return() => {
+            socket.off('left')
+            socket.off('disconnected')
+          }
     }, [msg, props.room])
 
     const initializeSpeech = () => {

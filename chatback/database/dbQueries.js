@@ -81,6 +81,10 @@ const login = async (credentials) => {
     }
 }
 
+/*
+Checks if desired chatnick is already registered. 
+Return true if available, false if reserved.
+*/
 const checkChatnickAwailability = async (chatnick) => {
     const sql = ("SELECT * FROM chatter WHERE username = $1;")
     const values = [chatnick]

@@ -36,6 +36,7 @@ const App = (props) =>  {
     props.logoutUser()
     props.removeChatnick()
     props.removePrivateRooms()
+    socket.emit('logout')
     window.localStorage.removeItem('user')
   }
 

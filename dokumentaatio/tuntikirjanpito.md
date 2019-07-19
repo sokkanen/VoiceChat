@@ -38,4 +38,5 @@ päivä | aika | mitä tein
 16.7  | 1    | Privaattihuoneiden käyttäjien haku ja palautus.
 17.7  | 2    | Privaattihuoneiden hallinnoinnin hahmottelua ja rakentamista.
 18.7  | 2    | Privaattihuoneisiin kutsuminen 90% valmis. Oman chattinaaman toteutuksen suunnittelua.
-YHT   | 78
+20.7  | 2    | Chat erittelee rekisteröityneet. Socketin säätöä. Korjauksia kirjautumiseen ja uloskirjautumiseen.
+YHT   | 80

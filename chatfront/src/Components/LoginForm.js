@@ -21,6 +21,9 @@ const LoginForm = (props) => {
                 loginValidator(success, user)
             }
         })
+        return() => {
+            socket.off('login')
+        }
     }, [])
 
     const loginValidator = async (success, user) => {
@@ -95,6 +98,7 @@ const LoginForm = (props) => {
 const mapStateToProps = (state) => {
     return {
       notification: state.notification,
+      room: state.room
     }
   }
   

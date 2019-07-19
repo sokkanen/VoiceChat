@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import defaultFace from '../Images/1default.png'
 import aieFace from '../Images/1aei.png'
 import bmpFace from '../Images/1bmp.png'
@@ -22,7 +23,13 @@ const qw = /[qw]/
 const r = /[r]/
 const u = /[u]/
 
-const Head = ({letter, user}) => {
+const Head = (props) => {
+
+    const chatnick = props.chatnick
+    const letter = props.letter
+    const registered = props.registered
+    const user = props.user // Jos haluaa "itselle jotain erityistä merkkiä"
+
     const [img, setImg] = useState(defaultFace)
     useEffect(() => {
         if (aie.test(letter)){
@@ -49,13 +56,30 @@ const Head = ({letter, user}) => {
             setImg(defaultFace)
         }
     }, [letter])
+    
+    if (registered){
+        return (
+            <div>
+                <img src={img} alt="Cartoon head"></img>
+                <h3 style={{ color: 'green' }}>{chatnick}</h3>
+            </div>
+        )
+    }
 
     return (
         <div>
             <img src={img} alt="Cartoon head"></img>
-            <h4>{user}</h4>
+            <h4>{chatnick}</h4>
         </div>
     )
 }
 
-export default Head
+const mapStateToProps = (state) => {
+    return {
+      user: state.user
+    }
+  }
+  
+const connectedHead = connect(mapStateToProps, null)(Head)
+  
+export default connectedHead
