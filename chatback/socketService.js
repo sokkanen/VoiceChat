@@ -107,14 +107,13 @@ console.log('Client connected')
     })
 
     client.on('invitation', async (invitation) => {
-        values = {
+        let values = {
             id: client.id,
             success: false
         }
         const chatterId = await query.searchForEmailOrUsername(invitation.emailOrUsername)
-        chatterId === undefined ? 
-            io.emit('invitation', values)
-        : values.success = query.insertInvitation(chatterId, invitation.roomId)
+        chatterId === undefined ? values.success = false
+        : values.success = await query.insertInvitation(chatterId, invitation.roomId, invitation.inviter)
         io.emit('invitation', values)
     })
 })

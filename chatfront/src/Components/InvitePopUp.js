@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Popup from 'reactjs-popup'
 
@@ -10,15 +10,30 @@ const InvitePopUp = (props) => {
     const currentRoom = props.currentRoom.name
     const privateRoom = props.privateRooms.filter(r => r.name === currentRoom)[0]
     const privateRoomUsers = privateRoom.users
+    const [popUpMessage, setPopUpMessage] = useState("")
 
     const invite = (event) => {
         event.preventDefault()
-        const invitation = {
-            emailOrUsername: event.target.invited.value,
-            roomId: privateRoom.id
+        const noNick = privateRoomUsers.filter(u => u.username === event.target.invited.value || u.email === event.target.invited.value)
+         if (event.target.invited.value === props.user){
+            setPopUpMessage("You don't need to invite yourself. :)")
+            setTimeout(() => {
+                setPopUpMessage("")
+            }, 2000);
+        } else if (noNick.length === 1){
+            setPopUpMessage("Invitee is already in the list of room's users.")
+            setTimeout(() => {
+                setPopUpMessage("")
+            }, 2500);
+        } else {
+            let invitation = {
+                emailOrUsername: event.target.invited.value,
+                roomId: privateRoom.id,
+                inviter: props.user
+            }
+            socket.emit('invitation', invitation)
+            event.target.invited.value = ''
         }
-        socket.emit('invitation', invitation)
-        event.target.invited.value = ''
     }
 
     const InviteForm = () => {
@@ -27,15 +42,19 @@ const InvitePopUp = (props) => {
         }
         return (
             <div>
-                <form onSubmit={invite}>
-                <div>
-                    <label>Email or Username to be invited:</label>
-                    <input name="invited"></input>
-                </div>
-                <div>
-                    <button type="submit">Invite!</button>
-                </div>
-            </form>
+                {popUpMessage === "" && props.inviteStatus === ""
+                    ? <div>
+                        <form onSubmit={invite}>
+                        <label>Email or Username to be invited:</label>
+                        <input name="invited"></input>
+                        <button type="submit">Invite!</button>
+                        </form>
+                    </div>
+                    : <div>
+                        <h3 style={{ color: 'green' }}>{popUpMessage}</h3>
+                        <h3 style={{ color: 'green' }}>{props.inviteStatus}</h3>
+                    </div>
+                }
             </div>
         )
     }
@@ -66,7 +85,9 @@ const InvitePopUp = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-      privateRooms: state.privateRooms
+      privateRooms: state.privateRooms,
+      user: state.user,
+      inviteStatus: state.inviteStatus
     }
   }
   

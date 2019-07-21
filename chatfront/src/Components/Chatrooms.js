@@ -5,6 +5,7 @@ import { setRoom } from '../Reducers/RoomReducer'
 import { setRooms } from '../Reducers/RoomsReducer'
 import { setPrivateRooms } from '../Reducers/PrivateRoomsReducer'
 import { setChatnick} from '../Reducers/ChatnickReducer'
+import { setInviteStatus } from '../Reducers/InviteStatusReducer'
 import InvitePopUp from './InvitePopUp'
 import './Forms.css'
 import NewRoomForm from './NewRoomForm'
@@ -48,17 +49,27 @@ const Chatrooms = (props) => {
                 alert(`${chatnick} not available. Please try another.`)
               }
           }
-      })
-      socket.on('invitation', (values) => {
-          if (values.id === socket.id){
-              console.log(values.success)
-          }
-      })
+      }) 
+    socket.on('invitation', (values) => {
+    if (values.id === socket.id){
+        if (values.success === true){
+            props.setInviteStatus("User invited")
+            setTimeout(() => {
+                props.setInviteStatus("")
+            }, 2500);
+        } else {
+            props.setInviteStatus("User not found or user already invited to the room.")
+            setTimeout(() => {
+                props.setInviteStatus("")
+            }, 2500);
+        }
+    }
+    })
       return() => {
         socket.off('error')
         socket.off('rooms')
         socket.off('checkChatnick')
-        socket.on('invitation')
+        socket.off('invitation')
       }
 
     },[])
@@ -119,7 +130,7 @@ const Chatrooms = (props) => {
                             <th>Description</th>
                         </tr>
                         {props.rooms.map(r =>
-                        <tr key={r.name}>
+                        <tr key={r.id}>
                             <td onClick={joinRoomHandler}>
                                 <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                             </td>
@@ -209,7 +220,8 @@ const mapStateToProps = (state) => {
     setRoom,
     setRooms,
     setPrivateRooms,
-    setChatnick
+    setChatnick,
+    setInviteStatus
   }
   
   const connectedChatRooms = connect(mapStateToProps, mapDispatchToProps)(Chatrooms)

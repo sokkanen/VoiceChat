@@ -126,7 +126,7 @@ const getPrivateRoomUsers = async (rooms) => {
     const users = []
     for(i=0;i<rooms.length;i++){
         const values = [ rooms[i].id ]
-        const sql = `SELECT id, username FROM Chatter JOIN room_chatter ON chatter.id = room_chatter.chatter_id WHERE Room_chatter.room_id = $1;`
+        const sql = `SELECT id, username, email FROM Chatter JOIN room_chatter ON chatter.id = room_chatter.chatter_id WHERE Room_chatter.room_id = $1;`
         const result = await client.query(sql, values)
         room = {
             id: rooms[i].id,
@@ -147,8 +147,20 @@ const searchForEmailOrUsername = async (searchPhrase) => {
     return result.rows.length === 1 ? result.rows[0].id : console.warn('No matching user found with phrase `',searchPhrase,'`.')
 }
 
-const insertInvitation = (chatterId, roomId) => {
-    return true
+const insertInvitation = async (chatterId, roomId, inviter) => {
+    /*const verified = jwt.verify(user.token, process.env.TOKENSECRET)
+    if (!verified.id || !user.token){
+        return false
+    }*/
+    try {
+        const sql = ("INSERT INTO Invite(chatter_id, room_id, inviter) VALUES ($1, $2, $3)")
+        const values = [chatterId, roomId, inviter]
+        const result = await client.query(sql, values)
+        return result.rowCount === 1 ? true : false
+    } catch (error) {
+        console.log("User is already invited to the room.")
+        return false
+    }
 }
 
 module.exports = { 
@@ -156,7 +168,7 @@ module.exports = {
     login, 
     checkChatnickAwailability, 
     addNewRoom, 
-    getPublicRooms, 
+    getPublicRooms,
     getPrivateRooms, 
     getPrivateRoomUsers, 
     searchForEmailOrUsername,
