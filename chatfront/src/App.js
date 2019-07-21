@@ -8,6 +8,7 @@ import { setUsers } from './Reducers/UsersReducer'
 import { logoutUser } from './Reducers/UserReducer'
 import { removeChatnick } from './Reducers/ChatnickReducer'
 import { removePrivateRooms } from './Reducers/PrivateRoomsReducer'
+import Invites from './Components/Invites'
 
 import Chatrooms from './Components/Chatrooms'
 import Room from './Components/Room'
@@ -49,12 +50,17 @@ const App = (props) =>  {
             <Link style={style} to="/">Home</Link>
             <Link style={style} to="/rooms">Chatrooms</Link>
             <Link style={style} to="/register">New User</Link>
+          </div>
+          <div>
             {'Logged in: ' + props.user}
-            <button onClick={logOutHandler}>LogOut</button>
+            <button onClick={logOutHandler}>LogOut</button> 
+            <Invites socket={socket}/>
           </div>
             <Route exact path="/" render={() => <Home/>}/>
             <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
-            <Route path="/login" render={() => <LoginForm socket={socket}/>}/>
+            <Route path="/login" render={() => props.user === '' ? 
+              <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
+              }/>
             <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
             <Route exact path="/rooms/:title" render={({ match }) => 
               props.chatnick === '' ? <Redirect to="/rooms"/> :
@@ -78,7 +84,9 @@ const App = (props) =>  {
             </div>
               <Route exact path="/" render={() => <Home/>}/>
               <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
-              <Route path="/login" render={() => <LoginForm socket={socket}/>}/>
+              <Route path="/login" render={() => props.user === '' ? 
+              <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
+              }/>
               <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
               <Route exact path="/rooms/:title" render={({ match }) => 
                 props.chatnick === '' ? <Redirect to="/rooms"/> :

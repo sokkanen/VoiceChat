@@ -65,11 +65,15 @@ const Chatrooms = (props) => {
         }
     }
     })
+    socket.on('updatedPrivateRooms', (updatedRooms) => {
+        props.setPrivateRooms(updatedRooms)
+    })
       return() => {
         socket.off('error')
         socket.off('rooms')
         socket.off('checkChatnick')
         socket.off('invitation')
+        socket.off('updatedPrivateRooms')
       }
 
     },[])

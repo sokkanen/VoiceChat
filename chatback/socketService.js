@@ -116,6 +116,14 @@ console.log('Client connected')
         : values.success = await query.insertInvitation(chatterId, invitation.roomId, invitation.inviter)
         io.emit('invitation', values)
     })
+    client.on('acceptInvitation', async (invitation) => {
+        await query.acceptInvitation(invitation)
+        const privateRooms = await query.getPrivateRooms(invitation.invitee_id)
+        io.emit('updatedPrivateRooms', privateRooms)
+    })
+    client.on('declineInvitation', async (invitation) => {
+        await query.removeInvitation(invitation)
+    })
 })
 
 const listen = () => {

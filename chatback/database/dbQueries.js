@@ -70,10 +70,19 @@ const login = async (credentials) => {
             id: returnvalue.rows[0].id
         }
         const token = await jwt.sign(tokenVariables, process.env.TOKENSECRET)
-        const userInfo = {
+        let userInfo = {
             token: token,
             username: returnvalue.rows[0].username,
             id: returnvalue.rows[0].id
+        }
+        try {
+            const inviteSql = ("SELECT invite.inviter AS inviter, room.name AS room, room.id AS room_id, chatter_id AS invitee_id\
+            FROM invite FULL JOIN room ON invite.room_id = room.id WHERE invite.chatter_id = $1;")
+            const inviteValues = [userInfo.id]
+            const invites = await client.query(inviteSql, inviteValues)
+            userInfo.invites = invites.rows
+        } catch (error){
+            console.log("Error in getting invitations")
         }
         return userInfo
     } catch (error) {
@@ -163,6 +172,35 @@ const insertInvitation = async (chatterId, roomId, inviter) => {
     }
 }
 
+const removeInvitation = async (invitation) => {
+    try {
+        const sql = ("DELETE FROM Invite WHERE chatter_id = $1 AND room_id = $2 AND inviter = $3")
+        const values = [invitation.invitee_id, invitation.room_id, invitation.inviter]
+        const result = await client.query(sql, values)
+        return result.rowCount === 1 ? true : false
+    } catch (error) {
+        console.log("Invitation not found.")
+        return false
+    }
+}
+
+const acceptInvitation = async (invitation) => {
+    try {
+        await client.query("BEGIN")
+        const sql = ("DELETE FROM Invite WHERE chatter_id = $1 AND room_id = $2 AND inviter = $3")
+        const values = [invitation.invitee_id, invitation.room_id, invitation.inviter]
+        await client.query(sql, values)
+        const sql2 = ("INSERT INTO Room_chatter (chatter_id, room_id) VALUES ($1, $2)")
+        const values2 = [invitation.invitee_id, invitation.room_id]
+        await client.query(sql2, values2)
+        await client.query("COMMIT")
+        return true
+    } catch (error) {
+        console.log("Error in accepting invitation.")
+        return false
+    }
+}
+
 module.exports = { 
     addNewUser, 
     login, 
@@ -172,5 +210,7 @@ module.exports = {
     getPrivateRooms, 
     getPrivateRoomUsers, 
     searchForEmailOrUsername,
-    insertInvitation
+    insertInvitation,
+    removeInvitation,
+    acceptInvitation
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUser } from '../Reducers/UserReducer'
 import { setChatnick } from '../Reducers/ChatnickReducer'
+import { setInvites } from '../Reducers/InvitesReducer'
 import { connect } from 'react-redux'
 import Notification from './Notification'
 import './Forms.css'
@@ -33,6 +34,7 @@ const LoginForm = (props) => {
             window.localStorage.setItem('user', JSON.stringify(user))
             props.setUser(user.username)
             props.setChatnick(user.username)
+            props.setInvites(user.invites)
             await notificate(welcome)
             setUsername('')
             setPassword('')
@@ -105,7 +107,8 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = {
     setNotification,
     setUser,
-    setChatnick
+    setChatnick,
+    setInvites
   }
   
   const connectedLoginForm = connect(mapStateToProps, mapDispatchToProps)(LoginForm)
