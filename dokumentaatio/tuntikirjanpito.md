@@ -41,4 +41,5 @@ päivä | aika | mitä tein
 20.7  | 2    | Chat erittelee rekisteröityneet. Socketin säätöä. Korjauksia kirjautumiseen ja uloskirjautumiseen.
 21.7  | 2    | Kutsuminen toimii (Ei vielä ilmoitusta kutsutulle.) ja kutsun status palautuu kutsuikkunaan.
 21.7  | 2    | Kutsu näkyy kutsutulla. Kutsun voi hylätä ja hyväksyä. Privaattihuoneet ja kutsut päivittyvät valinnan mukaan.
-YHT   | 84
+22.7  | 1    | Huoneiden poistaminen.
+YHT   | 85

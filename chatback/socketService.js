@@ -29,6 +29,15 @@ const newRoomHandler = async (room, user, id) => {
     }
 }
 
+const roomUpdater = async (id) => {
+    rooms = await query.getPublicRooms()
+    let privateRooms = []
+    if (id)
+        privateRooms = await query.getPrivateRooms(id)
+        privateRooms = await query.getPrivateRoomUsers(privateRooms)
+    io.emit('rooms', rooms, privateRooms)
+}
+
 io.on('connection', (client) => {
 console.log('Client connected')
 
@@ -41,12 +50,7 @@ console.log('Client connected')
     })
 
     client.on('requestRooms', async (id) => {
-        rooms = await query.getPublicRooms()
-        let privateRooms = []
-        if (id)
-            privateRooms = await query.getPrivateRooms(id)
-            privateRooms = await query.getPrivateRoomUsers(privateRooms)
-        io.emit('rooms', rooms, privateRooms)
+        roomUpdater(id)
     })
 
     client.on('requestUsers', () => {
@@ -123,6 +127,13 @@ console.log('Client connected')
     })
     client.on('declineInvitation', async (invitation) => {
         await query.removeInvitation(invitation)
+    })
+    client.on('removeRoom', async (room, token) => {
+        const id = await query.removeRoom(room, token)
+        if (id === false){
+            console.log('Error in removing room')
+        }
+        roomUpdater(id)
     })
 })
 

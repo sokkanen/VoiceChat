@@ -108,12 +108,18 @@ const Chatrooms = (props) => {
         socket.emit('roomJoin', joinRoomInfo)
     }
 
-
     const setChatNickname = (event) => {
         event.preventDefault()
         socket.emit('checkChatnick', event.target.chatnick.value)
         event.target.chatnick.value = ''
-      }
+    }
+
+    const removeRoom = (room) => () => {
+        if (window.confirm(`Do you really want to remove ${room.name}`)){
+            const token = JSON.parse(window.localStorage.getItem('user')).token
+            socket.emit('removeRoom', room, token)
+        }
+    }
 
     if (props.chatnick !== ''){
         return (
@@ -140,7 +146,7 @@ const Chatrooms = (props) => {
                             </td>
                             <td>{r.description}</td>
                             <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
-                            <button>Remove room</button> 
+                            <button onClick={removeRoom(r)}>Remove room</button> 
                             : 
                             null
                             : null}</td>
@@ -167,7 +173,7 @@ const Chatrooms = (props) => {
                             <td>{r.description}</td>
                             <td><InvitePopUp currentRoom={r} socket={socket}/></td>
                             <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
-                            <button>Remove room</button> 
+                            <button onClick={removeRoom(r)}>Remove room</button> 
                             : null
                             : null}</td>
                         </tr>

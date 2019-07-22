@@ -7,10 +7,9 @@ import { setInvites } from '../Reducers/InvitesReducer'
 
 const Invites = (props) => {
 
-    const privateRooms = props.privateRooms
     const invites = props.invites
     const socket = props.socket
-    
+
     const acceptInvitation = (invitation) => () => {
         socket.emit('acceptInvitation', invitation)
         props.setInvites(invites.filter(i => i.room_id !== invitation.room_id))

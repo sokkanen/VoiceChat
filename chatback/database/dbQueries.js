@@ -201,6 +201,30 @@ const acceptInvitation = async (invitation) => {
     }
 }
 
+const removeRoom = async (room, token) => {
+    const verified = jwt.verify(token, process.env.TOKENSECRET)
+    if (!verified.id || !token || verified.id !== room.owner_id){
+        return false
+    }
+    try {
+        await client.query("BEGIN")
+        const sql2 = ("DELETE FROM Room_chatter WHERE room_id = $1")
+        const values2 = [room.id]
+        await client.query(sql2, values2)
+        const sql3 = ("DELETE FROM Invite WHERE room_id = $1")
+        const values3 = [room.id]
+        await client.query(sql3, values3)
+        const sql = ("DELETE FROM Room WHERE id = $1 AND owner_id = $2")
+        const values = [room.id, room.owner_id]
+        await client.query(sql, values)
+        await client.query("COMMIT")
+        return verified.id
+    } catch (error) {
+        console.log("Error in accepting invitation.")
+        return false
+    }
+}
+
 module.exports = { 
     addNewUser, 
     login, 
@@ -212,5 +236,6 @@ module.exports = {
     searchForEmailOrUsername,
     insertInvitation,
     removeInvitation,
-    acceptInvitation
+    acceptInvitation,
+    removeRoom
 }
