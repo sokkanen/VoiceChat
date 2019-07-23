@@ -15,6 +15,7 @@ import Room from './Components/Room'
 import NewUserForm from './Components/NewUserForm'
 import LoginForm from './Components/LoginForm'
 import Home from './Components/Home'
+import Ownface from './Components/Ownface'
 
 const socket = openSocket('http://localhost:3003/')
 
@@ -49,7 +50,7 @@ const App = (props) =>  {
           <div>
             <Link style={style} to="/">Home</Link>
             <Link style={style} to="/rooms">Chatrooms</Link>
-            <Link style={style} to="/register">New User</Link>
+            <Link style={style} to="/alterface">Create chatface</Link>
           </div>
           <div>
             {'Logged in: ' + props.user}
@@ -57,7 +58,7 @@ const App = (props) =>  {
             <Invites socket={socket}/>
           </div>
             <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
+            <Route path="/alterface" render={() => <Ownface/>}/>
             <Route path="/login" render={() => props.user === '' ? 
               <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
               }/>
@@ -84,6 +85,7 @@ const App = (props) =>  {
             </div>
               <Route exact path="/" render={() => <Home/>}/>
               <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
+              <Route path="/alterface" render={() => <Ownface/>}/>
               <Route path="/login" render={() => props.user === '' ? 
               <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
               }/>
