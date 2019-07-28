@@ -43,4 +43,5 @@ päivä | aika | mitä tein
 21.7  | 2    | Kutsu näkyy kutsutulla. Kutsun voi hylätä ja hyväksyä. Privaattihuoneet ja kutsut päivittyvät valinnan mukaan.
 22.7  | 1    | Huoneiden poistaminen.
 23.7  | 2    | Webcam-kirjastojen vertailua ja kokeilua. Toimiva alkeellinen kamera ohjelmassa.
-YHT   | 87
+28.7  | 1    | Toimiva kuvauslooppi.
+YHT   | 88
