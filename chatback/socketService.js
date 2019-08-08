@@ -25,7 +25,7 @@ const newRoomHandler = async (room, user, id) => {
       id: id,
       message: `Room ${room.title} already exists. Please choose another roomname.`
     }
-    io.emit('error', msg)
+    io.to(id).emit('error', msg)
   }
 }
 
@@ -54,7 +54,7 @@ io.on('connection', (client) => {
   })
 
   client.on('requestUsers', () => {
-    io.emit('users', users)
+    io.to(client.id).emit('users', users)
   })
 
   client.on('roomJoin', (info) => {
@@ -69,7 +69,7 @@ io.on('connection', (client) => {
         io.emit('left', usr)
       }
     }
-    io.emit('room', info.room, info.id)
+    io.to(client.id).emit('room', info.room, info.id)
   })
 
   client.on('disconnect', () => {
@@ -82,15 +82,15 @@ io.on('connection', (client) => {
 
   client.on('newUserRegister', async (newUser) => {
     const success = await query.addNewUser(newUser.username, newUser.email, newUser.password)
-    io.emit('newUserRegister', success, client.id, newUser.username)
+    io.to(client.id).emit('newUserRegister', success, client.id, newUser.username)
   })
 
   client.on('login', async (credentials) => {
     const loginValue = await query.login(credentials)
     if (loginValue === false){
-      io.emit('login', false, client.id, null)
+      io.to(client.id).emit('login', false, client.id, null)
     } else {
-      io.emit('login', true, client.id, loginValue)
+      io.to(client.id).emit('login', true, client.id, loginValue)
       const oldUser = users.filter(u => u.id === client.id)[0]
       if (oldUser !== undefined){
         const usr = { ...oldUser, chatnick: loginValue.username, registered: true }
@@ -107,7 +107,7 @@ io.on('connection', (client) => {
 
   client.on('checkChatnick', async (chatnick) => {
     const available = await query.checkChatnickAwailability(chatnick)
-    io.emit('checkChatnick', available, client.id, chatnick)
+    io.to(client.id).emit('checkChatnick', available, client.id, chatnick)
   })
 
   client.on('invitation', async (invitation) => {
@@ -118,12 +118,13 @@ io.on('connection', (client) => {
     const chatterId = await query.searchForEmailOrUsername(invitation.emailOrUsername)
     chatterId === undefined ? values.success = false
       : values.success = await query.insertInvitation(chatterId, invitation.roomId, invitation.inviter)
-    io.emit('invitation', values)
+    io.to(client.id).emit('invitation', values)
   })
   client.on('acceptInvitation', async (invitation) => {
     await query.acceptInvitation(invitation)
-    const privateRooms = await query.getPrivateRooms(invitation.invitee_id)
-    io.emit('updatedPrivateRooms', privateRooms)
+    let privateRooms = await query.getPrivateRooms(invitation.invitee_id)
+    privateRooms = await query.getPrivateRoomUsers(privateRooms)
+    io.to(client.id).emit('updatedPrivateRooms', privateRooms)
   })
   client.on('declineInvitation', async (invitation) => {
     await query.removeInvitation(invitation)

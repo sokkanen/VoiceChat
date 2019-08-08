@@ -21,24 +21,25 @@ const validatePassword = (password, passhash) => {
 
 const addNewRoom = async (room, user) => {
   const verified = jwt.verify(user.token, process.env.TOKENSECRET)
-  if (!verified.id || !user.token){
+  if (!verified.id ||!user.token){
     return false
   }
-  await client.query('BEGIN;') // Beginning transaction
   const sql = ('INSERT INTO room (id, name, description, private, owner_id) values ($1, $2, $3, $4, $5)')
   const id = uuid()
   const values = [id, room.title, room.description, room.private, verified.id]
-  await client.query(sql, values)
+  try {
+    await client.query(sql, values)
+  } catch(error){
+    return false
+  }
   if (room.private){
     const sql2 = ('INSERT INTO room_chatter (chatter_id, room_id) values ($1, $2)')
     const values2 = [verified.id, id]
-    await client.query(sql2, values2)
-  }
-  try {
-    await client.query('COMMIT;') // Commiting transaction
-  } catch (error){
-    console.log(error)
-    return false
+    try {
+      await client.query(sql2, values2)
+    } catch(error){
+      return false
+    }
   }
   return true
 }
@@ -133,11 +134,11 @@ const getPrivateRooms = async (id) => {
 
 const getPrivateRoomUsers = async (rooms) => {
   const users = []
-  for(i=0;i<rooms.length;i++){
+  for(let i=0;i<rooms.length;i++){
     const values = [ rooms[i].id ]
     const sql = 'SELECT id, username, email FROM Chatter JOIN room_chatter ON chatter.id = room_chatter.chatter_id WHERE Room_chatter.room_id = $1;'
     const result = await client.query(sql, values)
-    room = {
+    const room = {
       id: rooms[i].id,
       name: rooms[i].name,
       description: rooms[i].description,

@@ -44,4 +44,5 @@ päivä | aika | mitä tein
 22.7  | 1    | Huoneiden poistaminen.
 23.7  | 2    | Webcam-kirjastojen vertailua ja kokeilua. Toimiva alkeellinen kamera ohjelmassa.
 28.7  | 1    | Toimiva kuvauslooppi.
-YHT   | 88
+8.8   | 2    | Validointia kaavakkeille. Socketin toiminnan optimointia, kyselyiden parantelua.
+YHT   | 90

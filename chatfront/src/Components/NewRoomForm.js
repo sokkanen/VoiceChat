@@ -9,24 +9,39 @@ const NewRoomForm = (props) => {
 
     const createNew = async (event) => {
         event.preventDefault()
-        const room = {
-            title: event.target.title.value,
-            description: event.target.description.value,
-            private: event.target.private.value === 'YES' ? true : false,
-        }
-        event.target.title.value = ''
-        event.target.description.value = ''
-        event.target.private.value = 'NO'
-        if (room.title === ''){
-            alert(`New room must have a title!`)
-        } else {
-            const usr = {
-                name: props.user,
-                token: JSON.parse(window.localStorage.getItem('user')).token
+        if (validate(event.target)){
+            const room = {
+                title: event.target.title.value,
+                description: event.target.description.value,
+                private: event.target.private.value === 'YES' ? true : false,
             }
-            await socket.emit('newRoom', room, usr)
-            socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
+            event.target.title.value = ''
+            event.target.description.value = ''
+            event.target.private.value = 'NO'
+            if (room.title === ''){
+                alert(`New room must have a title!`)
+            } else {
+                const usr = {
+                    name: props.user,
+                    token: JSON.parse(window.localStorage.getItem('user')).token
+                }
+                await socket.emit('newRoom', room, usr)
+                socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
+            }
         }
+    }
+
+    const validate = (target) => {
+        const title = target.title.value
+        const description = target.description.value
+        if (title.length < 5 || title.length > 128){
+            alert('Room title must be between 5 and 128 characters')
+            return false
+        } else if (description.length > 256){
+            alert('Maximum length for description is 256 characters.')
+            return false
+        }
+        return true
     }
 
     if (!visible){

@@ -74,6 +74,10 @@ const NewUserForm = (props) => {
             alert('Invalid email-address')
             setEmailField('error_field')
             return false
+        } else if (username.length < 4 || username.length > 20){
+            alert('Username must be between 4 and 20 characters.')
+            setUsernameField('error_field')
+            return false
         }
         setUsernameField('field')
         setEmailField('field')
