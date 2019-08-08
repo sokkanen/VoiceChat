@@ -1,8 +1,38 @@
 import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
+import { setFaces } from '../Reducers/OwnFaceReducer'
+
+const images = [
+    'nothing! just smile',
+    'aaaaaaa',
+    'bbbbbbb',
+    'ccccccc',
+    'fffffff',
+    'jjjjjjj',
+    'lllllll',
+    'ooooooo',
+    'qqqqqqq',
+    'rrrrrrr',
+    'uuuuuuu',
+    'All set!'
+]
+
+/*const fileNames = [
+    'defaultFace',
+    'aieFace',
+    'bmpFace',
+    'cdgknstxyzFace',
+    'fvFace',
+    'jFace',
+    'lFace',
+    'oFace',
+    'qwFace',
+    'rFace',
+    'uFace' 
+]*/
 
 const Ownface = (props) => {
-
     const [image, setImage] = useState('')
     const [camera, setCamera] = useState(null)
     const [info, setInfo] = useState('Hi! Welcome to custom chatface builder! Click button to start taking your pictures!')
@@ -26,20 +56,6 @@ const Ownface = (props) => {
     }
 
     const takeUserImages = () => {
-        const images = [
-            'nothing! just smile',
-            'aaaaaaa',
-            'bbbbbbb',
-            'ccccccc',
-            'fffffff',
-            'jjjjjjj',
-            'lllllll',
-            'ooooooo',
-            'qqqqqqq',
-            'rrrrrrr',
-            'uuuuuuu',
-            'All set!'
-        ]
         setInfo(`say ${images[0]}!`)
         const start = (counter) => {
             if(counter < 12){
@@ -51,11 +67,11 @@ const Ownface = (props) => {
                     setInfo(images[counter-1])
                 }
                 takePhoto()
-                start(counter);
-              }, 2000);
+                start(counter)
+              }, 200);
             }
           }
-          start(1);
+          start(1)
     }
 
     const takePhoto = () => {
@@ -64,6 +80,7 @@ const Ownface = (props) => {
         }
         let dataUri = camera.getDataUri(config);
         setImage(dataUri)
+        props.setFaces(dataUri)
     }
 
     const stopCamera = () => {
@@ -91,4 +108,19 @@ const Ownface = (props) => {
     );
 }
 
-export default Ownface
+const mapStateToProps = (state) => {
+    return {
+      faces: state.faces
+    }
+  }
+  
+  const mapDispatchToProps = {
+      setFaces
+  }
+  
+  const connectedOwnFace = connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Ownface)
+  
+  export default connectedOwnFace

@@ -14,6 +14,7 @@ import chatnickReducer from './Reducers/ChatnickReducer';
 import privateRoomsReducer from './Reducers/PrivateRoomsReducer';
 import inviteStatusReducer from './Reducers/InviteStatusReducer';
 import invitesReducer from './Reducers/InvitesReducer';
+import ownFaceReducer from './Reducers/OwnFaceReducer';
 
 const reducer = combineReducers({
   rooms: roomsReducer,
@@ -27,7 +28,8 @@ const reducer = combineReducers({
   message: messageReducer,
   chatnick: chatnickReducer,
   inviteStatus: inviteStatusReducer,
-  invites: invitesReducer
+  invites: invitesReducer,
+  faces: ownFaceReducer
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
