@@ -28,34 +28,36 @@ const Head = (props) => {
     const chatnick = props.chatnick
     const letter = props.letter
     const registered = props.registered
-    const user = props.user // Jos haluaa "itselle jotain erityistä merkkiä"
+    const user = props.user
 
-    const [img, setImg] = useState(defaultFace)
+    // LAAJENNETTAVA USEAN KÄYTTÄJÄN KUVILLE.
+
+    const [img, setImg] = useState(props.faces.defaultFace === null ? defaultFace : props.faces.defaultFace)
     useEffect(() => {
         if (aie.test(letter)){
-            setImg(aieFace)
-        } else if(bmp.test(letter)){
-            setImg(bmpFace)
-        } else if (cdgknstxyz.test(letter)){
-            setImg(cdgknstxyzFace)
-        } else if (fv.test(letter)){
-            setImg(fvFace)
-        } else if (j.test(letter)){
-            setImg(jFace)
-        } else if (l.test(letter)){
-            setImg(lFace)
-        } else if (o.test(letter)){
-            setImg(oFace)
-        } else if (qw.test(letter)){
-            setImg(qwFace)
-        } else if (r.test(letter)){
-            setImg(rFace)
-        } else if (u.test(letter)){
-            setImg(uFace)
+            setImg(props.faces.defaultFace === null ? aieFace : props.faces.aieFace)
+        } else if(bmp.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? bmpFace : props.faces.aieFace)
+        } else if (cdgknstxyz.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? cdgknstxyzFace : props.faces.cdgknstxyzFace)
+        } else if (fv.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? fvFace : props.faces.fvFace)
+        } else if (j.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? jFace : props.faces.jFace)
+        } else if (l.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? lFace : props.faces.lFace)
+        } else if (o.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? oFace : props.faces.oFace)
+        } else if (qw.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? qwFace : props.faces.qwFace)
+        } else if (r.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? rFace : props.faces.rFace)
+        } else if (u.test(letter.toLowerCase())){
+            setImg(props.faces.defaultFace === null ? uFace : props.faces.uFace)
         } else {
-            setImg(defaultFace)
+            setImg(props.faces.defaultFace === null ? defaultFace : props.faces.defaultFace)
         }
-    }, [letter])
+    }, [letter, props.faces])
     
     if (registered){
         return (
@@ -76,7 +78,8 @@ const Head = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-      user: state.user
+      user: state.user,
+      faces: state.faces
     }
   }
   

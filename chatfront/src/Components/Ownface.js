@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { setFaces } from '../Reducers/OwnFaceReducer'
+import defaultFace from '../Images/1default.png'
 
 const images = [
     'nothing! just smile',
@@ -18,31 +19,15 @@ const images = [
     'All set!'
 ]
 
-/*const fileNames = [
-    'defaultFace',
-    'aieFace',
-    'bmpFace',
-    'cdgknstxyzFace',
-    'fvFace',
-    'jFace',
-    'lFace',
-    'oFace',
-    'qwFace',
-    'rFace',
-    'uFace' 
-]*/
-
 const Ownface = (props) => {
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState(defaultFace)
     const [camera, setCamera] = useState(null)
     const [info, setInfo] = useState('Hi! Welcome to custom chatface builder! Click button to start taking your pictures!')
-    const config = {}
     const photoRef = React.createRef();
 
     useEffect(() => {
         const cmra = new CameraPhoto(photoRef.current)
         setCamera(cmra)
-        setImage(cmra.getDataUri(config))
     }, [])
 
     const startCamera = (idealFacingMode, idealResolution) => {
@@ -55,32 +40,49 @@ const Ownface = (props) => {
         });
     }
 
-    const takeUserImages = () => {
+    const takeUserImages = async () => {
+        let facingMode = FACING_MODES.USER
+        let idealResolution = { width: 320, height: 480 }
+        await startCamera(facingMode, idealResolution)
         setInfo(`say ${images[0]}!`)
         const start = (counter) => {
             if(counter < 12){
-              setTimeout(() => {
+              setTimeout( async () => {
                 counter++;
                 if (counter !== 12){
                     setInfo(`say ${images[counter-1]}!`)
                 } else {
                     setInfo(images[counter-1])
+                    if (window.confirm('Press OK if you are happy with your photos. Press Cancel to retake you photos.')){
+                        stopCamera()
+                    } else {
+                        takeUserImages()
+                    }
                 }
-                takePhoto()
+                takePhoto(counter)
                 start(counter)
-              }, 200);
+              }, 2000);
             }
           }
           start(1)
     }
 
-    const takePhoto = () => {
-        const config = {
-        sizeFactor: 1
+    const takePhoto = (index) => {
+        console.log(index)
+        if (index !== 12){
+            const config = {
+                sizeFactor: 1
+                }
+                let dataUri = camera.getDataUri(config);
+                const imageInfo = {
+                    index: index-2,
+                    image: dataUri
+                }
+                setImage(dataUri)
+                props.setFaces(imageInfo)
+        } else {
+            setImage(defaultFace)
         }
-        let dataUri = camera.getDataUri(config);
-        setImage(dataUri)
-        props.setFaces(dataUri)
     }
 
     const stopCamera = () => {
@@ -94,16 +96,10 @@ const Ownface = (props) => {
     }
     return (
     <div>
-        <button onClick={() => {
-            let facingMode = FACING_MODES.USER
-            let idealResolution = { width: 320, height: 240 }
-            startCamera(facingMode, idealResolution)
-        }}> Turn on your camera </button>
-        <button onClick={() => {stopCamera()}}> Turn off your camera </button>
         <video ref={photoRef} autoPlay={true}/>
         <img alt="CamPhoto" src={image}/>
-        <button onClick={() => takeUserImages()}>Start taking your pictures!</button>
         <h1>{info}</h1>
+        <button onClick={() => takeUserImages()}>Start taking your pictures!</button>
     </div>
     );
 }

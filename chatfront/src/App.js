@@ -8,6 +8,7 @@ import { setUsers } from './Reducers/UsersReducer'
 import { logoutUser } from './Reducers/UserReducer'
 import { removeChatnick } from './Reducers/ChatnickReducer'
 import { removePrivateRooms } from './Reducers/PrivateRoomsReducer'
+import { removeFaces } from './Reducers/OwnFaceReducer'
 import Invites from './Components/Invites'
 
 import Chatrooms from './Components/Chatrooms'
@@ -38,6 +39,7 @@ const App = (props) =>  {
     props.logoutUser()
     props.removeChatnick()
     props.removePrivateRooms()
+    props.removeFaces()
     socket.emit('logout')
     window.localStorage.removeItem('user')
   }
@@ -85,7 +87,7 @@ const App = (props) =>  {
             </div>
               <Route exact path="/" render={() => <Home/>}/>
               <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
-              <Route path="/alterface" render={() => <Ownface/>}/>
+              <Route path="/alterface" render={() => <Home/>}/>
               <Route path="/login" render={() => props.user === '' ? 
               <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
               }/>
@@ -114,7 +116,8 @@ const mapDispatchToProps = {
   setUsers,
   logoutUser,
   removeChatnick,
-  removePrivateRooms
+  removePrivateRooms,
+  removeFaces
 }
 
 const connectedApp = connect(

@@ -45,4 +45,5 @@ päivä | aika | mitä tein
 23.7  | 2    | Webcam-kirjastojen vertailua ja kokeilua. Toimiva alkeellinen kamera ohjelmassa.
 28.7  | 1    | Toimiva kuvauslooppi.
 8.8   | 4    | Validointia kaavakkeille. Socketin toiminnan optimointia, kyselyiden parantelua. Omat kuvat Reduxiin. Mongon hahmottelua.
-YHT   | 92
+9.8   | 2    | Kuvien reduxoinnin parannus, Oma kuvasarja toimii chatissa lokaalisti (Käyttäjien kuvia ei vielä erotella.). Kuvien ottaminen rekiströityneille.
+YHT   | 94
