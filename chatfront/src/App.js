@@ -26,20 +26,18 @@ const App = (props) =>  {
     socket.on('message', (msg) => {
       props.newMessage(msg)
     })
-    socket.on('users', (changedUsers) => {
-      props.setUsers(changedUsers)
-    })
   }, [])
   
   const roomByTitle = (title) => props.rooms.find(r => r.title === title)
 
-  const style = { padding: 10 } // CSS-tiedostoon
+  const style = { padding: 10 } // --> .css
 
   const logOutHandler = () => {
     props.logoutUser()
     props.removeChatnick()
     props.removePrivateRooms()
     props.removeFaces()
+    props.setUsers([])
     socket.emit('logout')
     window.localStorage.removeItem('user')
   }

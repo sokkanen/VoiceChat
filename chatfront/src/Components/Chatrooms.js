@@ -6,6 +6,7 @@ import { setRooms } from '../Reducers/RoomsReducer'
 import { setPrivateRooms } from '../Reducers/PrivateRoomsReducer'
 import { setChatnick} from '../Reducers/ChatnickReducer'
 import { setInviteStatus } from '../Reducers/InviteStatusReducer'
+import { setUsers } from '../Reducers/UsersReducer'
 import InvitePopUp from './InvitePopUp'
 import './Forms.css'
 import NewRoomForm from './NewRoomForm'
@@ -20,7 +21,6 @@ const Chatrooms = (props) => {
     const Link = props.Link
   
     useEffect(() => {
-      socket.emit('requestUsers')
       if (props.user){
         socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
       } else {
@@ -32,10 +32,10 @@ const Chatrooms = (props) => {
           notificate(msg.message)
         }
       })
-      socket.on('room', (room, id) => {
-          if (id === socket.id){
-            props.setRoom(room)
-          }
+      socket.on('room', (room, roomUsers) => {
+        props.setRoom(room)
+        window.localStorage.setItem('room', room)
+        props.setUsers(roomUsers)
       })
       socket.on('rooms', (rooms, privateRooms) => {
         props.setRooms(rooms)
@@ -231,7 +231,8 @@ const mapStateToProps = (state) => {
     setRooms,
     setPrivateRooms,
     setChatnick,
-    setInviteStatus
+    setInviteStatus,
+    setUsers
   }
   
   const connectedChatRooms = connect(mapStateToProps, mapDispatchToProps)(Chatrooms)

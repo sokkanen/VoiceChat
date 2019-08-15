@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
 import Speech from 'speak-tts'
 import { setNotification } from '../Reducers/NotificationReducer'
-import { setUsers } from '../Reducers/UsersReducer'
+import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
 import { setSpeaking } from '../Reducers/SpeakingReducer'
 import { newMessage } from '../Reducers/MessageReducer'
@@ -28,43 +28,54 @@ const Room = (props) => {
     const [textColor, setTextColor] = useState('#62f442')
 
     useEffect(() => {
-        initializeSpeech()
-        socket.emit('requestUsers')
-        if (msg.length !== 0){
-          if (msg.room === props.room){
-            console.log('message: ', msg.message, ' from: ', msg.user)
-            const msgs = messages
-            const ms = msg.user + ': ' + msg.message
-            msgs.push(ms)
-            if (msgs.length > count){
-              msgs.shift()
-            }
-            setMessages(msgs)
-            speak(msg.message)
-            props.setSpeaking(msg.user)
-            forceUpdate()
-            props.newMessage('')
+      initializeSpeech()
+      if (msg.length !== 0){
+        if (msg.room === props.room){
+          console.log('message: ', msg.message, ' from: ', msg.user)
+          const msgs = messages
+          const ms = msg.user + ': ' + msg.message
+          msgs.push(ms)
+          if (msgs.length > count){
+            msgs.shift()
+          }
+          setMessages(msgs)
+          speak(msg.message)
+          props.setSpeaking(msg.user)
+          forceUpdate()
+          props.newMessage('')
+        }
+      }
+      socket.on('disconnected', async (user) => {
+        if (props.room !== null && user !== null){
+          if (user.room === props.room){
+            props.removeUserFromUsers(user.id)
+            const ms = `User '${user.chatnick}' disconnected.`
+            notificate(ms)
           }
         }
-          socket.on('disconnected', async (user) => {
-            if (props.room !== null && user !== null){
-              if (user.room === props.room){
-                const ms = `User '${user.chatnick}' disconnected.`
-                notificate(ms)
-              }
-            }
-          })
-          socket.on('left', (user) => {
-            if (user.oldroom === props.room){
-              const ms = `User '${user.chatnick}' changed room.`
-              notificate(ms)
-            }
-          })
-          return() => {
-            socket.off('left')
-            socket.off('disconnected')
+      })
+      socket.on('left', (user) => {
+        if (user.oldroom === props.room){
+          props.removeUserFromUsers(user.id)
+          const ms = `User '${user.chatnick}' changed room.`
+          notificate(ms)
+        }
+      })
+      socket.on('join', (newUser) => {
+        if (props.room !== null){
+          if (newUser.room === window.localStorage.getItem('room')){
+            props.addUserToUsers(newUser)
+            const ms = `User '${newUser.chatnick}' joined room.`
+            notificate(ms)
           }
-    }, [msg, props.room])
+        }
+      })
+      return() => {
+        socket.off('left')
+        socket.off('join')
+        socket.off('disconnected')
+      }
+    }, [props])
 
     const initializeSpeech = () => {
         speech.init().then((data) => {
@@ -125,6 +136,10 @@ const Room = (props) => {
         return <div><h4>Please choose a room from "Chatrooms"</h4></div>
     }
 
+    if (props.users.length === 0){
+      return <div>loading...</div>
+    }
+
     return (
         <div>
             <div>
@@ -161,6 +176,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setNotification,
   setUsers,
+  addUserToUsers,
+  removeUserFromUsers,
   setLetter,
   setSpeaking,
   newMessage,

@@ -46,4 +46,5 @@ päivä | aika | mitä tein
 28.7  | 1    | Toimiva kuvauslooppi.
 8.8   | 4    | Validointia kaavakkeille. Socketin toiminnan optimointia, kyselyiden parantelua. Omat kuvat Reduxiin. Mongon hahmottelua.
 9.8   | 2    | Kuvien reduxoinnin parannus, Oma kuvasarja toimii chatissa lokaalisti (Käyttäjien kuvia ei vielä erotella.). Kuvien ottaminen rekiströityneille.
-YHT   | 94
+15.8  | 2    | Käyttäjähallinnan suuri refaktorointi -> Kaikki toiminnot huoneeseen (Valmistautuminen käyttäjän kuviin -> datamäärän ja tietoliikenteen minimointi).
+YHT   | 96

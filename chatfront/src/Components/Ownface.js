@@ -79,7 +79,7 @@ const Ownface = (props) => {
                     image: dataUri
                 }
                 setImage(dataUri)
-                props.setFaces(imageInfo)
+                props.setFaces(imageInfo) // LÄHETETTÄVÄ KAIKKI KERRALLA BÄKKÄRILLE JA REDUXILLE.
         } else {
             setImage(defaultFace)
         }

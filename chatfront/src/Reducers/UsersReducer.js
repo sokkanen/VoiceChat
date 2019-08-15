@@ -3,6 +3,11 @@ const usersReducer = (state = [], action) => {
     switch (action.type) {
       case 'SETUSERS':
         return action.data
+      case 'ADDUSERTOUSERS':
+        return state.concat(action.data)
+      case 'REMOVEUSERFROMUSERS':
+        const removedUsers = state.filter(u => u.id !== action.data)
+        return removedUsers
       default: return state
     }
   }
@@ -14,6 +19,24 @@ const usersReducer = (state = [], action) => {
       dispatch ({
         type: 'SETUSERS',
         data: users
+        })
+    }
+  }
+
+  export const addUserToUsers = (user) => {
+    return async dispatch => {
+      dispatch ({
+        type: 'ADDUSERTOUSERS',
+        data: [user]
+        })
+    }
+  }
+
+  export const removeUserFromUsers = (id) => {
+    return async dispatch => {
+      dispatch ({
+        type: 'REMOVEUSERFROMUSERS',
+        data: id
         })
     }
   }

@@ -8,12 +8,11 @@ let rooms = []
 
 const addNewUser = (newUser) => {
   users.push(newUser)
-  io.emit('users', users)
+  io.emit('join', newUser)
 }
 
 const changeRoom = (user) => {
   users = users.map(u => u.id === user.id ? user : u)
-  io.emit('users', users)
 }
 
 const newRoomHandler = async (room, user, id) => {
@@ -53,10 +52,6 @@ io.on('connection', (client) => {
     roomUpdater(id)
   })
 
-  client.on('requestUsers', () => {
-    io.to(client.id).emit('users', users)
-  })
-
   client.on('roomJoin', (info) => {
     let usr = users.find(u => u.id === info.id)
     if (usr === undefined){
@@ -67,16 +62,17 @@ io.on('connection', (client) => {
       changeRoom(usr)
       if (info.oldroom !== info.room){
         io.emit('left', usr)
+        client.broadcast.emit('join', usr)
       }
     }
-    io.to(client.id).emit('room', info.room, info.id)
+    const roomUsers = users.filter(u => u.room === info.room)
+    io.to(client.id).emit('room', info.room, roomUsers)
   })
 
   client.on('disconnect', () => {
     let usr = users.find(u => u.id === client.id)
     users = users.filter(u => u.id !== client.id)
     io.emit('disconnected', usr)
-    io.emit('users', users)
     console.log('Client disconnected')
   })
 
@@ -95,14 +91,14 @@ io.on('connection', (client) => {
       if (oldUser !== undefined){
         const usr = { ...oldUser, chatnick: loginValue.username, registered: true }
         users = users.map(u => u.id === client.id ? usr : u)
-        io.emit('users', users)
       }
     }
   })
 
   client.on('logout', () => {
+    const usr = users.find(u => u.id === client.id)
     users = users.filter(u => u.id !== client.id)
-    io.emit('users', users)
+    io.emit('disconnected', usr)
   })
 
   client.on('checkChatnick', async (chatnick) => {

@@ -3,16 +3,13 @@ import { connect } from 'react-redux'
 import Head from './Head'
 
 const Heads = (props) => {
-    
-    const users = props.users.filter(u => u.room === props.room)
-    // PROPS.CHATNICK SOTKEE! ELI LOGIIKKA CHATROOMISISSA PITÄÄ TSEKATA!
 
     return (
         <div>
             <table>
                 <tbody>
                 <tr>
-                {users.map(
+                {props.users.map(
                     user => user.chatnick === props.speaking ? 
                     <td key={user.chatnick}><Head letter={props.letter} chatnick={user.chatnick} registered={user.registered}/></td> : 
                     <td key={user.chatnick}><Head letter='' chatnick={user.chatnick} registered={user.registered}/></td>
