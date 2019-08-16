@@ -47,5 +47,5 @@ päivä | aika | mitä tein
 8.8   | 4    | Validointia kaavakkeille. Socketin toiminnan optimointia, kyselyiden parantelua. Omat kuvat Reduxiin. Mongon hahmottelua.
 9.8   | 2    | Kuvien reduxoinnin parannus, Oma kuvasarja toimii chatissa lokaalisti (Käyttäjien kuvia ei vielä erotella.). Kuvien ottaminen rekiströityneille.
 15.8  | 2    | Käyttäjähallinnan suuri refaktorointi -> Kaikki toiminnot huoneeseen (Valmistautuminen käyttäjän kuviin -> datamäärän ja tietoliikenteen minimointi).
-16.8  | 1    | Kuvaustoiminnon ja kuvien tallennuksen parannus.
-YHT   | 97
+16.8  | 3    | Kuvaustoiminnon ja kuvien tallennuksen parannus. Kuvat menevät onnistuneesti Stringinä MongoDB-kantaan.
+YHT   | 99

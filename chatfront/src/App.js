@@ -58,7 +58,7 @@ const App = (props) =>  {
             <Invites socket={socket}/>
           </div>
             <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/alterface" render={() => <Ownface/>}/>
+            <Route path="/alterface" render={() => <Ownface socket={socket}/>}/>
             <Route path="/login" render={() => props.user === '' ? 
               <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
               }/>

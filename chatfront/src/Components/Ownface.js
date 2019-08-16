@@ -5,17 +5,17 @@ import { setFaces } from '../Reducers/OwnFaceReducer'
 import defaultFace from '../Images/1default.png'
 
 const images = [
-    'nothing! just smile',
-    'aaaaaaa',
-    'bbbbbbb',
-    'ccccccc',
-    'fffffff',
-    'jjjjjjj',
-    'lllllll',
-    'ooooooo',
-    'qqqqqqq',
-    'rrrrrrr',
-    'uuuuuuu',
+    'Smile!',
+    'Say A!',
+    'Say B!',
+    'Say C!',
+    'Say F!',
+    'Say J!',
+    'Say L!',
+    'Say O!',
+    'Say Q!',
+    'Say R!',
+    'Say U!',
     'All set!'
 ]
 
@@ -48,71 +48,72 @@ const Ownface = (props) => {
     }
 
     const takeUserImages = async () => {
+        setInfo(images[0])
         let facingMode = FACING_MODES.USER
         let idealResolution = { width: 320, height: 480 }
         await startCamera(facingMode, idealResolution)
-        setInfo(`say ${images[0]}!`)
         const start = (counter) => {
             if(counter < 13){
               setTimeout( async () => {
+                setInfo(images[counter])
+                takePhoto(counter)
                 counter++;
-                if (counter !== 13){
-                    setInfo(`say ${images[counter-2]}!`)
-                } else {
-                    setInfo(images[counter-2])
+                if (counter === 13){
                     if (window.confirm('Press OK if you are happy with your photos. Press Cancel to retake you photos.')){
                         stopCamera()
                         props.setFaces(initial)
+                        props.socket.emit('userImages', initial, props.user)
+                        setInfo('All set!')
                     } else {
                         takeUserImages()
                     }
                 }
-                takePhoto(counter)
                 start(counter)
-              }, 200) // HUOM! 2000
+              }, 2000) // HUOM! 2000
             }
           }
           start(1)
     }
 
     const takePhoto = (index) => {
+        console.log(index)
         const config = {
           sizeFactor: 1
         }
         let dataUri = camera.getDataUri(config);
         setImage(dataUri)
         switch (index) {
-            case 2:
+            case 1:
                 initial.defaultFace = dataUri
                 break
-            case 3:
+            case 2:
                 initial.aieFace = dataUri
                 break
-            case 4:
+            case 3:
                 initial.bmpFace = dataUri
                 break
-            case 5:
+            case 4:
                 initial.cdgknstxyzFace = dataUri
                 break
-            case 6:
+            case 5:
                 initial.fvFace = dataUri
                 break
-            case 7:
+            case 6:
                 initial.jFace = dataUri
                 break
-            case 8:
+            case 7:
                 initial.lFace = dataUri
                 break
-            case 9:
+            case 8:
                 initial.oFace = dataUri
                 break
-            case 10:
+            case 9:
                 initial.qwFace = dataUri
                 break
-            case 11:
+            case 10:
                 initial.rFace = dataUri
                 break
-            case 12:
+            case 11:
                 initial.uFace = dataUri
                 break
             default:
@@ -136,7 +137,8 @@ const Ownface = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-      faces: state.faces
+      faces: state.faces,
+      user: state.user
     }
   }
   

@@ -1,6 +1,7 @@
 require('dotenv').config()
 const io = require('socket.io')()
 const query = require('./database/dbQueries')
+const UserImage = require('./models/userImage')
 const SOCKETPORT = process.env.SOCKETPORT
 
 let users = []
@@ -131,6 +132,24 @@ io.on('connection', (client) => {
       console.log('Error in removing room')
     }
     roomUpdater(id)
+  })
+  client.on('userImages', async (images, user) => {
+    const imageString = JSON.stringify(images)
+    const imageData = new UserImage({
+      user: user,
+      images: imageString
+    })
+
+    // UPDATE -toiminto... Eli id talteen POstgresiin...
+
+    imageData
+      .save()
+      .then(savedImages => {
+        console.log(savedImages)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   })
 })
 

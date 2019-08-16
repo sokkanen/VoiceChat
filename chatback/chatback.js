@@ -1,4 +1,5 @@
 const dbclient = require('./database/dbConnection')
+const mongo = require('./database/mongo')
 const io = require('./socketService')
 
 const initializeDatabase = async () => {
@@ -7,4 +8,5 @@ const initializeDatabase = async () => {
 }
 
 initializeDatabase()
+mongo.connect()
 io.listen()
