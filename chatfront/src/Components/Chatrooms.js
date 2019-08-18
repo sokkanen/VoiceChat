@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import Pagination from 'react-js-pagination'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setRoom } from '../Reducers/RoomReducer'
 import { setRooms } from '../Reducers/RoomsReducer'
@@ -16,6 +17,9 @@ const Chatrooms = (props) => {
     const [visible, setVisible] = useState(false)
     const [newRoomText, setNewRoomText] = useState('Create a New Room')
     const [textColor, setTextColor] = useState('#62f442')
+    const [search, setSearch] = useState('')
+    const [page, setPage] = useState(1)
+    const [privatePage, setPrivatePage] = useState(1)
 
     const socket = props.socket
     const Link = props.Link
@@ -38,8 +42,10 @@ const Chatrooms = (props) => {
         props.setUsers(roomUsers)
       })
       socket.on('rooms', (rooms, privateRooms) => {
-        props.setRooms(rooms)
-        props.setPrivateRooms(privateRooms)
+        const orderedRooms = rooms.sort((a,b) => a.name.localeCompare(b.name))
+        const orderedPrivateRooms = privateRooms.sort((a,b) => a.name.localeCompare(b.name))
+        props.setRooms(orderedRooms)
+        props.setPrivateRooms(orderedPrivateRooms)
       })
       socket.on('checkChatnick', (available, id, chatnick) => {
           if (id === socket.id){
@@ -121,6 +127,14 @@ const Chatrooms = (props) => {
         }
     }
 
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber)
+    }
+
+    const handlePrivatePageChange = (pageNumber) => {
+        setPrivatePage(pageNumber)
+    }
+
     if (props.chatnick !== ''){
         return (
         <div>
@@ -131,6 +145,11 @@ const Chatrooms = (props) => {
                 <NewRoomForm socket={socket} visible={visible}/>
                 <button onClick={newRoomVisible}>{newRoomText}</button>
             </div>
+            <h2>Rooms</h2>
+            <div>
+                <h5>Search</h5>
+                <input value={search} onChange={(event) => setSearch(event.target.value)}></input>
+            </div>
             <h2>Public rooms</h2>
             <div>
                 <table>
@@ -139,21 +158,33 @@ const Chatrooms = (props) => {
                             <th>Name</th>
                             <th>Description</th>
                         </tr>
-                        {props.rooms.map(r =>
-                        <tr key={r.id}>
-                            <td onClick={joinRoomHandler}>
-                                <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
-                            </td>
-                            <td>{r.description}</td>
-                            <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
-                            <button onClick={removeRoom(r)}>Remove room</button> 
-                            : 
-                            null
-                            : null}</td>
-                        </tr>
+                        {props.rooms
+                            .filter(r => r.name.toLowerCase().includes(search))
+                            .slice(page-1, page+4)
+                            .map(r =>
+                            <tr key={r.id}>
+                                <td onClick={joinRoomHandler}>
+                                    <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
+                                </td>
+                                <td>{r.description}</td>
+                                <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
+                                <button onClick={removeRoom(r)}>Remove room</button> 
+                                : 
+                                null
+                                : null}</td>
+                            </tr>
                         )}
                     </tbody>
                 </table>
+                <div className="pagination">
+                <Pagination
+                    activePage={page}
+                    itemsCountPerPage={5}
+                    totalItemsCount={props.rooms.length}
+                    pageRangeDisplayed={5}
+                    onChange={handlePageChange}
+                />
+            </div>
             </div>
             {props.user ?
             <div>
@@ -165,23 +196,35 @@ const Chatrooms = (props) => {
                             <th>Description</th>
                             <th>Users</th>
                         </tr>
-                        {props.privateRooms.map(r =>
-                        <tr key={r.name}>
-                            <td onClick={joinRoomHandler}>
-                                <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
-                            </td>
-                            <td>{r.description}</td>
-                            <td><InvitePopUp currentRoom={r} socket={socket}/></td>
-                            <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
-                            <button onClick={removeRoom(r)}>Remove room</button> 
-                            : null
-                            : null}</td>
-                        </tr>
+                        {props.privateRooms
+                            .filter(r => r.name.toLowerCase().includes(search))
+                            .slice(privatePage-1, privatePage+4)
+                            .map(r =>
+                            <tr key={r.name}>
+                                <td onClick={joinRoomHandler}>
+                                    <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
+                                </td>
+                                <td>{r.description}</td>
+                                <td><InvitePopUp currentRoom={r} socket={socket}/></td>
+                                <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
+                                <button onClick={removeRoom(r)}>Remove room</button> 
+                                : null
+                                : null}</td>
+                            </tr>
                         )}
                     </tbody>
                 </table>
             </div>
             : null }
+            <div className="pagination">
+                <Pagination
+                activePage={privatePage}
+                itemsCountPerPage={5}
+                totalItemsCount={props.privateRooms.length}
+                pageRangeDisplayed={5}
+                onChange={handlePrivatePageChange}
+                />
+            </div>
         </div>
         )
     }
@@ -197,7 +240,13 @@ const Chatrooms = (props) => {
                 <button type="submit">Set Nickname</button>
             </form>
             </div>
+            <div>
+            </div>
             <h2>Rooms</h2>
+            <div>
+                <h5>Search</h5>
+                <input value={search} onChange={(event) => setSearch(event.target.value)}></input>
+            </div>
             <div>
                 <table>
                     <tbody>
@@ -205,9 +254,21 @@ const Chatrooms = (props) => {
                             <th>Name</th>
                             <th>Description</th>
                         </tr>
-                        {props.rooms.map(r => <tr key={r.name}><td><p>{r.name}</p></td><td>{r.description}</td></tr>)}
+                        {props.rooms
+                            .filter(r => r.name.toLowerCase().includes(search))
+                            .slice(page-1, page+4)
+                            .map(r => <tr key={r.name}><td><p>{r.name}</p></td><td>{r.description}</td></tr>)}
                     </tbody>
                 </table>
+            </div>
+            <div className="pagination">
+                <Pagination
+                activePage={page}
+                itemsCountPerPage={5}
+                totalItemsCount={props.rooms.length}
+                pageRangeDisplayed={5}
+                onChange={handlePageChange}
+                />
             </div>
         </div>
     )

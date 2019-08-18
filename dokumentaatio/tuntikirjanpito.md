@@ -49,5 +49,6 @@ päivä | aika | mitä tein
 15.8  | 2    | Käyttäjähallinnan suuri refaktorointi -> Kaikki toiminnot huoneeseen (Valmistautuminen käyttäjän kuviin -> datamäärän ja tietoliikenteen minimointi).
 16.8  | 3    | Kuvaustoiminnon ja kuvien tallennuksen parannus. Kuvat menevät onnistuneesti Stringinä MongoDB-kantaan.
 18.8  | 2    | Omien käyttäjäkuvien tallennus ja päivitys ulkoiseen Mongo-tietokantaan toimii.
-18.8. | 2    | Käyttäjäkuvat haetaan sisäänkirjautumisen yhteydessä ja liitetään chattikäyttäjään. Kuvat renderöityvät oikein. Chatin säätöä. 
-YHT   | 103
+18.8  | 2    | Käyttäjäkuvat haetaan sisäänkirjautumisen yhteydessä ja liitetään chattikäyttäjään. Kuvat renderöityvät oikein. Chatin säätöä. 
+18.8  | 2    | Huoneiden järjestäminen, sivutus ja haku.
+YHT   | 105
