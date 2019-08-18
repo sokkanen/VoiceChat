@@ -1,5 +1,6 @@
 require('dotenv').config()
 const io = require('socket.io')()
+const mongo = require('./database/mongo')
 const query = require('./database/dbQueries')
 const UserImage = require('./models/userImage')
 const SOCKETPORT = process.env.SOCKETPORT
@@ -36,6 +37,42 @@ const roomUpdater = async (id) => {
     privateRooms = await query.getPrivateRooms(id)
   privateRooms = await query.getPrivateRoomUsers(privateRooms)
   io.emit('rooms', rooms, privateRooms)
+}
+
+const saveOrUpdateImages = async (images, user) => {
+  const imageString = JSON.stringify(images)
+  const imageData = new UserImage({
+    user: user,
+    images: imageString
+  })
+  let images_id = await query.searchForUserImagesId(user)
+  if (images_id){
+    images_id = mongo.castStringToObjectId(images_id)
+    UserImage.findOneAndUpdate({ '_id': images_id }, { 'images': imageString })
+      .then(result => {
+        console.log('image data updated')
+        // LÄHETÄ FRONTILLE INFOA
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  } else {
+    imageData
+      .save()
+      .then(savedImages => {
+        images_id = savedImages._id
+      })
+      .then(() => {
+        query.updateImagesIdtoUser(user, images_id)
+      })
+      .then(() => {
+        console.log('image data and id saved')
+        // LÄHETÄ FRONTILLE INFOA.
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 }
 
 io.on('connection', (client) => {
@@ -134,22 +171,7 @@ io.on('connection', (client) => {
     roomUpdater(id)
   })
   client.on('userImages', async (images, user) => {
-    const imageString = JSON.stringify(images)
-    const imageData = new UserImage({
-      user: user,
-      images: imageString
-    })
-
-    // UPDATE -toiminto... Eli id talteen POstgresiin...
-
-    imageData
-      .save()
-      .then(savedImages => {
-        console.log(savedImages)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    saveOrUpdateImages(images, user)
   })
 })
 

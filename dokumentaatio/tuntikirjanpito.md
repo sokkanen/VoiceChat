@@ -48,4 +48,5 @@ päivä | aika | mitä tein
 9.8   | 2    | Kuvien reduxoinnin parannus, Oma kuvasarja toimii chatissa lokaalisti (Käyttäjien kuvia ei vielä erotella.). Kuvien ottaminen rekiströityneille.
 15.8  | 2    | Käyttäjähallinnan suuri refaktorointi -> Kaikki toiminnot huoneeseen (Valmistautuminen käyttäjän kuviin -> datamäärän ja tietoliikenteen minimointi).
 16.8  | 3    | Kuvaustoiminnon ja kuvien tallennuksen parannus. Kuvat menevät onnistuneesti Stringinä MongoDB-kantaan.
-YHT   | 99
+18.8  | 2    | Omien käyttäjäkuvien tallennus ja päivitys ulkoiseen Mongo-tietokantaan toimii.
+YHT   | 101

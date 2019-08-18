@@ -83,7 +83,7 @@ const NewUserForm = (props) => {
         setEmailField('field')
         setPasswordField('field')
         setPassword2Field('field')
-        return true
+        return true 
         
     }
 

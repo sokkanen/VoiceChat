@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const ObjectId = require('mongoose').Types.ObjectId
 
 mongoose.set('useFindAndModify', false)
 
@@ -14,4 +15,9 @@ const connect = () => {
     })
 }
 
-module.exports = { connect }
+const castStringToObjectId = (string) => {
+  string = string.substring(1, string.length - 1)
+  return new ObjectId(string)
+}
+
+module.exports = { connect, castStringToObjectId }

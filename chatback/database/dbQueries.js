@@ -226,6 +226,20 @@ const removeRoom = async (room, token) => {
   }
 }
 
+const searchForUserImagesId = async (username) => {
+  const sql = ('SELECT images_id FROM Chatter WHERE username = $1')
+  const values = [username]
+  const result = await client.query(sql, values)
+  return result.rows[0].images_id
+}
+
+const updateImagesIdtoUser = async (username, images_id) => {
+  const sql = ('UPDATE Chatter SET images_id = $1 WHERE username = $2')
+  const values = [images_id, username]
+  const result = await client.query(sql, values)
+  return result.rowCount === 1 ? true : false
+}
+
 module.exports = {
   addNewUser,
   login,
@@ -238,5 +252,7 @@ module.exports = {
   insertInvitation,
   removeInvitation,
   acceptInvitation,
-  removeRoom
+  removeRoom,
+  searchForUserImagesId,
+  updateImagesIdtoUser
 }

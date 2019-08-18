@@ -69,7 +69,7 @@ const Ownface = (props) => {
                     }
                 }
                 start(counter)
-              }, 2000) // HUOM! 2000
+              }, 2000)
             }
           }
           start(1)
