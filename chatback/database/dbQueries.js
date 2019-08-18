@@ -74,7 +74,8 @@ const login = async (credentials) => {
     let userInfo = {
       token: token,
       username: returnvalue.rows[0].username,
-      id: returnvalue.rows[0].id
+      id: returnvalue.rows[0].id,
+      images_id: returnvalue.rows[0].images_id
     }
     try {
       const inviteSql = ('SELECT invite.inviter AS inviter, room.name AS room, room.id AS room_id, chatter_id AS invitee_id\

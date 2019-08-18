@@ -26,6 +26,11 @@ const App = (props) =>  {
     socket.on('message', (msg) => {
       props.newMessage(msg)
     })
+    socket.on('imagesSaved', (value) => {
+      value === true ? 
+      window.alert('Your photos are successfully saved!') :
+      window.alert('Error in saving your photos. Please try again.')
+    })
   }, [])
   
   const roomByTitle = (title) => props.rooms.find(r => r.title === title)

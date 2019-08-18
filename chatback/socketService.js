@@ -8,9 +8,15 @@ const SOCKETPORT = process.env.SOCKETPORT
 let users = []
 let rooms = []
 
-const addNewUser = (newUser) => {
-  users.push(newUser)
-  io.emit('join', newUser)
+const addNewUser = async (newUser) => {
+  const result = await findUserImages(newUser.chatnick)
+  const images = JSON.parse(result.images)
+  const updatedUser = {
+    ...newUser,
+    images: images
+  }
+  users.push(updatedUser)
+  io.emit('join', updatedUser)
 }
 
 const changeRoom = (user) => {
@@ -39,7 +45,7 @@ const roomUpdater = async (id) => {
   io.emit('rooms', rooms, privateRooms)
 }
 
-const saveOrUpdateImages = async (images, user) => {
+const saveOrUpdateImages = async (client_id, images, user) => {
   const imageString = JSON.stringify(images)
   const imageData = new UserImage({
     user: user,
@@ -51,10 +57,11 @@ const saveOrUpdateImages = async (images, user) => {
     UserImage.findOneAndUpdate({ '_id': images_id }, { 'images': imageString })
       .then(result => {
         console.log('image data updated')
-        // LÄHETÄ FRONTILLE INFOA
+        io.to(client_id).emit('imagesSaved', true)
       })
       .catch(error => {
         console.log(error)
+        io.to(client_id).emit('imagesSaved', false)
       })
   } else {
     imageData
@@ -67,11 +74,27 @@ const saveOrUpdateImages = async (images, user) => {
       })
       .then(() => {
         console.log('image data and id saved')
-        // LÄHETÄ FRONTILLE INFOA.
+        io.to(client_id).emit('imagesSaved', true)
       })
       .catch(error => {
         console.log(error)
+        io.to(client_id).emit('imagesSaved', false)
       })
+  }
+}
+
+const findUserImages = async (username) => {
+  let images_id = await query.searchForUserImagesId(username)
+  if (images_id){
+    images_id = mongo.castStringToObjectId(images_id)
+    try {
+      const result = await UserImage.findOne({ '_id': images_id })
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  } else {
+    return null
   }
 }
 
@@ -171,7 +194,7 @@ io.on('connection', (client) => {
     roomUpdater(id)
   })
   client.on('userImages', async (images, user) => {
-    saveOrUpdateImages(images, user)
+    saveOrUpdateImages(client.id, images, user)
   })
 })
 
