@@ -50,7 +50,7 @@ const Ownface = (props) => {
     const takeUserImages = async () => {
         setInfo(images[0])
         let facingMode = FACING_MODES.USER
-        let idealResolution = { width: 320, height: 480 }
+        let idealResolution = { width: 240, height: 320 }
         await startCamera(facingMode, idealResolution)
         const start = (counter) => {
             if(counter < 13){

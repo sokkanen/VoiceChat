@@ -10,17 +10,32 @@ let rooms = []
 
 const addNewUser = async (newUser) => {
   const result = await findUserImages(newUser.chatnick)
-  const images = JSON.parse(result.images)
-  const updatedUser = {
-    ...newUser,
-    images: images
+  if (result){
+    const images = JSON.parse(result.images)
+    const updatedUser = {
+      ...newUser,
+      images: images
+    }
+    users.push(updatedUser)
+    io.emit('join', updatedUser)
+  } else {
+    users.push(newUser)
+    io.emit('join', newUser)
   }
-  users.push(updatedUser)
-  io.emit('join', updatedUser)
 }
 
-const changeRoom = (user) => {
-  users = users.map(u => u.id === user.id ? user : u)
+const changeRoom = async (user) => {
+  const result = await findUserImages(user.chatnick)
+  if (result){
+    const images = JSON.parse(result.images)
+    const updatedUser = {
+      ...user,
+      images: images
+    }
+    users = users.map(u => u.id === user.id ? updatedUser : u)
+  } else {
+    users = users.map(u => u.id === user.id ? user : u)
+  }
 }
 
 const newRoomHandler = async (room, user, id) => {
@@ -92,6 +107,7 @@ const findUserImages = async (username) => {
       return result
     } catch (error) {
       console.log(error)
+      return null
     }
   } else {
     return null

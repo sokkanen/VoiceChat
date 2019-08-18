@@ -6,7 +6,7 @@ const ChatText = ({messages, msgcount, visible}) => {
     }
 
     const heightCounter = () => {
-        return msgcount * 25;
+        return msgcount * 30;
     }
 
     const style = {
@@ -14,13 +14,26 @@ const ChatText = ({messages, msgcount, visible}) => {
         border: '5px solid black',
         height: `${heightCounter()}px`,
         backgroundColor: 'gray',
-        color: 'white'
+        color: 'white',
+    }
+
+    const messageStyle = {
+        color: 'aquamarine',
+        display: 'inline' 
+    }
+
+    const userStyle = {
+        color: 'powderblue',
+        display: 'inline' 
     }
 
     return (
         <div style={style}>
             <ul>
-                {messages.map(msg => <li key={msg}>{msg}</li>)}
+                {messages.map(msg => 
+                <li key={msg.msg}>
+                    <p style={userStyle}>{msg.user}: <p style={messageStyle}>{msg.msg}</p></p>
+                </li>)}
             </ul>
         </div>
     )

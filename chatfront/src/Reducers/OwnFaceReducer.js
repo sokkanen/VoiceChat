@@ -1,9 +1,23 @@
-const ownFaceReducer = (state = [], action) => {
+const initial = {
+  defaultFace : null,
+  aieFace : null,
+  bmpFace : null,
+  cdgknstxyzFace : null,
+  fvFace : null,
+  jFace : null,
+  lFace : null,
+  oFace : null,
+  qwFace : null,
+  rFace : null,
+  uFace : null 
+}
+
+const ownFaceReducer = (state = initial, action) => {
     switch (action.type) {
       case 'SETFACES':
         return action.data
       case 'REMOVEFACES':
-        return []
+        return initial
       default: return state
     }
   }

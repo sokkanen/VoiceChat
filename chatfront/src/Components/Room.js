@@ -8,7 +8,7 @@ import { setSpeaking } from '../Reducers/SpeakingReducer'
 import { newMessage } from '../Reducers/MessageReducer'
 import { setRoom } from '../Reducers/RoomReducer'
 
-import ChatText from '../ChatText'
+import ChatText from './ChatText'
 import Heads from './Heads'
 import Notification from './Notification'
 
@@ -33,13 +33,16 @@ const Room = (props) => {
         if (msg.room === props.room){
           console.log('message: ', msg.message, ' from: ', msg.user)
           const msgs = messages
-          const ms = msg.user + ': ' + msg.message
+          const ms = {
+            user: msg.user, 
+            msg: msg.message
+          }
           msgs.push(ms)
           if (msgs.length > count){
             msgs.shift()
           }
           setMessages(msgs)
-          speak(msg.message)
+          speak(msg.message + '.')
           props.setSpeaking(msg.user)
           forceUpdate()
           props.newMessage('')
@@ -100,16 +103,16 @@ const Room = (props) => {
           queue: true,
           listeners: {
               onend: () => {
-                props.setLetter('')
+                props.setLetter('.')
               } 
           }
         })
-        for (let i = 1; i < msg.length; i++){
+        for (let i = 0; i < msg.length; i++){
           setTimeout(() => {
             props.setLetter(msg.charAt(i))
-          }, 100 * i);
+          }, 105 * i);
         }
-        props.setLetter('')
+        props.setLetter('1')
     }
 
     const setVisible = () => {

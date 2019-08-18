@@ -231,7 +231,7 @@ const searchForUserImagesId = async (username) => {
   const sql = ('SELECT images_id FROM Chatter WHERE username = $1')
   const values = [username]
   const result = await client.query(sql, values)
-  return result.rows[0].images_id
+  return result.rowCount !== 0 ? result.rows[0].images_id : null
 }
 
 const updateImagesIdtoUser = async (username, images_id) => {

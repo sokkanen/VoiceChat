@@ -28,36 +28,61 @@ const Head = (props) => {
     const chatnick = props.chatnick
     const letter = props.letter
     const registered = props.registered
-    const user = props.user
-
-    // LAAJENNETTAVA USEAN KÄYTTÄJÄN KUVILLE.
 
     const [img, setImg] = useState(props.faces.defaultFace === null ? defaultFace : props.faces.defaultFace)
     useEffect(() => {
-        if (aie.test(letter)){
-            setImg(props.faces.defaultFace === null ? aieFace : props.faces.aieFace)
-        } else if(bmp.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? bmpFace : props.faces.aieFace)
-        } else if (cdgknstxyz.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? cdgknstxyzFace : props.faces.cdgknstxyzFace)
-        } else if (fv.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? fvFace : props.faces.fvFace)
-        } else if (j.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? jFace : props.faces.jFace)
-        } else if (l.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? lFace : props.faces.lFace)
-        } else if (o.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? oFace : props.faces.oFace)
-        } else if (qw.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? qwFace : props.faces.qwFace)
-        } else if (r.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? rFace : props.faces.rFace)
-        } else if (u.test(letter.toLowerCase())){
-            setImg(props.faces.defaultFace === null ? uFace : props.faces.uFace)
+
+
+        if (props.images === undefined){
+            if (aie.test(letter)){
+                setImg(props.faces.defaultFace === null ? aieFace : props.faces.aieFace)
+            } else if(bmp.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? bmpFace : props.faces.aieFace)
+            } else if (cdgknstxyz.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? cdgknstxyzFace : props.faces.cdgknstxyzFace)
+            } else if (fv.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? fvFace : props.faces.fvFace)
+            } else if (j.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? jFace : props.faces.jFace)
+            } else if (l.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? lFace : props.faces.lFace)
+            } else if (o.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? oFace : props.faces.oFace)
+            } else if (qw.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? qwFace : props.faces.qwFace)
+            } else if (r.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? rFace : props.faces.rFace)
+            } else if (u.test(letter.toLowerCase())){
+                setImg(props.faces.defaultFace === null ? uFace : props.faces.uFace)
+            } else {
+                setImg(props.faces.defaultFace === null ? defaultFace : props.faces.defaultFace)
+            }
         } else {
-            setImg(props.faces.defaultFace === null ? defaultFace : props.faces.defaultFace)
+            if (aie.test(letter)){
+                setImg(props.images.aieFace)
+            } else if(bmp.test(letter.toLowerCase())){
+                setImg(props.images.aieFace)
+            } else if (cdgknstxyz.test(letter.toLowerCase())){
+                setImg(props.images.cdgknstxyzFace)
+            } else if (fv.test(letter.toLowerCase())){
+                setImg(props.images.fvFace)
+            } else if (j.test(letter.toLowerCase())){
+                setImg(props.images.jFace)
+            } else if (l.test(letter.toLowerCase())){
+                setImg(props.images.lFace)
+            } else if (o.test(letter.toLowerCase())){
+                setImg(props.images.oFace)
+            } else if (qw.test(letter.toLowerCase())){
+                setImg(props.images.qwFace)
+            } else if (r.test(letter.toLowerCase())){
+                setImg(props.images.rFace)
+            } else if (u.test(letter.toLowerCase())){
+                setImg(props.images.uFace)
+            } else {
+                setImg(props.images.defaultFace)
+            }
         }
-    }, [letter, props.faces])
+    }, [letter, props.faces, props.images])
     
     if (registered){
         return (

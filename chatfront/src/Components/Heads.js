@@ -11,8 +11,18 @@ const Heads = (props) => {
                 <tr>
                 {props.users.map(
                     user => user.chatnick === props.speaking ? 
-                    <td key={user.chatnick}><Head letter={props.letter} chatnick={user.chatnick} registered={user.registered}/></td> : 
-                    <td key={user.chatnick}><Head letter='' chatnick={user.chatnick} registered={user.registered}/></td>
+                    <td key={user.chatnick}><Head 
+                        letter={props.letter} 
+                        chatnick={user.chatnick} 
+                        registered={user.registered}
+                        images={user.images}
+                    /></td> : 
+                    <td key={user.chatnick}><Head 
+                        letter='' 
+                        chatnick={user.chatnick} 
+                        registered={user.registered}
+                        images={user.images}
+                    /></td>
                 )}
                 </tr>              
                 </tbody>
