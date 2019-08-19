@@ -53,18 +53,24 @@ const newRoomHandler = async (room, user, id) => {
   }
 }
 
-const roomUpdater = async (id) => {
+const roomUpdater = async (id, client_id) => {
   rooms = await query.getPublicRooms()
   let privateRooms = []
   if (id)
     privateRooms = await query.getPrivateRooms(id)
   privateRooms = await query.getPrivateRoomUsers(privateRooms)
-  io.emit('rooms', rooms, privateRooms)
+  io.to(client_id).emit('rooms', rooms, privateRooms, fullRooms)
 }
 
-const freeRoom = (usr) => {
+const freeRoom = (usr, isCurrent) => {
   if (usr !== undefined && usr.room !== undefined){
-    console.log(usr.oldroom)
+    if (isCurrent){
+      fullRooms = fullRooms.filter(r => r !== usr.room)
+      io.emit('full', fullRooms)
+    } else {
+      fullRooms = fullRooms.filter(r => r !== usr.oldroom)
+      io.emit('full', fullRooms)
+    }
   }
 }
 
@@ -134,7 +140,7 @@ io.on('connection', (client) => {
   })
 
   client.on('requestRooms', async (id) => {
-    roomUpdater(id)
+    roomUpdater(id, client.id)
   })
 
   client.on('roomJoin', async (info) => {
@@ -147,21 +153,32 @@ io.on('connection', (client) => {
       changeRoom(usr)
       if (info.oldroom !== info.room){
         io.emit('left', usr)
-        freeRoom(usr)
+        freeRoom(usr, false)
         client.broadcast.emit('join', usr)
       }
     }
     const roomUsers = users.filter(u => u.room === info.room)
-    const maxUsers = await rooms.find(r => r.name === info.room)
-    if (roomUsers.length  >= maxUsers.user_limit){
-      io.emit('full', info.room)
+    let maxUsers = await rooms.find(r => r.name === info.room)
+    if (maxUsers !== undefined){
+      if (roomUsers.length + 1 >= maxUsers.user_limit){
+        fullRooms.push(info.room)
+        io.emit('full', fullRooms)
+      }
+    } else {
+      const values = await query.getUser(info.chatnick)
+      maxUsers = await query.getPrivateRooms(values[0].id)
+      maxUsers = await maxUsers.find(r => r.name === info.room)
+      if (roomUsers.length + 1 >= maxUsers.user_limit){
+        fullRooms.push(info.room)
+        io.emit('full', fullRooms)
+      }
     }
     io.to(client.id).emit('room', info.room, roomUsers)
   })
 
   client.on('disconnect', () => {
     let usr = users.find(u => u.id === client.id)
-    freeRoom(usr)
+    freeRoom(usr, true)
     users = users.filter(u => u.id !== client.id)
     io.emit('disconnected', usr)
     console.log('Client disconnected')
@@ -189,7 +206,7 @@ io.on('connection', (client) => {
   client.on('logout', () => {
     const usr = users.find(u => u.id === client.id)
     users = users.filter(u => u.id !== client.id)
-    freeRoom(usr)
+    freeRoom(usr, true)
     io.emit('disconnected', usr)
   })
 

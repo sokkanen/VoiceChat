@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import openSocket from 'socket.io-client'
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setRooms } from './Reducers/RoomsReducer'
+import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
 import { logoutUser } from './Reducers/UserReducer'
@@ -36,6 +36,9 @@ const App = (props) =>  {
       props.setRoom(room)
       window.localStorage.setItem('room', room)
       props.setUsers(roomUsers)
+    })
+    socket.on('full', (fullRooms) => {
+      props.setFullRooms(fullRooms)
     })
   }, [])
   
@@ -128,7 +131,8 @@ const mapDispatchToProps = {
   removeChatnick,
   removePrivateRooms,
   removeFaces,
-  setRoom
+  setRoom,
+  setFullRooms
 }
 
 const connectedApp = connect(

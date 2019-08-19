@@ -3,6 +3,9 @@ const roomsReducer = (state = [], action) => {
   switch (action.type) {
     case 'SETROOMS':
       return action.data
+    case 'SETFULLROOMS':
+      const fullRooms = action.data
+      return state.map(r => fullRooms.includes(r.name) ? ({...r, full: true}) : ({...r, full: false}))
     default: return state
   }
 }
@@ -14,6 +17,15 @@ export const setRooms = (rooms) => {
     dispatch ({
       type: 'SETROOMS',
       data: rooms
+      })
+  }
+}
+
+export const setFullRooms = (fullRooms) => {
+  return async dispatch => {
+    dispatch ({
+      type: 'SETFULLROOMS',
+      data: fullRooms
       })
   }
 }

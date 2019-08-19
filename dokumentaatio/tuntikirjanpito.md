@@ -52,4 +52,5 @@ päivä | aika | mitä tein
 18.8  | 2    | Käyttäjäkuvat haetaan sisäänkirjautumisen yhteydessä ja liitetään chattikäyttäjään. Kuvat renderöityvät oikein. Chatin säätöä. 
 18.8  | 2    | Huoneiden järjestäminen, sivutus ja haku.
 19.8  | 2    | Huoneiden maksimikäyttäjämäärä. Rajoituksen hahmottelua bäkillä ja frontissa.
-YHT   | 107
+19.8  | 3    | Huoneiden rajoitus toimii sekä normaali- että privaattihuoneille. Sivutuksen parannus.
+YHT   | 110

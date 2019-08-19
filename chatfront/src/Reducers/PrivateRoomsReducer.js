@@ -5,6 +5,9 @@ const privateRoomsReducer = (state = [], action) => {
       return action.data
     case 'REMOVEPRIVATEROOMS':
       return []
+    case 'SETFULLPRIVATEROOMS':
+        const fullRooms = action.data
+        return state.map(r => fullRooms.includes(r.name) ? ({...r, full: true}) : ({...r, full: false}))
     default: return state
   }
 }
@@ -24,6 +27,15 @@ export const removePrivateRooms = () => {
   return async dispatch => {
     dispatch ({
       type: 'REMOVEPRIVATEROOMS'
+      })
+  }
+}
+
+export const setFullPrivateRooms = (fullRooms) => {
+  return async dispatch => {
+    dispatch ({
+      type: 'SETFULLPRIVATEROOMS',
+      data: fullRooms
       })
   }
 }

@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import Pagination from 'react-js-pagination'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setRoom } from '../Reducers/RoomReducer'
-import { setRooms } from '../Reducers/RoomsReducer'
-import { setPrivateRooms } from '../Reducers/PrivateRoomsReducer'
+import { setRooms, setFullRooms } from '../Reducers/RoomsReducer'
+import { setPrivateRooms, setFullPrivateRooms } from '../Reducers/PrivateRoomsReducer'
 import { setChatnick} from '../Reducers/ChatnickReducer'
 import { setInviteStatus } from '../Reducers/InviteStatusReducer'
 import { setUsers } from '../Reducers/UsersReducer'
@@ -28,7 +28,7 @@ const Chatrooms = (props) => {
       if (props.user){
         socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
       } else {
-        socket.emit('requestRooms')
+        socket.emit('requestRooms', null)
       }
       socket.on('error', (msg) => {
         if (msg.id === socket.id){
@@ -36,11 +36,13 @@ const Chatrooms = (props) => {
           notificate(msg.message)
         }
       })
-      socket.on('rooms', (rooms, privateRooms) => {
-        const orderedRooms = rooms.sort((a,b) => a.name.localeCompare(b.name))
-        const orderedPrivateRooms = privateRooms.sort((a,b) => a.name.localeCompare(b.name))
+      socket.on('rooms', async (rooms, privateRooms, fullRooms) => {
+        const orderedRooms = await rooms.sort((a,b) => a.name.localeCompare(b.name))
+        const orderedPrivateRooms = await privateRooms.sort((a,b) => a.name.localeCompare(b.name))
         props.setRooms(orderedRooms)
         props.setPrivateRooms(orderedPrivateRooms)
+        props.setFullRooms(fullRooms)
+        props.setFullPrivateRooms(fullRooms)
       })
       socket.on('checkChatnick', (available, id, chatnick) => {
           if (id === socket.id){
@@ -157,14 +159,12 @@ const Chatrooms = (props) => {
                         </tr>
                         {props.rooms
                             .filter(r => r.name.toLowerCase().includes(search))
-                            .slice(page-1, page+4)
+                            .slice((page-1) * 5, ((page-1) * 5) + 5)
                             .map(r =>
                             <tr key={r.id}>
-                                <td onClick={joinRoomHandler}>
-                                    <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
-                                </td>
+                                {r.full ? <td>{r.name}</td> : <td onClick={joinRoomHandler}><Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link></td>}
                                 <td>{r.user_limit}</td>
-                                <td>{r.description}</td>
+                                {r.full ? <td>Room is full</td> : <td>{r.description}</td>}
                                 <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                                 <button onClick={removeRoom(r)}>Remove room</button> 
                                 : 
@@ -197,14 +197,12 @@ const Chatrooms = (props) => {
                         </tr>
                         {props.privateRooms
                             .filter(r => r.name.toLowerCase().includes(search))
-                            .slice(privatePage-1, privatePage+4)
+                            .slice((privatePage-1) * 5, ((privatePage-1) * 5) + 5)
                             .map(r =>
                             <tr key={r.name}>
-                                <td onClick={joinRoomHandler}>
-                                    <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
-                                </td>
+                                {r.full ? <td>{r.name}</td> : <td onClick={joinRoomHandler}><Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link></td>}
                                 <td>{r.user_limit}</td>
-                                <td>{r.description}</td>
+                                {r.full ? <td>Room is full</td> : <td>{r.description}</td>}
                                 <td><InvitePopUp currentRoom={r} socket={socket}/></td>
                                 <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                                 <button onClick={removeRoom(r)}>Remove room</button> 
@@ -214,9 +212,7 @@ const Chatrooms = (props) => {
                         )}
                     </tbody>
                 </table>
-            </div>
-            : null }
-            <div className="pagination">
+                <div className="pagination">
                 <Pagination
                 activePage={privatePage}
                 itemsCountPerPage={5}
@@ -225,6 +221,9 @@ const Chatrooms = (props) => {
                 onChange={handlePrivatePageChange}
                 />
             </div>
+            </div>
+            : null }
+            
         </div>
         )
     }
@@ -257,7 +256,7 @@ const Chatrooms = (props) => {
                         </tr>
                         {props.rooms
                             .filter(r => r.name.toLowerCase().includes(search))
-                            .slice(page-1, page+4)
+                            .slice((page-1) * 5, ((page-1) * 5) + 5)
                             .map(r => <tr key={r.name}>
                                 <td><p>{r.name}</p></td>
                                 <td><p>{r.user_limit}</p></td>
@@ -271,7 +270,7 @@ const Chatrooms = (props) => {
                 activePage={page}
                 itemsCountPerPage={5}
                 totalItemsCount={props.rooms.length}
-                pageRangeDisplayed={5}
+                pageRangeDisplayed={7}
                 onChange={handlePageChange}
                 />
             </div>
@@ -298,7 +297,9 @@ const mapStateToProps = (state) => {
     setPrivateRooms,
     setChatnick,
     setInviteStatus,
-    setUsers
+    setUsers,
+    setFullRooms,
+    setFullPrivateRooms
   }
   
   const connectedChatRooms = connect(mapStateToProps, mapDispatchToProps)(Chatrooms)

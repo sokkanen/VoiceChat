@@ -92,6 +92,13 @@ const login = async (credentials) => {
   }
 }
 
+const getUser = async (username) => {
+  const sql = ('SELECT * FROM chatter WHERE username = $1;')
+  const values = [username]
+  const result = await client.query(sql, values)
+  return result.rows
+}
+
 /*
 Checks if desired chatnick is already registered.
 Return true if available, false if reserved.
@@ -114,7 +121,7 @@ const getPublicRooms = async () => {
   const sql = ('SELECT * FROM room WHERE private = false;')
   try {
     const rooms = await client.query(sql)
-    return rooms.rows
+    return rooms.rows.map(r => ({ ...r, full: false }))
   } catch (error) {
     console.log(error)
     return false
@@ -145,6 +152,7 @@ const getPrivateRoomUsers = async (rooms) => {
       description: rooms[i].description,
       owner_id: rooms[i].owner_id,
       user_limit: rooms[i].user_limit,
+      full: false,
       users: result.rows
     }
     users.push(room)
@@ -256,5 +264,6 @@ module.exports = {
   acceptInvitation,
   removeRoom,
   searchForUserImagesId,
-  updateImagesIdtoUser
+  updateImagesIdtoUser,
+  getUser
 }
