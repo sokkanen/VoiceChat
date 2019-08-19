@@ -5,8 +5,10 @@ const query = require('./database/dbQueries')
 const UserImage = require('./models/userImage')
 const SOCKETPORT = process.env.SOCKETPORT
 
+// Cache
 let users = []
 let rooms = []
+let fullRooms = []
 
 const addNewUser = async (newUser) => {
   const result = await findUserImages(newUser.chatnick)
@@ -58,6 +60,12 @@ const roomUpdater = async (id) => {
     privateRooms = await query.getPrivateRooms(id)
   privateRooms = await query.getPrivateRoomUsers(privateRooms)
   io.emit('rooms', rooms, privateRooms)
+}
+
+const freeRoom = (usr) => {
+  if (usr !== undefined && usr.room !== undefined){
+    console.log(usr.oldroom)
+  }
 }
 
 const saveOrUpdateImages = async (client_id, images, user) => {
@@ -129,7 +137,7 @@ io.on('connection', (client) => {
     roomUpdater(id)
   })
 
-  client.on('roomJoin', (info) => {
+  client.on('roomJoin', async (info) => {
     let usr = users.find(u => u.id === info.id)
     if (usr === undefined){
       addNewUser(info)
@@ -139,15 +147,21 @@ io.on('connection', (client) => {
       changeRoom(usr)
       if (info.oldroom !== info.room){
         io.emit('left', usr)
+        freeRoom(usr)
         client.broadcast.emit('join', usr)
       }
     }
     const roomUsers = users.filter(u => u.room === info.room)
+    const maxUsers = await rooms.find(r => r.name === info.room)
+    if (roomUsers.length  >= maxUsers.user_limit){
+      io.emit('full', info.room)
+    }
     io.to(client.id).emit('room', info.room, roomUsers)
   })
 
   client.on('disconnect', () => {
     let usr = users.find(u => u.id === client.id)
+    freeRoom(usr)
     users = users.filter(u => u.id !== client.id)
     io.emit('disconnected', usr)
     console.log('Client disconnected')
@@ -175,6 +189,7 @@ io.on('connection', (client) => {
   client.on('logout', () => {
     const usr = users.find(u => u.id === client.id)
     users = users.filter(u => u.id !== client.id)
+    freeRoom(usr)
     io.emit('disconnected', usr)
   })
 

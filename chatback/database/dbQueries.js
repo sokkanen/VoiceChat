@@ -24,9 +24,9 @@ const addNewRoom = async (room, user) => {
   if (!verified.id ||!user.token){
     return false
   }
-  const sql = ('INSERT INTO room (id, name, description, private, owner_id) values ($1, $2, $3, $4, $5)')
+  const sql = ('INSERT INTO room (id, name, description, private, owner_id, user_limit) values ($1, $2, $3, $4, $5, $6)')
   const id = uuid()
-  const values = [id, room.title, room.description, room.private, verified.id]
+  const values = [id, room.title, room.description, room.private, verified.id, room.user_limit]
   try {
     await client.query(sql, values)
   } catch(error){
@@ -122,7 +122,7 @@ const getPublicRooms = async () => {
 }
 
 const getPrivateRooms = async (id) => {
-  const sql = ('SELECT id, name, description, private, owner_id FROM room LEFT JOIN room_chatter ON room.id = room_id WHERE room_id IS NOT NULL AND chatter_id = $1;')
+  const sql = ('SELECT * FROM room LEFT JOIN room_chatter ON room.id = room_chatter.room_id WHERE room_id IS NOT NULL AND chatter_id = $1;')
   const values = [id]
   try {
     const rooms = await client.query(sql, values)
@@ -144,6 +144,7 @@ const getPrivateRoomUsers = async (rooms) => {
       name: rooms[i].name,
       description: rooms[i].description,
       owner_id: rooms[i].owner_id,
+      user_limit: rooms[i].user_limit,
       users: result.rows
     }
     users.push(room)

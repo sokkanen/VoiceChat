@@ -36,11 +36,6 @@ const Chatrooms = (props) => {
           notificate(msg.message)
         }
       })
-      socket.on('room', (room, roomUsers) => {
-        props.setRoom(room)
-        window.localStorage.setItem('room', room)
-        props.setUsers(roomUsers)
-      })
       socket.on('rooms', (rooms, privateRooms) => {
         const orderedRooms = rooms.sort((a,b) => a.name.localeCompare(b.name))
         const orderedPrivateRooms = privateRooms.sort((a,b) => a.name.localeCompare(b.name))
@@ -156,7 +151,9 @@ const Chatrooms = (props) => {
                     <tbody>
                         <tr>
                             <th>Name</th>
-                            <th>Description</th>
+                            <th>Max users</th>
+                            <th>Info</th>
+                            <th>Room management</th>
                         </tr>
                         {props.rooms
                             .filter(r => r.name.toLowerCase().includes(search))
@@ -166,6 +163,7 @@ const Chatrooms = (props) => {
                                 <td onClick={joinRoomHandler}>
                                     <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                                 </td>
+                                <td>{r.user_limit}</td>
                                 <td>{r.description}</td>
                                 <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                                 <button onClick={removeRoom(r)}>Remove room</button> 
@@ -193,8 +191,9 @@ const Chatrooms = (props) => {
                     <tbody>
                         <tr>
                             <th>Name</th>
-                            <th>Description</th>
-                            <th>Users</th>
+                            <th>Max users</th>
+                            <th>Info</th>
+                            <th>Room management</th>
                         </tr>
                         {props.privateRooms
                             .filter(r => r.name.toLowerCase().includes(search))
@@ -204,6 +203,7 @@ const Chatrooms = (props) => {
                                 <td onClick={joinRoomHandler}>
                                     <Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link>
                                 </td>
+                                <td>{r.user_limit}</td>
                                 <td>{r.description}</td>
                                 <td><InvitePopUp currentRoom={r} socket={socket}/></td>
                                 <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
@@ -252,12 +252,17 @@ const Chatrooms = (props) => {
                     <tbody>
                         <tr>
                             <th>Name</th>
-                            <th>Description</th>
+                            <th>Max users</th>
+                            <th>Info</th>
                         </tr>
                         {props.rooms
                             .filter(r => r.name.toLowerCase().includes(search))
                             .slice(page-1, page+4)
-                            .map(r => <tr key={r.name}><td><p>{r.name}</p></td><td>{r.description}</td></tr>)}
+                            .map(r => <tr key={r.name}>
+                                <td><p>{r.name}</p></td>
+                                <td><p>{r.user_limit}</p></td>
+                                <td>{r.description}</td>
+                            </tr>)}
                     </tbody>
                 </table>
             </div>

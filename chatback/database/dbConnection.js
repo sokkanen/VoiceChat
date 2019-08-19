@@ -10,7 +10,7 @@ const getConnection = async () => {
 }
 
 const createTables = () => {
-  client.query('CREATE TABLE IF NOT EXISTS room (id varchar(48) PRIMARY KEY, name varchar(64) NOT NULL UNIQUE, description varchar(255), private boolean NOT NULL, owner_id varchar(48));')
+  client.query('CREATE TABLE IF NOT EXISTS room (id varchar(48) PRIMARY KEY, name varchar(64) NOT NULL UNIQUE, description varchar(255), private boolean NOT NULL, owner_id varchar(48), user_limit integer);')
     .catch(error => {
       console.log(error)
     })

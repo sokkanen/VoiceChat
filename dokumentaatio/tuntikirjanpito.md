@@ -51,4 +51,5 @@ päivä | aika | mitä tein
 18.8  | 2    | Omien käyttäjäkuvien tallennus ja päivitys ulkoiseen Mongo-tietokantaan toimii.
 18.8  | 2    | Käyttäjäkuvat haetaan sisäänkirjautumisen yhteydessä ja liitetään chattikäyttäjään. Kuvat renderöityvät oikein. Chatin säätöä. 
 18.8  | 2    | Huoneiden järjestäminen, sivutus ja haku.
-YHT   | 105
+19.8  | 2    | Huoneiden maksimikäyttäjämäärä. Rajoituksen hahmottelua bäkillä ja frontissa.
+YHT   | 107

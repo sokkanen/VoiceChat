@@ -14,10 +14,12 @@ const NewRoomForm = (props) => {
                 title: event.target.title.value,
                 description: event.target.description.value,
                 private: event.target.private.value === 'YES' ? true : false,
+                user_limit: event.target.user_limit.value
             }
             event.target.title.value = ''
             event.target.description.value = ''
             event.target.private.value = 'NO'
+            event.target.user_limit.value = '5'
             if (room.title === ''){
                 alert(`New room must have a title!`)
             } else {
@@ -72,13 +74,20 @@ const NewRoomForm = (props) => {
                     <input name="title"></input>
                 </div>
                 <div className="field">
-                    <label>Description:</label>
+                    <label>Additional information:</label>
                     <textarea name="description" rows="5" cols="50"></textarea>
                 </div>
                 <div className="button_field">
                     <label>Private:</label>
                     <input type="radio" name="private" value="YES"></input> Yes
                     <input type="radio" name="private" value="NO" defaultChecked></input> No
+                </div>
+                <div className="button_field">
+                    <label>User limit:</label>
+                    <input type="radio" name="user_limit" value="2"></input> 2
+                    <input type="radio" name="user_limit" value="5" defaultChecked></input> 5
+                    <input type="radio" name="user_limit" value="10"></input> 10
+                    <input type="radio" name="user_limit" value="999"></input> Unlimited
                 </div>
                 <div className="field">
                     <button type="submit">Create</button>
