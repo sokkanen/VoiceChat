@@ -11,15 +11,12 @@ const mongo = require('./database/mongo')
 const query = require('./database/dbQueries')
 const UserImage = require('./models/userImage')
 const PORT = process.env.PORT
+const SOCKETPORT = process.env.SOCKETPORT || 3005
 
 // Cache
 let users = []
 let rooms = []
 let fullRooms = []
-
-app.get('/health', (req, res) => {
-  res.send(`<h3>Chatback up and running. Socket on port ${PORT}</h3>`)
-})
 
 const addNewUser = async (newUser) => {
   const result = await findUserImages(newUser.chatnick)
@@ -258,10 +255,10 @@ io.on('connection', (client) => {
 })
 
 const listen = () => {
-  io.listen(PORT)
-  console.log('Socket running on port:', PORT)
+  io.listen(SOCKETPORT)
+  console.log('Socket running on port:', SOCKETPORT)
 }
 
-app.listen(3002)
+app.listen(PORT)
 
 module.exports = { listen }

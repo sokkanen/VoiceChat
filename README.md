@@ -1,8 +1,14 @@
 #### VoiceChat
 
+### Demo
+
+Ohjelman tämänhetkinen versio (Ilman tietokantaa) löytyy osoitteesta https://synthchat.herokuapp.com/
+
+### Yleistä
+
 VoiceChat on selaimen puhesyntetisaattoria käyttävä chat -ohjelma.
 
-Ohjelma tullaan rakentamaan stackille React - NodeJS - Postgresql / MongoDb.
+Ohjelma on rakennettu stackille  React - NodeJS - Postgresql / MongoDb.
 
 Alustavat keskeiset ominaisuudet:
 
@@ -18,8 +24,7 @@ Alustavat keskeiset ominaisuudet:
 	- Kutsuminen yksityishuoneeseen
 
 TODO:
-- Huoneiden sivutus ja haku
 - Bootstrap
-- Käyttäjäkuvien tallennus, haku ja esittäminen
 - Käyttäjän hallintapaneeli
+- Heroku Postgres
 - Testejä...

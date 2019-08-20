@@ -21,11 +21,9 @@ import Home from './Components/Home'
 import Ownface from './Components/Ownface'
 import UserManagement from './Components/UserManagement'
 
-let socket = undefined
+//const socket = openSocket(`https://synthchat.herokuapp.com/`)
 
-process.env.NODE_ENV === 'production' ?
-socket = openSocket('http://localhost:3003/') :
-socket = openSocket('http://localhost:3003/')
+const socket = openSocket('http://localhost:3005/')
 
 const App = (props) =>  {
   useEffect(() => {

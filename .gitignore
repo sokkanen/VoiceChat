@@ -12,6 +12,11 @@ chatfront/coverage
 # production
 chatfront/build
 
+# dev
+
+chatfront/build_dev.sh
+chatfront/build.sh
+
 # misc
 /chatfront/.DS_Store
 /chatfront/.env.local
@@ -36,3 +41,4 @@ chatfront/build
 /chatback/package-lock.json
 /chatback/.env
 /chatback/.eslintignore
+/chatback/build/
