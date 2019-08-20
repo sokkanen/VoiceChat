@@ -21,7 +21,11 @@ import Home from './Components/Home'
 import Ownface from './Components/Ownface'
 import UserManagement from './Components/UserManagement'
 
-const socket = openSocket('http://localhost:3003/')
+let socket = undefined
+
+process.env.NODE_ENV === 'production' ?
+socket = openSocket('http://localhost:3003/') :
+socket = openSocket('http://localhost:3003/')
 
 const App = (props) =>  {
   useEffect(() => {

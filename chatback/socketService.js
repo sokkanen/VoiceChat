@@ -1,14 +1,25 @@
 require('dotenv').config()
-const io = require('socket.io')()
+
+const express = require('express')
+const app = express()
+app.use(express.static('build'))
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+io.set('origins', '*:*')
+
 const mongo = require('./database/mongo')
 const query = require('./database/dbQueries')
 const UserImage = require('./models/userImage')
-const SOCKETPORT = process.env.SOCKETPORT
+const PORT = process.env.PORT
 
 // Cache
 let users = []
 let rooms = []
 let fullRooms = []
+
+app.get('/health', (req, res) => {
+  res.send(`<h3>Chatback up and running. Socket on port ${PORT}</h3>`)
+})
 
 const addNewUser = async (newUser) => {
   const result = await findUserImages(newUser.chatnick)
@@ -247,8 +258,10 @@ io.on('connection', (client) => {
 })
 
 const listen = () => {
-  io.listen(SOCKETPORT)
-  console.log('Socket portissa ', SOCKETPORT)
+  io.listen(PORT)
+  console.log('Socket running on port:', PORT)
 }
+
+app.listen(3002)
 
 module.exports = { listen }
