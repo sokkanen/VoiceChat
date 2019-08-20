@@ -3,6 +3,7 @@ import { setNotification } from '../Reducers/NotificationReducer'
 import { setUser } from '../Reducers/UserReducer'
 import { setChatnick } from '../Reducers/ChatnickReducer'
 import { setInvites } from '../Reducers/InvitesReducer'
+import { setUserInfo } from '../Reducers/UserInfoReducer'
 import { connect } from 'react-redux'
 import Notification from './Notification'
 import './Forms.css'
@@ -33,6 +34,7 @@ const LoginForm = (props) => {
             const welcome = `Welcome ${user.username}!`
             window.localStorage.setItem('user', JSON.stringify(user))
             props.setUser(user.username)
+            props.setUserInfo(user.email)
             props.setChatnick(user.username)
             props.setInvites(user.invites)
             await notificate(welcome)
@@ -108,7 +110,8 @@ const mapStateToProps = (state) => {
     setNotification,
     setUser,
     setChatnick,
-    setInvites
+    setInvites,
+    setUserInfo
   }
   
   const connectedLoginForm = connect(mapStateToProps, mapDispatchToProps)(LoginForm)

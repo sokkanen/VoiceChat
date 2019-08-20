@@ -10,6 +10,7 @@ import { removeChatnick } from './Reducers/ChatnickReducer'
 import { removePrivateRooms } from './Reducers/PrivateRoomsReducer'
 import { removeFaces } from './Reducers/OwnFaceReducer'
 import { setRoom } from './Reducers/RoomReducer'
+import { removeUserInfo } from './Reducers/UserInfoReducer'
 import Invites from './Components/Invites'
 
 import Chatrooms from './Components/Chatrooms'
@@ -18,6 +19,7 @@ import NewUserForm from './Components/NewUserForm'
 import LoginForm from './Components/LoginForm'
 import Home from './Components/Home'
 import Ownface from './Components/Ownface'
+import UserManagement from './Components/UserManagement'
 
 const socket = openSocket('http://localhost:3003/')
 
@@ -53,6 +55,7 @@ const App = (props) =>  {
     props.removeFaces()
     props.setUsers([])
     props.setRoom('')
+    props.removeUserInfo()
     socket.emit('logout')
     window.localStorage.removeItem('user')
   }
@@ -66,11 +69,11 @@ const App = (props) =>  {
             <Link style={style} to="/">Home</Link>
             <Link style={style} to="/rooms">Chatrooms</Link>
             <Link style={style} to="/alterface">Create chatface</Link>
-          </div>
-          <div>
-            {'Logged in: ' + props.user}
-            <button onClick={logOutHandler}>LogOut</button> 
-            <Invites socket={socket}/>
+            <div>
+            Logged in: <Link style={style} to="/usrmngmt">{props.user}</Link>
+              <button onClick={logOutHandler}>LogOut</button> 
+              <Invites socket={socket}/>
+            </div>
           </div>
             <Route exact path="/" render={() => <Home/>}/>
             <Route path="/alterface" render={() => <Ownface socket={socket}/>}/>
@@ -82,6 +85,7 @@ const App = (props) =>  {
               props.chatnick === '' ? <Redirect to="/rooms"/> :
               <Room room={roomByTitle(match.params.title)} socket={socket} />
             }/>
+            <Route path="/usrmngmt" render={() => <UserManagement socket={socket}/>}/>
         </Router>
       </div>
   </div>
@@ -109,6 +113,7 @@ const App = (props) =>  {
                 props.chatnick === '' ? <Redirect to="/rooms"/> :
                 <Room room={roomByTitle(match.params.title)} socket={socket} />
               }/>
+              <Route path="/usrmngmt" render={() => <Home/>}/>
           </Router>
         </div>
     </div>
@@ -132,7 +137,8 @@ const mapDispatchToProps = {
   removePrivateRooms,
   removeFaces,
   setRoom,
-  setFullRooms
+  setFullRooms,
+  removeUserInfo
 }
 
 const connectedApp = connect(

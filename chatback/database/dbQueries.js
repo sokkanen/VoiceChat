@@ -75,6 +75,7 @@ const login = async (credentials) => {
       token: token,
       username: returnvalue.rows[0].username,
       id: returnvalue.rows[0].id,
+      email: returnvalue.rows[0].email,
       images_id: returnvalue.rows[0].images_id
     }
     try {
