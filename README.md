@@ -1,10 +1,10 @@
-#### VoiceChat
+## VoiceChat
 
 ### Demo
 
 Ohjelman tämänhetkinen versio (Ilman tietokantaa) löytyy osoitteesta https://synthchat.herokuapp.com/
 
-## Tuntikirjanpito
+#### Tuntikirjanpito
 
 [Tuntikirjanpito](https://github.com/sokkanen/VoiceChat/blob/master/dokumentaatio/tuntikirjanpito.md)
 
