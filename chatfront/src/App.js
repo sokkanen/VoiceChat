@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import openSocket from 'socket.io-client'
+import io from 'socket.io-client';
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
@@ -21,9 +21,10 @@ import Home from './Components/Home'
 import Ownface from './Components/Ownface'
 import UserManagement from './Components/UserManagement'
 
-//const socket = openSocket(`https://synthchat.herokuapp.com/`)
-
-const socket = openSocket('http://localhost:3005/')
+const LOCAL = 'http://localhost:3003'
+const HOST = window.location.origin.replace(/^http/, 'ws')
+let socket
+window.location.origin === 'http://localhost:3000' ? socket = io(LOCAL) : socket = io(HOST)
 
 const App = (props) =>  {
   useEffect(() => {

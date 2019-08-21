@@ -1,7 +1,16 @@
 require('dotenv').config()
 const { Client } = require('pg')
 
-const client = new Client()
+let client
+
+if (process.env.HEROKU){
+  client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+  })
+} else {
+  client = new Client()
+}
 
 const getConnection = async () => {
   console.log('Connecting to postgres')

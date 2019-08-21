@@ -2,16 +2,14 @@ require('dotenv').config()
 
 const express = require('express')
 const app = express()
-app.use(express.static('build'))
 const server = require('http').createServer(app)
-const io = require('socket.io')(server)
+const io = require('socket.io').listen(server)
+app.use(express.static('build'))
 io.set('origins', '*:*')
 
 const mongo = require('./database/mongo')
 const query = require('./database/dbQueries')
 const UserImage = require('./models/userImage')
-const PORT = process.env.PORT
-const SOCKETPORT = process.env.SOCKETPORT || 3005
 
 // Cache
 let users = []
@@ -255,10 +253,8 @@ io.on('connection', (client) => {
 })
 
 const listen = () => {
-  io.listen(SOCKETPORT)
-  console.log('Socket running on port:', SOCKETPORT)
+  server.listen(process.env.PORT || 3000)
+  console.log('server on port', process.env.PORT)
 }
-
-app.listen(PORT)
 
 module.exports = { listen }

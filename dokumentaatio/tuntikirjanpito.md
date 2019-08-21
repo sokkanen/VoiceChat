@@ -54,4 +54,5 @@ päivä | aika | mitä tein
 19.8  | 2    | Huoneiden maksimikäyttäjämäärä. Rajoituksen hahmottelua bäkillä ja frontissa.
 19.8  | 3    | Huoneiden rajoitus toimii sekä normaali- että privaattihuoneille. Sivutuksen parannus.
 20.8  | 3    | Alkeellinen käyttäjähallinta. Frontin build toimii. Herokun asetukset.
-YHT   | 113
+21.8  | 2    | Sovellus toimimaan Herokussa kaikilla ominaisuuksilla. 
+YHT   | 115
