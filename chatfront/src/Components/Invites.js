@@ -20,12 +20,18 @@ const Invites = (props) => {
         props.setInvites(invites.filter(i => i.room_id !== invitation.room_id))
     }
 
+    const style = { 
+        padding: 10,
+        background: "#6b7574",
+        color: "white",
+        'font-weight': "bold"
+    }
+
     return (
-        <div>
-            <Popup trigger={invites.length === 0 ? <button>No new invites</button> : <button>You've got invitations!</button>}modal>
+            <Popup trigger={invites.length === 0 ? <button>No new invitations</button> : <button>Click to see new invitations!</button>}modal>
                 {close => (
-                <div>
-                    <div><h3>Invites</h3></div>
+                <div style= {style}>
+                    <h3>Invitations</h3>
                         <ul>
                             {invites.map(i => <li key={i.room_id + i.invitee_id}>
                             <p>You've been invited by {i.inviter} to join '{i.room}'</p>
@@ -39,7 +45,7 @@ const Invites = (props) => {
                 </div>
                 )}
             </Popup>
-        </div>
+        
     )
 }
 

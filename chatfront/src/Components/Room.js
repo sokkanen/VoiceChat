@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
 import Speech from 'speak-tts'
+import { Spinner } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
@@ -140,11 +141,18 @@ const Room = (props) => {
     }
 
     if (props.users.length === 0){
-      return <div>loading...</div>
+      return <div>
+              <Spinner animation="border" />
+            </div>
+    }
+
+    const style = { 
+      padding: 10,
+      margin: 45
     }
 
     return (
-        <div>
+        <div style={style}>
             <div>
                 <Notification textColor={textColor}/>
             </div>
