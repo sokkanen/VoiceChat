@@ -132,9 +132,14 @@ const Chatrooms = (props) => {
         setPrivatePage(pageNumber)
     }
 
+    const style = { 
+        padding: 10,
+        margin: 45
+    }
+
     if (props.chatnick !== ''){
         return (
-        <div>
+        <div style={style}>
             <div>
                 <Notification textColor={textColor}/>
             </div>
@@ -229,7 +234,7 @@ const Chatrooms = (props) => {
     }
 
     return (
-        <div>
+        <div style={style}>
             <div>
                 <Notification textColor={textColor}/>
             </div>

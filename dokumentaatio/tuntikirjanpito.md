@@ -55,4 +55,5 @@ päivä | aika | mitä tein
 19.8  | 3    | Huoneiden rajoitus toimii sekä normaali- että privaattihuoneille. Sivutuksen parannus.
 20.8  | 3    | Alkeellinen käyttäjähallinta. Frontin build toimii. Herokun asetukset.
 21.8  | 2    | Sovellus toimimaan Herokussa kaikilla ominaisuuksilla. 
-YHT   | 115
+22.8  | 2    | Bootstrap-aloitus, selaimen tunnistus.
+YHT   | 117

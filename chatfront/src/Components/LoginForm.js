@@ -73,8 +73,13 @@ const LoginForm = (props) => {
         setPassword(event.target.value)
     }
 
+    const style = { 
+        padding: 10,
+        margin: 45
+    }
+
     return (
-        <div>
+        <div style={style}>
             <div>
             <Notification textColor="#62f442"/>
             </div>

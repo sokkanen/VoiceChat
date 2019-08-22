@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Navbar, Nav } from 'react-bootstrap'
 import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
@@ -12,6 +13,7 @@ import { removeFaces } from './Reducers/OwnFaceReducer'
 import { setRoom } from './Reducers/RoomReducer'
 import { removeUserInfo } from './Reducers/UserInfoReducer'
 import Invites from './Components/Invites'
+import backGroundImage from './Images/home.png'
 
 import Chatrooms from './Components/Chatrooms'
 import Room from './Components/Room'
@@ -49,7 +51,12 @@ const App = (props) =>  {
   
   const roomByTitle = (title) => props.rooms.find(r => r.title === title)
 
-  const style = { padding: 10 } // --> .css
+  const style = { 
+    padding: 10,
+    background: "#6b7574",
+    color: "white",
+    'font-weight': "bold"
+  }
 
   const logOutHandler = () => {
     props.logoutUser()
@@ -65,19 +72,22 @@ const App = (props) =>  {
 
   if (props.user){
     return (
-      <div>
-      <div>
+      <div class="container">
         <Router>
+        <Navbar bg="light" variant="light">
           <div>
-            <Link style={style} to="/">Home</Link>
-            <Link style={style} to="/rooms">Chatrooms</Link>
-            <Link style={style} to="/alterface">Create chatface</Link>
+          <Link style={style} to="/">
+            <img alt="" src={backGroundImage} width="30" height="30" className="d-inline-block align-top"/>
+          </Link>
+          <Link style={style} to="/rooms">Chatrooms</Link>
+          <Link style={style} to="/alterface">Create chatface</Link>
+        </div>
+        </Navbar>
             <div>
             Logged in: <Link style={style} to="/usrmngmt">{props.user}</Link>
               <button onClick={logOutHandler}>LogOut</button> 
               <Invites socket={socket}/>
             </div>
-          </div>
             <Route exact path="/" render={() => <Home/>}/>
             <Route path="/alterface" render={() => <Ownface socket={socket}/>}/>
             <Route path="/login" render={() => props.user === '' ? 
@@ -91,35 +101,47 @@ const App = (props) =>  {
             <Route path="/usrmngmt" render={() => <UserManagement socket={socket}/>}/>
         </Router>
       </div>
-  </div>
     )
   }
 
+
   return (
-      <div>
+      <div class="container">
+        <Router>
+        <nav class="navbar fixed-top navbar-expand-md" style={style}>
+        <div class="container-fluid">
         <div>
-          <Router>
-            <div>
-              <Link style={style} to="/">Home</Link>
-              <Link style={style} to="/rooms">Chatrooms</Link>
-              <Link style={style} to="/register">New User</Link>
-              <Link style={style} to="/login">Login</Link>
-            </div>
-              <Route exact path="/" render={() => <Home/>}/>
-              <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
-              <Route path="/alterface" render={() => <Home/>}/>
-              <Route path="/login" render={() => props.user === '' ? 
-              <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
-              }/>
-              <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
-              <Route exact path="/rooms/:title" render={({ match }) => 
-                props.chatnick === '' ? <Redirect to="/rooms"/> :
-                <Room room={roomByTitle(match.params.title)} socket={socket} />
-              }/>
-              <Route path="/usrmngmt" render={() => <Home/>}/>
-          </Router>
+          <Link style={style} to="/">
+            <img alt="" src={backGroundImage} width="30" height="30" className="d-inline-block align-top"/>
+          </Link>
+          <Link style={style} to="/rooms">Chatrooms</Link>
+          <Link style={style} to="/register">New User</Link>
+          <Link style={style} to="/login">Login</Link>
         </div>
+        </div>
+        </nav>
+        <div class="container">
+          <Route exact path="/" render={() => <Home/>}/>
+          <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
+          <Route path="/alterface" render={() => <Home/>}/>
+          <Route path="/login" render={() => props.user === '' ? 
+          <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
+          }/>
+          <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
+          <Route exact path="/rooms/:title" render={({ match }) => 
+            props.chatnick === '' ? <Redirect to="/rooms"/> :
+            <Room room={roomByTitle(match.params.title)} socket={socket} />
+          }/>
+          <Route path="/usrmngmt" render={() => <Home/>}/>
+        </div>
+        </Router>
+        <footer className="blockquote-footer">
+        <nav class="navbar fixed-bottom navbar-expand-md" style={style}> 
+            <em>Joel Sokkanen 2019</em>
+        </nav>
+        </footer>
     </div>
+    
   )
 }
 
