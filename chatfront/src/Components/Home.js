@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import backGroundImage from '../Images/home.png'
 
 const Home = () => {
+
+  const [imageWidth, setImageWidth] = useState(window.innerWidth * 0.75)
+  
+  const handleResize = () => {
+    setImageWidth(window.innerWidth * 0.75)
+  }
+
+  window.addEventListener('resize', handleResize)
 
   const nonChromeInfo = () => {
     return (
@@ -20,7 +28,7 @@ const Home = () => {
     return (
       <div style={style}>
           <h1>Welcome to voicechat!</h1>
-          <img src={backGroundImage} alt="Welcoming image"></img>
+          <img src={backGroundImage} alt="Welcome" width={imageWidth}></img>
           <div>
             {navigator.userAgent.toLowerCase().includes('chrome') ? 
             null : 

@@ -56,4 +56,5 @@ päivä | aika | mitä tein
 20.8  | 3    | Alkeellinen käyttäjähallinta. Frontin build toimii. Herokun asetukset.
 21.8  | 2    | Sovellus toimimaan Herokussa kaikilla ominaisuuksilla. 
 22.8  | 3    | Bootstrap-aloitus, selaimen tunnistus, koodin siistimistä.
-YHT   | 118
+24.8  | 2    | Äänenvalinnan hahmottelua ja opettelua. Dynaaminen etusivu (Säätyy ikkunan leveydestä.)
+YHT   | 120

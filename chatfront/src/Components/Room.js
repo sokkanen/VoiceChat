@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
 import Speech from 'speak-tts'
-import { Spinner } from 'react-bootstrap'
+import { Spinner, ButtonToolbar, Dropdown, DropdownButton } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
@@ -18,15 +18,15 @@ const Room = (props) => {
     const socket = props.socket
     const msg = props.message
 
-    const speech = new Speech()
+    let speech = new Speech({'voice': 'Google Deutsch'})
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
     const [count, setCount] = useState(7)
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
-    const [voices, setVoices] = useState('') // Talteen äänenvalintaa varten.
     const [textColor, setTextColor] = useState('#62f442')
+    const [voices, setVoices] = useState('')
 
     useEffect(() => {
       initializeSpeech()
@@ -81,13 +81,20 @@ const Room = (props) => {
       }
     }, [props])
 
-    const initializeSpeech = () => {
-        speech.init().then((data) => {
-          const vc = data.voices.map(v => v.name)
-          setVoices(vc)
-        }).catch(error => {
-          console.log(error)
-        })
+    const initializeSpeech = (voice) => {
+        if (voice){
+          speech.init({voice: voice})
+          .catch(error => {
+            console.log(error)
+          }) 
+        } else {
+          speech.init().then((data) => {
+            const vc = data.voices.map(v => v.name)
+            setVoices(vc)
+          }).catch(error => {
+            console.log(error)
+          })
+        }
     }
 
     const notificate = (message) => {
@@ -140,15 +147,19 @@ const Room = (props) => {
         return <div><h4>Please choose a room from "Chatrooms"</h4></div>
     }
 
-    if (props.users.length === 0){
-      return <div>
-              <Spinner animation="border" />
-            </div>
-    }
-
     const style = { 
       padding: 10,
       margin: 45
+    }
+
+    if (props.users.length === 0){
+      return (
+        <div style={style}>
+          <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </div>
+      )
     }
 
     return (
@@ -163,6 +174,15 @@ const Room = (props) => {
         <div>
             <Heads room={props.room}/>
         </div>
+
+        <ButtonToolbar>
+        <DropdownButton id="dropdown-basic-button" title="Voice select">
+          {speechSynthesis.getVoices().map(voice => (
+            <Dropdown.Item eventKey={voice.name} onClick={() => initializeSpeech(voice.voiceURI)} >{voice.name}</Dropdown.Item>
+          ))}
+        </DropdownButton>
+      </ButtonToolbar>
+
         <form onSubmit={sendMessage}>
           <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
           <button type="submit">Send</button>

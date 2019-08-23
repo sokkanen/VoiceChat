@@ -3,8 +3,13 @@ import { connect } from 'react-redux'
 
 const UserManagement = (props) => {
 
+  const style = { 
+    padding: 10,
+    margin: 45
+  }
+
     return (
-      <div>
+      <div style={style}>
         <div>
           <h1>User management</h1>
         </div>

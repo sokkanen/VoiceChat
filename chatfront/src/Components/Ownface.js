@@ -125,8 +125,13 @@ const Ownface = (props) => {
         setImage(defaultFace)
     }
 
+    const style = { 
+        padding: 10,
+        margin: 45
+    }
+
     return (
-    <div>
+    <div style={style}>
         <video ref={photoRef} autoPlay={true}/>
         <img alt="CamPhoto" src={image}/>
         <h1>{info}</h1>

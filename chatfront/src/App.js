@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { NavDropdown, Nav, Navbar } from 'react-bootstrap'
+import { Nav, Navbar } from 'react-bootstrap'
 import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
@@ -56,15 +56,15 @@ const App = (props) =>  {
     padding: 10,
     background: "#6b7574",
     color: "white",
-    'font-weight': "bold"
+    fontWeight: "bold"
   }
 
   const styleToRight = { 
     padding: 10,
     background: "#6b7574",
     color: "white",
-    'font-weight': "bold",
-    'margin-right': "50px"
+    fontWeight: "bold",
+    marginRight: "50px"
   }
 
   const logOutHandler = () => {
@@ -83,21 +83,23 @@ const App = (props) =>  {
     return (
       <div class="container">
         <Router>
-        <Navbar bg="light" expand="lg">
-            <Nav class="navbar fixed-top navbar-expand-md" style={style}>
-            <div>
-              <Link style={style} to="/">
-                <img alt="" src={backGroundImage} width="30" height="30" className="d-inline-block align-top"/>
-              </Link>
-              <Link style={styleToRight} to="/rooms">Chatrooms</Link>
-                <img alt="" src={userImage} width="30" height="30" className="d-inline-block align-top"/> :
-              <Link style={style} to="/usrmngmt">{props.user}</Link>
-              <Link style={style} to="/alterface">Custom chatface</Link>
-              <Invites socket={socket}/>
-              <button onClick={logOutHandler}>LogOut</button> 
-            </div>
-            </Nav>
+
+          <Navbar bg="light" expand="lg">
+              <Nav class="navbar fixed-top navbar-expand-md" style={style}>
+                <div>
+                  <Link style={style} to="/">
+                    <img alt="" src={backGroundImage} width="30" height="30" className="d-inline-block align-top"/>
+                  </Link>
+                  <Link style={styleToRight} to="/rooms">Chatrooms</Link>
+                    <img alt="" src={userImage} width="30" height="30" className="d-inline-block align-top"/> :
+                  <Link style={style} to="/usrmngmt">{props.user}</Link>
+                  <Link style={style} to="/alterface">Custom chatface</Link>
+                  <Invites socket={socket}/>
+                  <button onClick={logOutHandler}>LogOut</button> 
+                </div>
+              </Nav>
           </Navbar>
+
             <Route exact path="/" render={() => <Home/>}/>
             <Route path="/alterface" render={() => <Ownface socket={socket}/>}/>
             <Route path="/login" render={() => props.user === '' ? 
@@ -109,6 +111,7 @@ const App = (props) =>  {
               <Room room={roomByTitle(match.params.title)} socket={socket} />
             }/>
             <Route path="/usrmngmt" render={() => <UserManagement socket={socket}/>}/>
+
         </Router>
         <footer className="blockquote-footer">
         <nav class="navbar fixed-bottom navbar-expand-md" style={style}> 
@@ -122,41 +125,44 @@ const App = (props) =>  {
   return (
       <div class="container">
         <Router>
-        <Navbar bg="light" expand="lg">
-            <Nav class="navbar fixed-top navbar-expand-md" style={style}>
-        <div class="container-fluid">
-        <div>
-          <Link style={style} to="/">
-            <img alt="" src={backGroundImage} width="30" height="30" className="d-inline-block align-top"/>
-          </Link>
-          <Link style={style} to="/rooms">Chatrooms</Link>
-          <Link style={style} to="/register">New User</Link>
-          <Link style={style} to="/login">Login</Link>
-        </div>
-        </div>
+
+      <Navbar bg="light" expand="lg">
+        <Nav class="navbar fixed-top navbar-expand-md" style={style}>
+          <div>
+            <div>
+              <Link style={style} to="/">
+                <img alt="" src={backGroundImage} width="30" height="30" className="d-inline-block align-top"/>
+              </Link>
+              <Link style={style} to="/rooms">Chatrooms</Link>
+              <Link style={style} to="/register">New User</Link>
+              <Link style={style} to="/login">Login</Link>
+            </div>
+          </div>
         </Nav>
-          </Navbar>
-        <div class="container">
-          <Route exact path="/" render={() => <Home/>}/>
-          <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
-          <Route path="/alterface" render={() => <Home/>}/>
-          <Route path="/login" render={() => props.user === '' ? 
-          <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
-          }/>
-          <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
-          <Route exact path="/rooms/:title" render={({ match }) => 
-            props.chatnick === '' ? <Redirect to="/rooms"/> :
-            <Room room={roomByTitle(match.params.title)} socket={socket} />
-          }/>
-          <Route path="/usrmngmt" render={() => <Home/>}/>
-        </div>
+      </Navbar>
+
+      <div class="container">
+        <Route exact path="/" render={() => <Home/>}/>
+        <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
+        <Route path="/alterface" render={() => <Home/>}/>
+        <Route path="/login" render={() => props.user === '' ? 
+        <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
+        }/>
+        <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
+        <Route exact path="/rooms/:title" render={({ match }) => 
+          props.chatnick === '' ? <Redirect to="/rooms"/> :
+          <Room room={roomByTitle(match.params.title)} socket={socket} />
+        }/>
+        <Route path="/usrmngmt" render={() => <Home/>}/>
+      </div>
+        
         </Router>
         <footer className="blockquote-footer">
         <nav class="navbar fixed-bottom navbar-expand-md" style={style}> 
             <em>Joel Sokkanen 2019</em>
         </nav>
         </footer>
-    </div>
+      </div>
     
   )
 }
