@@ -18,7 +18,8 @@ const Room = (props) => {
     const socket = props.socket
     const msg = props.message
 
-    let speech = new Speech({'voice': 'Google Deutsch'})
+    //let speech = new Speech()
+
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
     const [message, setMessage] = useState('')
@@ -26,10 +27,10 @@ const Room = (props) => {
     const [count, setCount] = useState(7)
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [textColor, setTextColor] = useState('#62f442')
-    const [voices, setVoices] = useState('')
+    const [voices, setVoices] = useState([])
+    const [speech, setSpeech] = useState(new Speech())
 
     useEffect(() => {
-      initializeSpeech()
       if (msg.length !== 0){
         if (msg.room === props.room){
           console.log('message: ', msg.message, ' from: ', msg.user)
@@ -81,28 +82,29 @@ const Room = (props) => {
       }
     }, [props])
 
-    const initializeSpeech = (voice) => {
-        if (voice){
-          speech.init({voice: voice})
-          .catch(error => {
-            console.log(error)
-          }) 
-        } else {
-          speech.init().then((data) => {
-            const vc = data.voices.map(v => v.name)
-            setVoices(vc)
-          }).catch(error => {
-            console.log(error)
-          })
-        }
+    // Speech
+
+    const initializeSpeech = (voice) => async () => {
+      console.log(voice)
+      const sph = new Speech()
+      try {
+        await sph.init({
+          'volume': 1,
+          'lang': voice.lang,
+          'rate': 1,
+          'pitch': 1,
+          'voice': voice.name,
+        })
+        setSpeech(sph)
+        console.log('Done')
+      } catch (error) {
+        console.log(error)
+      }
     }
 
-    const notificate = (message) => {
-        props.setNotification(message)
-        setTimeout(() => {
-          props.setNotification('')
-          setTextColor('#62f442')
-        }, 5000)
+    speechSynthesis.onvoiceschanged = () => {
+      setVoices(speechSynthesis.getVoices())
+      console.log('Voices set.')
     }
 
     const speak = (msg) => {
@@ -121,6 +123,16 @@ const Room = (props) => {
           }, 105 * i);
         }
         props.setLetter('1')
+    }
+
+    // /Speech
+
+    const notificate = (message) => {
+      props.setNotification(message)
+      setTimeout(() => {
+        props.setNotification('')
+        setTextColor('#62f442')
+      }, 5000)
     }
 
     const setVisible = () => {
@@ -177,8 +189,8 @@ const Room = (props) => {
 
         <ButtonToolbar>
         <DropdownButton id="dropdown-basic-button" title="Voice select">
-          {speechSynthesis.getVoices().map(voice => (
-            <Dropdown.Item eventKey={voice.name} onClick={() => initializeSpeech(voice.voiceURI)} >{voice.name}</Dropdown.Item>
+          {voices.map(voice => (
+            <Dropdown.Item eventKey={voice.name} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
           ))}
         </DropdownButton>
       </ButtonToolbar>

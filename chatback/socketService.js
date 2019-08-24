@@ -16,6 +16,10 @@ let users = []
 let rooms = []
 let fullRooms = []
 
+app.get('*', (req, res) => {
+  res.redirect('/')
+})
+
 const addNewUser = async (newUser) => {
   const result = await findUserImages(newUser.chatnick)
   if (result){

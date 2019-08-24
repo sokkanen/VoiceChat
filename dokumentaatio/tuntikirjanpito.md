@@ -57,4 +57,5 @@ päivä | aika | mitä tein
 21.8  | 2    | Sovellus toimimaan Herokussa kaikilla ominaisuuksilla. 
 22.8  | 3    | Bootstrap-aloitus, selaimen tunnistus, koodin siistimistä.
 24.8  | 2    | Äänenvalinnan hahmottelua ja opettelua. Dynaaminen etusivu (Säätyy ikkunan leveydestä.)
-YHT   | 120
+24.8  | 2    | Reitityksen parannus, kielenvalinta.
+YHT   | 122
