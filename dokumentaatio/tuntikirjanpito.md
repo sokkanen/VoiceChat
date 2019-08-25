@@ -58,5 +58,5 @@ päivä | aika | mitä tein
 22.8  | 3    | Bootstrap-aloitus, selaimen tunnistus, koodin siistimistä.
 24.8  | 2    | Äänenvalinnan hahmottelua ja opettelua. Dynaaminen etusivu (Säätyy ikkunan leveydestä.)
 24.8  | 2    | Reitityksen parannus, kielenvalinta.
-25.8  | 1    | Kielenvalinnan parannus ja info, käyttäjänimien puhuminen, huoneen bootstrapia.
-YHT   | 123
+25.8  | 2    | Kielenvalinnan parannus ja info, käyttäjänimien puhuminen, huoneen bootstrapia. Käyttäjäkuvakkeiden rivitys.
+YHT   | 124
