@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
 import Speech from 'speak-tts'
-import { Spinner, ButtonToolbar, Dropdown, DropdownButton } from 'react-bootstrap'
+import { Spinner, ButtonToolbar, Dropdown, DropdownButton, Button, Badge, Form } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
@@ -18,10 +18,9 @@ const Room = (props) => {
     const socket = props.socket
     const msg = props.message
 
-    //let speech = new Speech()
-
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
+    const [speakButtonMsg, SetSpeakButtonMsg] = useState('Speak usernames')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
     const [count, setCount] = useState(7)
@@ -29,6 +28,7 @@ const Room = (props) => {
     const [textColor, setTextColor] = useState('#62f442')
     const [voices, setVoices] = useState([])
     const [speech, setSpeech] = useState(new Speech())
+    const [voice, setVoice] = useState('Default')
 
     useEffect(() => {
       if (msg.length !== 0){
@@ -44,7 +44,11 @@ const Room = (props) => {
             msgs.shift()
           }
           setMessages(msgs)
-          speak(msg.message + '.')
+          if (speakButtonMsg === 'Speak usernames'){
+            speak(msg.message + '.')
+          } else {
+            speak(msg.user + ': ' + msg.message + '.')
+          }
           props.setSpeaking(msg.user)
           forceUpdate()
           props.newMessage('')
@@ -85,7 +89,6 @@ const Room = (props) => {
     // Speech
 
     const initializeSpeech = (voice) => async () => {
-      console.log(voice)
       const sph = new Speech()
       try {
         await sph.init({
@@ -96,10 +99,19 @@ const Room = (props) => {
           'voice': voice.name,
         })
         setSpeech(sph)
-        console.log('Done')
+        setVoice(voice.name)
+        window.alert(`Current voice changed to ${voice.name}`)
+        console.log('Voice changed')
       } catch (error) {
         console.log(error)
       }
+    }
+
+    const changeVoice = (voice) => async () => {
+      let updatedVoice = speech
+      updatedVoice.setVoice(voice.name)
+      updatedVoice.setLanguage(voice.lang)
+      setSpeech(updatedVoice)
     }
 
     speechSynthesis.onvoiceschanged = () => {
@@ -136,12 +148,20 @@ const Room = (props) => {
     }
 
     const setVisible = () => {
-        setChatBoxVisible(!chatBoxVisible)
-        if (buttonMsg === 'Hide textchat'){
-          setButtonMsg('Show textchat')
-        } else {
-          setButtonMsg('Hide textchat')
-        }
+      setChatBoxVisible(!chatBoxVisible)
+      if (buttonMsg === 'Hide textchat'){
+        setButtonMsg('Show textchat')
+      } else {
+        setButtonMsg('Hide textchat')
+      }
+    }
+
+    const setSpeakingNicknames = () => {
+      if (speakButtonMsg === 'Speak usernames'){
+        SetSpeakButtonMsg(`Don't speak usernames`)
+      } else {
+        SetSpeakButtonMsg('Speak usernames')
+      }
     }
 
     const sendMessage = async (event) => {
@@ -181,24 +201,29 @@ const Room = (props) => {
             </div>
             <h1>{props.room}</h1>
         <div>
+          <ButtonToolbar>
+            <DropdownButton id="dropdown-basic-button" title="Voice select">
+              {voices.length !== 0 ? voices.map(voice => (
+                <Dropdown.Item eventKey={voice.name} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
+              )) : <Dropdown.Item>No voices found</Dropdown.Item>}
+            </DropdownButton>
+            <Button onClick={setVisible} variant="info">{buttonMsg}</Button>
+            <Button onClick={setSpeakingNicknames} variant="primary">{speakButtonMsg}</Button>
+          </ButtonToolbar>
+          <h5>Voice: <Badge pill variant="secondary">{voice}</Badge></h5>
+        </div>
+        <div>
             <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
-            <button onClick={setVisible}>{buttonMsg}</button>
         <div>
             <Heads room={props.room}/>
         </div>
-
-        <ButtonToolbar>
-        <DropdownButton id="dropdown-basic-button" title="Voice select">
-          {voices.map(voice => (
-            <Dropdown.Item eventKey={voice.name} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
-          ))}
-        </DropdownButton>
-      </ButtonToolbar>
-
-        <form onSubmit={sendMessage}>
-          <input type="text" value={message} onChange={(event) => setMessage(event.target.value)}/>
-          <button type="submit">Send</button>
-        </form>
+        <Form onSubmit={sendMessage}>
+          <Form.Group>
+            <Form.Label>Type your message</Form.Label>
+            <Form.Control type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}/>
+          </Form.Group>
+          <Button variant="primary" type="submit">Submit</Button>
+        </Form>
       </div>
       </div>
     )
