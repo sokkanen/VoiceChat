@@ -31,6 +31,7 @@ Ohjelman keskeiset ominaisuudet:
 ### TODO
 
 - Bootstrap
-- Personoitavan puhuvan pään lataaminen tiedostoista (vs. webcam)
 - Käyttäjän hallintapaneeli
-- Testejä...
+- Testejä
+- Käyttäjärajoituksen fiksumpi toteutus
+- Oletuskuvien rajaaminen uudelle Layoutille.

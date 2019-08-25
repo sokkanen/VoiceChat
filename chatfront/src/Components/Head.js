@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Container, Row, Image, Badge, Card } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import defaultFace from '../Images/1default.png'
 import aieFace from '../Images/1aei.png'
@@ -86,18 +87,22 @@ const Head = (props) => {
     
     if (registered){
         return (
-            <div>
-                <img src={img} alt="Cartoon head"></img>
-                <h3 style={{ color: 'green' }}>{chatnick}</h3>
-            </div>
-        )
+            <Card bg="light" border="dark" style={{ width: '100%' }}>
+                <Image src={img} roundedCircle />
+                <Card.Body>
+                <Card.Title><Badge variant="success">{chatnick}</Badge></Card.Title>
+                </Card.Body>
+            </Card>
+        )  
     }
 
     return (
-        <div>
-            <img src={img} alt="Cartoon head"></img>
-            <h4>{chatnick}</h4>
-        </div>
+        <Card bg="light" border="dark" style={{ width: '100%' }}>
+            <Image src={img} roundedCircle />
+            <Card.Body>
+            <Card.Title><Badge variant="secondary">{chatnick}</Badge></Card.Title>
+            </Card.Body>
+        </Card>
     )
 }
 

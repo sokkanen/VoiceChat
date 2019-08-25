@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Container, Row, Col, Image } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import Head from './Head'
 
 const Heads = (props) => {
@@ -41,32 +41,6 @@ const Heads = (props) => {
         </div>
     )
 }
-
-/*
-            <table>
-                <tbody>
-                <tr>
-                {props.users.map(
-                    user => user.chatnick === props.speaking ? 
-                    <td key={user.chatnick}><Head 
-                        letter={props.letter} 
-                        chatnick={user.chatnick} 
-                        registered={user.registered}
-                        images={user.images}
-                    /></td> : 
-                    <td key={user.chatnick}><Head 
-                        letter='' 
-                        chatnick={user.chatnick} 
-                        registered={user.registered}
-                        images={user.images}
-                    /></td>
-                )}
-                </tr>              
-                </tbody>
-            </table>
-
-
-*/
 
 const mapStateToProps = (state) => {
     return {
