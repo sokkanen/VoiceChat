@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Pagination from 'react-js-pagination'
+import { Table, Button } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setRoom } from '../Reducers/RoomReducer'
 import { setRooms, setFullRooms } from '../Reducers/RoomsReducer'
@@ -12,6 +13,7 @@ import InvitePopUp from './InvitePopUp'
 import './Forms.css'
 import NewRoomForm from './NewRoomForm'
 import Notification from './Notification'
+import removeImage from '../Images/remove.png'
 
 const Chatrooms = (props) => {
     const [visible, setVisible] = useState(false)
@@ -113,7 +115,11 @@ const Chatrooms = (props) => {
 
     const setChatNickname = (event) => {
         event.preventDefault()
-        socket.emit('checkChatnick', event.target.chatnick.value)
+        if (event.target.chatnick.value.length < 16 && event.target.chatnick.value.length > 2){
+            socket.emit('checkChatnick', event.target.chatnick.value)
+        } else {
+            alert('Nickname must be between 3 and 15 characters.')
+        }
         event.target.chatnick.value = ''
     }
 
@@ -121,6 +127,7 @@ const Chatrooms = (props) => {
         if (window.confirm(`Do you really want to remove ${room.name}`)){
             const token = JSON.parse(window.localStorage.getItem('user')).token
             socket.emit('removeRoom', room, token)
+            // TÄHÄN SUORAAN REDUCERI!
         }
     }
 
@@ -154,31 +161,33 @@ const Chatrooms = (props) => {
             </div>
             <h2>Public rooms</h2>
             <div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Name</th>
-                            <th>Max users</th>
-                            <th>Info</th>
-                            <th>Room management</th>
+            <Table striped bordered hover size='sm'>
+                <thead>
+                    <tr>
+                    <th>Name</th>
+                    <th>Max users</th>
+                    <th>Info</th>
+                    <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.rooms
+                        .filter(r => r.name.toLowerCase().includes(search))
+                        .slice((page-1) * 5, ((page-1) * 5) + 5)
+                        .map(r =>
+                        <tr key={r.id}>
+                            {r.full ? <td>{r.name}</td> : <td onClick={joinRoomHandler}><Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link></td>}
+                            <td>{r.user_limit}</td>
+                            {r.full ? <td>Room is full</td> : <td>{r.description}</td>}
+                            <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
+                            <Button variant="outline-danger"><img src={removeImage} width="30" height="30" onClick={removeRoom(r)} alt="remove room"></img></Button> 
+                            : 
+                            null
+                            : null}</td>
                         </tr>
-                        {props.rooms
-                            .filter(r => r.name.toLowerCase().includes(search))
-                            .slice((page-1) * 5, ((page-1) * 5) + 5)
-                            .map(r =>
-                            <tr key={r.id}>
-                                {r.full ? <td>{r.name}</td> : <td onClick={joinRoomHandler}><Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link></td>}
-                                <td>{r.user_limit}</td>
-                                {r.full ? <td>Room is full</td> : <td>{r.description}</td>}
-                                <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
-                                <button onClick={removeRoom(r)}>Remove room</button> 
-                                : 
-                                null
-                                : null}</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                    )}
+                </tbody>
+            </Table>
                 <div className="pagination">
                 <Pagination
                     activePage={page}
@@ -192,40 +201,49 @@ const Chatrooms = (props) => {
             {props.user ?
             <div>
                 <h2>{props.chatnick}'s Private rooms</h2>
-                <table>
-                    <tbody>
+                    <Table striped bordered hover size='sm'>
+                    <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Max users</th>
-                            <th>Info</th>
-                            <th>Room management</th>
+                        <th>Name</th>
+                        <th>Max users</th>
+                        <th>Info</th>
+                        <th>Options</th>
                         </tr>
-                        {props.privateRooms
-                            .filter(r => r.name.toLowerCase().includes(search))
-                            .slice((privatePage-1) * 5, ((privatePage-1) * 5) + 5)
-                            .map(r =>
-                            <tr key={r.name}>
-                                {r.full ? <td>{r.name}</td> : <td onClick={joinRoomHandler}><Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link></td>}
-                                <td>{r.user_limit}</td>
-                                {r.full ? <td>Room is full</td> : <td>{r.description}</td>}
-                                <td><InvitePopUp currentRoom={r} socket={socket}/></td>
-                                <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
-                                <button onClick={removeRoom(r)}>Remove room</button> 
-                                : null
-                                : null}</td>
-                            </tr>
-                        )}
+                    </thead>
+                    <tbody>
+                    {props.privateRooms
+                        .filter(r => r.name.toLowerCase().includes(search))
+                        .slice((privatePage-1) * 5, ((privatePage-1) * 5) + 5)
+                        .map(r =>
+                        <tr key={r.name}>
+                            {r.full ? <td>{r.name}</td> : <td onClick={joinRoomHandler}><Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link></td>}
+                            <td>{r.user_limit}</td>
+                            {r.full ? <td>Room is full</td> : <td>{r.description}</td>}
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
+                                        <Button variant="outline-danger"><img src={removeImage} width="30" height="30" onClick={removeRoom(r)} alt="remove room"></img></Button>
+                                        : null: null}
+                                        </td>
+                                        <td><InvitePopUp currentRoom={r} socket={socket}/></td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                        </tr>
+                    )}
                     </tbody>
-                </table>
+                    </Table>
                 <div className="pagination">
-                <Pagination
-                activePage={privatePage}
-                itemsCountPerPage={5}
-                totalItemsCount={props.privateRooms.length}
-                pageRangeDisplayed={5}
-                onChange={handlePrivatePageChange}
-                />
-            </div>
+                    <Pagination
+                    activePage={privatePage}
+                    itemsCountPerPage={5}
+                    totalItemsCount={props.privateRooms.length}
+                    pageRangeDisplayed={5}
+                    onChange={handlePrivatePageChange}
+                    />
+                </div>
             </div>
             : null }
             
@@ -252,23 +270,25 @@ const Chatrooms = (props) => {
                 <input value={search} onChange={(event) => setSearch(event.target.value)}></input>
             </div>
             <div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Name</th>
-                            <th>Max users</th>
-                            <th>Info</th>
-                        </tr>
-                        {props.rooms
-                            .filter(r => r.name.toLowerCase().includes(search))
-                            .slice((page-1) * 5, ((page-1) * 5) + 5)
-                            .map(r => <tr key={r.name}>
-                                <td><p>{r.name}</p></td>
-                                <td><p>{r.user_limit}</p></td>
-                                <td>{r.description}</td>
-                            </tr>)}
-                    </tbody>
-                </table>
+            <Table striped bordered hover size='sm'>
+                <thead>
+                    <tr>
+                    <th>Name</th>
+                    <th>Max users</th>
+                    <th>Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.rooms
+                    .filter(r => r.name.toLowerCase().includes(search))
+                    .slice((page-1) * 5, ((page-1) * 5) + 5)
+                    .map(r => <tr key={r.name}>
+                        <td><p>{r.name}</p></td>
+                        <td><p>{r.user_limit}</p></td>
+                        <td>{r.description}</td>
+                    </tr>)}
+                </tbody>
+            </Table>
             </div>
             <div className="pagination">
                 <Pagination

@@ -3,10 +3,10 @@ import backGroundImage from '../Images/home.png'
 
 const Home = () => {
 
-  const [imageWidth, setImageWidth] = useState(window.innerWidth * 0.75)
+  const [imageWidth, setImageWidth] = useState(window.innerWidth * 0.65)
   
   const handleResize = () => {
-    setImageWidth(window.innerWidth * 0.75)
+    setImageWidth(window.innerWidth * 0.65)
   }
 
   window.addEventListener('resize', handleResize)

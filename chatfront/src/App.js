@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Nav, Navbar } from 'react-bootstrap'
+import { Nav, Navbar, Badge } from 'react-bootstrap'
 import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
@@ -135,7 +135,8 @@ const App = (props) =>  {
               </Link>
               <Link style={style} to="/rooms">Chatrooms</Link>
               <Link style={style} to="/register">New User</Link>
-              <Link style={style} to="/login">Login</Link>
+              <Link style={styleToRight} to="/login">Login</Link>
+              Nickname: <Badge variant="info">{props.chatnick ? props.chatnick : 'None'}</Badge>
             </div>
           </div>
         </Nav>

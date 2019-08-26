@@ -22,6 +22,7 @@ const validatePassword = (password, passhash) => {
 const addNewRoom = async (room, user) => {
   const verified = jwt.verify(user.token, process.env.TOKENSECRET)
   if (!verified.id ||!user.token){
+    console.log('verification failed')
     return false
   }
   const sql = ('INSERT INTO room (id, name, description, private, owner_id, user_limit) values ($1, $2, $3, $4, $5, $6)')
@@ -30,6 +31,7 @@ const addNewRoom = async (room, user) => {
   try {
     await client.query(sql, values)
   } catch(error){
+    console.log(error)
     return false
   }
   if (room.private){
@@ -38,6 +40,7 @@ const addNewRoom = async (room, user) => {
     try {
       await client.query(sql2, values2)
     } catch(error){
+      console.log(error)
       return false
     }
   }

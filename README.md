@@ -34,4 +34,4 @@ Ohjelman keskeiset ominaisuudet:
 - Käyttäjän hallintapaneeli
 - Testejä
 - Käyttäjärajoituksen fiksumpi toteutus
-- Oletuskuvien rajaaminen uudelle Layoutille.
+- Huoneiden poiston päivitys sivutukselle

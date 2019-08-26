@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
 import Speech from 'speak-tts'
-import { Spinner, ButtonToolbar, Dropdown, DropdownButton, Button, Badge, Form } from 'react-bootstrap'
+import { Spinner, ButtonToolbar, Dropdown, DropdownButton, Button, Badge, Form, Container } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
@@ -15,7 +15,6 @@ import Heads from './Heads'
 import Notification from './Notification'
 
 const Room = (props) => {
-
     const socket = props.socket
     const msg = props.message
 
@@ -188,12 +187,17 @@ const Room = (props) => {
 
     const style = { 
       padding: 10,
-      margin: 45
+      margin: 45,
+    }
+
+    const spinnerStyle = {
+      display: 'block',
+      'margin': `${window.innerHeight / 2}px`,
     }
 
     if (props.users.length === 0){
       return (
-        <div style={style}>
+        <div style={spinnerStyle}>
           <Spinner animation="border" role="status">
             <span className="sr-only">Loading...</span>
           </Spinner>

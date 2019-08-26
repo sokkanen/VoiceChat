@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import { Button } from 'react-bootstrap'
 import Popup from 'reactjs-popup'
+import settingsImage from '../Images/settings.png'
 
 const InvitePopUp = (props) => {
 
@@ -61,7 +63,7 @@ const InvitePopUp = (props) => {
 
     return (
         <div>
-            <Popup trigger={<button> Manage users </button>} modal>
+            <Popup trigger={<Button variant="outline-primary"><img src={settingsImage} width="30" height="30" alt="remove room"></img></Button> } modal>
                 {close => (
                 <div>
                     <div><h3>Current users</h3></div>
