@@ -31,8 +31,8 @@ const ChatText = ({messages, msgcount, visible}) => {
         <div style={style}>
             <ul>
                 {messages.map(msg => 
-                <li key={msg.msg}>
-                    <p style={userStyle}>{msg.user}: <p style={messageStyle}>{msg.msg}</p></p>
+                <li key={msg.msg + Math.random()}>
+                    <p style={userStyle}>{msg.user}:</p> <p style={messageStyle}>{msg.msg}</p>
                 </li>)}
             </ul>
         </div>

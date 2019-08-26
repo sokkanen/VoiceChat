@@ -16,6 +16,7 @@ chatfront/build
 
 chatfront/build_dev.sh
 chatfront/build.sh
+/images_backup
 
 # misc
 /chatfront/.DS_Store

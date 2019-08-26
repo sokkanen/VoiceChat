@@ -26,13 +26,18 @@ const addNewUser = async (newUser) => {
     const images = JSON.parse(result.images)
     const updatedUser = {
       ...newUser,
-      images: images
+      images: images,
+      typing: false
     }
     users.push(updatedUser)
     io.emit('join', updatedUser)
   } else {
-    users.push(newUser)
-    io.emit('join', newUser)
+    const newUserWithTyping = {
+      ...newUser,
+      typing: false
+    }
+    users.push(newUserWithTyping)
+    io.emit('join', newUserWithTyping)
   }
 }
 
@@ -253,6 +258,9 @@ io.on('connection', (client) => {
   })
   client.on('userImages', async (images, user) => {
     saveOrUpdateImages(client.id, images, user)
+  })
+  client.on('typing', (room, chatnick, onOff) => {
+    client.broadcast.emit('typing', room, chatnick, onOff)
   })
 })
 

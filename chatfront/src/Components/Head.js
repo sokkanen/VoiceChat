@@ -87,20 +87,22 @@ const Head = (props) => {
     
     if (registered){
         return (
-            <Card bg="light" border="dark" style={{ width: '100%' }}>
-                <Image src={img} roundedCircle />
+            <Card bg="light" border="dark" text="primary">
+                <Card.Header><h5>{chatnick}</h5></Card.Header>
                 <Card.Body>
-                <Card.Title><Badge variant="success">{chatnick}</Badge></Card.Title>
+                <Card.Img class="rounded-circle img-fluid" src={img}/>
+                <Card.Title><h4><Badge variant="secondary">{props.typing === true ? 'Typing' : 'Idle'}</Badge></h4></Card.Title>
                 </Card.Body>
             </Card>
         )  
     }
 
     return (
-        <Card bg="light" border="dark" style={{ width: '100%' }}>
-            <Image src={img} roundedCircle />
+        <Card bg="light" border="dark">
+            <Card.Header><h5>{chatnick}</h5></Card.Header>
             <Card.Body>
-            <Card.Title><Badge variant="secondary">{chatnick}</Badge></Card.Title>
+            <Card.Img class="rounded-circle img-fluid" src={img}/>
+            <Card.Title><h4><Badge variant="light">{props.typing === true ? 'Typing' : 'Idle'}</Badge></h4></Card.Title>
             </Card.Body>
         </Card>
     )

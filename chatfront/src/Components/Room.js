@@ -6,6 +6,7 @@ import { setNotification } from '../Reducers/NotificationReducer'
 import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
 import { setSpeaking } from '../Reducers/SpeakingReducer'
+import { setTyping } from '../Reducers/UsersReducer'
 import { newMessage } from '../Reducers/MessageReducer'
 import { setRoom } from '../Reducers/RoomReducer'
 
@@ -79,10 +80,16 @@ const Room = (props) => {
           }
         }
       })
+      socket.on('typing', (room, username, onOff) => {
+        if (room === props.room){
+          props.setTyping(username, onOff)
+        }
+      })
       return() => {
         socket.off('left')
         socket.off('join')
         socket.off('disconnected')
+        socket.off('typing')
       }
     }, [props])
 
@@ -105,13 +112,6 @@ const Room = (props) => {
       } catch (error) {
         console.log(error)
       }
-    }
-
-    const changeVoice = (voice) => async () => {
-      let updatedVoice = speech
-      updatedVoice.setVoice(voice.name)
-      updatedVoice.setLanguage(voice.lang)
-      setSpeech(updatedVoice)
     }
 
     speechSynthesis.onvoiceschanged = () => {
@@ -173,6 +173,13 @@ const Room = (props) => {
       }
       await socket.emit('newMessage', msg)
       setMessage('')
+      props.setTyping(props.chatnick, false)
+      socket.emit('typing', props.room, props.chatnick, false)
+    }
+
+    const setUserTyping = () => {
+      props.setTyping(props.chatnick, true)
+      socket.emit('typing', props.room, props.chatnick, true)
     }
 
     if (props.room === undefined){
@@ -204,7 +211,7 @@ const Room = (props) => {
           <ButtonToolbar>
             <DropdownButton id="dropdown-basic-button" title="Voice select">
               {voices.length !== 0 ? voices.map(voice => (
-                <Dropdown.Item eventKey={voice.name} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
+                <Dropdown.Item eventKey={voice.name + voice.lang} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
               )) : <Dropdown.Item>No voices found</Dropdown.Item>}
             </DropdownButton>
             <Button onClick={setVisible} variant="info">{buttonMsg}</Button>
@@ -220,7 +227,7 @@ const Room = (props) => {
         <Form onSubmit={sendMessage}>
           <Form.Group>
             <Form.Label>Type your message</Form.Label>
-            <Form.Control type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}/>
+            <Form.Control onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}/>
           </Form.Group>
           <Button variant="primary" type="submit">Submit</Button>
         </Form>
@@ -249,7 +256,8 @@ const mapDispatchToProps = {
   setLetter,
   setSpeaking,
   newMessage,
-  setRoom
+  setRoom,
+  setTyping
 }
 
 const connectedRoom = connect(mapStateToProps, mapDispatchToProps)(Room)

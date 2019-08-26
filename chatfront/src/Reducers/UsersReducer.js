@@ -8,6 +8,8 @@ const usersReducer = (state = [], action) => {
       case 'REMOVEUSERFROMUSERS':
         const removedUsers = state.filter(u => u.id !== action.data)
         return removedUsers
+      case 'SETTYPING':
+        return state.map(user => user.chatnick === action.data ? {...user, typing: action.typing} : user)
       default: return state
     }
   }
@@ -37,6 +39,16 @@ const usersReducer = (state = [], action) => {
       dispatch ({
         type: 'REMOVEUSERFROMUSERS',
         data: id
+        })
+    }
+  }
+
+  export const setTyping = (chatnick, typing) => {
+    return async dispatch => {
+      dispatch ({
+        type: 'SETTYPING',
+        data: chatnick,
+        typing: typing
         })
     }
   }
