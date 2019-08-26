@@ -59,4 +59,5 @@ päivä | aika | mitä tein
 24.8  | 2    | Äänenvalinnan hahmottelua ja opettelua. Dynaaminen etusivu (Säätyy ikkunan leveydestä.)
 24.8  | 2    | Reitityksen parannus, kielenvalinta.
 25.8  | 2    | Kielenvalinnan parannus ja info, käyttäjänimien puhuminen, huoneen bootstrapia. Käyttäjäkuvakkeiden rivitys. Huoneen bootstrap.
-YHT   | 124
+26.8  | 2    | Kuvat uusiksi, Bootstrap, "typing" huoneeseen. Punaista pois konsolista.
+YHT   | 126
