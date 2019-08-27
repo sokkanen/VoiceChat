@@ -55,16 +55,17 @@ const changeRoom = async (user) => {
   }
 }
 
-const newRoomHandler = async (room, user, id) => {
+const newRoomHandler = async (room, user, client_id) => {
   const success = await query.addNewRoom(room, user)
   if (success){
-    rooms.push(room)
+    const user_id = await query.getUser(user.name)
+    roomUpdater(user_id, client_id)
   } else {
     const msg = {
-      id: id,
+      id: client_id,
       message: `Room ${room.title} already exists. Please choose another roomname.`
     }
-    io.to(id).emit('error', msg)
+    io.to(client_id).emit('error', msg)
   }
 }
 
@@ -73,8 +74,12 @@ const roomUpdater = async (id, client_id) => {
   let privateRooms = []
   if (id)
     privateRooms = await query.getPrivateRooms(id)
-  privateRooms = await query.getPrivateRoomUsers(privateRooms)
-  io.to(client_id).emit('rooms', rooms, privateRooms, fullRooms)
+  const finalPrivateRooms = await query.getPrivateRoomUsers(privateRooms)
+  if (client_id){
+    io.to(client_id).emit('rooms', rooms, finalPrivateRooms, fullRooms)
+  } else {
+    io.emit('rooms', rooms, finalPrivateRooms, fullRooms)
+  }
 }
 
 const freeRoom = (usr, isCurrent) => {
@@ -253,8 +258,10 @@ io.on('connection', (client) => {
     const id = await query.removeRoom(room, token)
     if (id === false){
       console.log('Error in removing room')
+    } else {
+      roomUpdater(id)
     }
-    roomUpdater(id)
+
   })
   client.on('userImages', async (images, user) => {
     saveOrUpdateImages(client.id, images, user)

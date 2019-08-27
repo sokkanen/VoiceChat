@@ -2,12 +2,14 @@
 const privateRoomsReducer = (state = [], action) => {
   switch (action.type) {
     case 'SETPRIVATEROOMS':
-      return action.data
+      return action.data.sort((a, b) => a.name.localeCompare(b.name))
     case 'REMOVEPRIVATEROOMS':
       return []
     case 'SETFULLPRIVATEROOMS':
         const fullRooms = action.data
         return state.map(r => fullRooms.includes(r.name) ? ({...r, full: true}) : ({...r, full: false}))
+    case 'REMOVEPRIVATEROOM':
+        return state.filter(room => room.id !== action.data.id)
     default: return state
   }
 }
@@ -36,6 +38,15 @@ export const setFullPrivateRooms = (fullRooms) => {
     dispatch ({
       type: 'SETFULLPRIVATEROOMS',
       data: fullRooms
+      })
+  }
+}
+
+export const removePrivateRoom = (room) => {
+  return async dispatch => {
+    dispatch ({
+      type: 'REMOVEPRIVATEROOM',
+      data: room
       })
   }
 }

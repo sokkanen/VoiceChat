@@ -4,8 +4,8 @@ import Pagination from 'react-js-pagination'
 import { Table, Button } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setRoom } from '../Reducers/RoomReducer'
-import { setRooms, setFullRooms } from '../Reducers/RoomsReducer'
-import { setPrivateRooms, setFullPrivateRooms } from '../Reducers/PrivateRoomsReducer'
+import { setRooms, setFullRooms, removeRoom } from '../Reducers/RoomsReducer'
+import { setPrivateRooms, setFullPrivateRooms, removePrivateRoom } from '../Reducers/PrivateRoomsReducer'
 import { setChatnick} from '../Reducers/ChatnickReducer'
 import { setInviteStatus } from '../Reducers/InviteStatusReducer'
 import { setUsers } from '../Reducers/UsersReducer'
@@ -38,11 +38,11 @@ const Chatrooms = (props) => {
           notificate(msg.message)
         }
       })
-      socket.on('rooms', async (rooms, privateRooms, fullRooms) => {
-        const orderedRooms = await rooms.sort((a,b) => a.name.localeCompare(b.name))
-        const orderedPrivateRooms = await privateRooms.sort((a,b) => a.name.localeCompare(b.name))
-        props.setRooms(orderedRooms)
-        props.setPrivateRooms(orderedPrivateRooms)
+      socket.on('rooms', (rooms, privateRooms, fullRooms) => {
+        setPage(1)
+        setPrivatePage(1)
+        props.setRooms(rooms)
+        props.setPrivateRooms(privateRooms)
         props.setFullRooms(fullRooms)
         props.setFullPrivateRooms(fullRooms)
       })
@@ -124,10 +124,19 @@ const Chatrooms = (props) => {
     }
 
     const removeRoom = (room) => () => {
+        console.log(room)
         if (window.confirm(`Do you really want to remove ${room.name}`)){
             const token = JSON.parse(window.localStorage.getItem('user')).token
             socket.emit('removeRoom', room, token)
-            // TÄHÄN SUORAAN REDUCERI!
+            if (room.private){
+                props.removePrivateRoom(room)
+                setPage(1)
+                setPrivatePage(1)
+            } else {
+                props.removeRoom(room)
+                setPage(1)
+                setPrivatePage(1)
+            }
         }
     }
 
@@ -142,6 +151,10 @@ const Chatrooms = (props) => {
     const style = { 
         padding: 10,
         margin: 45
+    }
+
+    if (props.rooms === undefined){
+        return <div></div>
     }
 
     if (props.chatnick !== ''){
@@ -324,7 +337,9 @@ const mapStateToProps = (state) => {
     setInviteStatus,
     setUsers,
     setFullRooms,
-    setFullPrivateRooms
+    setFullPrivateRooms,
+    removeRoom,
+    removePrivateRoom
   }
   
   const connectedChatRooms = connect(mapStateToProps, mapDispatchToProps)(Chatrooms)

@@ -24,7 +24,7 @@ import Home from './Components/Home'
 import Ownface from './Components/Ownface'
 import UserManagement from './Components/UserManagement'
 
-const LOCAL = 'http://localhost:3003'
+const LOCAL = 'ws://localhost:3003'
 const HOST = window.location.origin.replace(/^http/, 'ws')
 let socket
 window.location.origin === 'http://localhost:3000' ? socket = io(LOCAL) : socket = io(HOST)
