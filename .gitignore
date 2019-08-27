@@ -4,7 +4,7 @@
 /chatfront/node_modules
 /chatfront/.pnp
 /chatfront/.pnp.js
-chatfront/package-lock.json
+/chatfront/package-lock.json
 
 # testing
 chatfront/coverage
