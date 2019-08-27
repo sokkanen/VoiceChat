@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Pagination from 'react-js-pagination'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Form, InputGroup, Input } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setRoom } from '../Reducers/RoomReducer'
 import { setRooms, setFullRooms, removeRoom } from '../Reducers/RoomsReducer'
@@ -165,12 +165,18 @@ const Chatrooms = (props) => {
             </div>
             <div>
                 <NewRoomForm socket={socket} visible={visible}/>
-                <button onClick={newRoomVisible}>{newRoomText}</button>
+                <Button variant="outline-info" onClick={newRoomVisible}>{newRoomText}</Button>
             </div>
-            <h2>Rooms</h2>
+            <div class="text-center">
+                <h2>Rooms</h2>
+            </div>
             <div>
-                <h5>Search</h5>
-                <input value={search} onChange={(event) => setSearch(event.target.value)}></input>
+                <Form>
+                    <Form.Group>
+                        <Form.Label>Search for a room</Form.Label>
+                        <Form.Control value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search..." />
+                    </Form.Group>
+                </Form>
             </div>
             <h2>Public rooms</h2>
             <div>
@@ -201,15 +207,17 @@ const Chatrooms = (props) => {
                     )}
                 </tbody>
             </Table>
-                <div className="pagination">
-                <Pagination
+                <div class="text-center">
+                    <Pagination
                     activePage={page}
                     itemsCountPerPage={5}
                     totalItemsCount={props.rooms.length}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={7}
                     onChange={handlePageChange}
-                />
-            </div>
+                    itemClass="page-item"
+                    linkClass="page-link"
+                    />
+                </div>
             </div>
             {props.user ?
             <div>
@@ -248,13 +256,15 @@ const Chatrooms = (props) => {
                     )}
                     </tbody>
                     </Table>
-                <div className="pagination">
+                <div class="text-center">
                     <Pagination
                     activePage={privatePage}
                     itemsCountPerPage={5}
                     totalItemsCount={props.privateRooms.length}
                     pageRangeDisplayed={5}
                     onChange={handlePrivatePageChange}
+                    itemClass="page-item"
+                    linkClass="page-link"
                     />
                 </div>
             </div>
@@ -270,17 +280,30 @@ const Chatrooms = (props) => {
                 <Notification textColor={textColor}/>
             </div>
             <div>
-            <form onSubmit={setChatNickname}>
-                <input type="text" name="chatnick"/>
-                <button type="submit">Set Nickname</button>
-            </form>
+            <Form onSubmit={setChatNickname}>
+                <InputGroup>
+                    <Form.Control
+                    type="text"
+                    name="chatnick"
+                    id="chatnick"
+                    placeholder="Enter nickname (or Register / Login)"
+                    />
+                    <InputGroup.Append>
+                    <Button type="submit" variant="outline-success">Set nickname</Button>
+                    </InputGroup.Append>
+                </InputGroup>
+            </Form>
+            </div>
+            <div class="text-center">
+                <h2>Rooms</h2>
             </div>
             <div>
-            </div>
-            <h2>Rooms</h2>
-            <div>
-                <h5>Search</h5>
-                <input value={search} onChange={(event) => setSearch(event.target.value)}></input>
+            <Form>
+                <Form.Group>
+                    <Form.Label>Search for a room</Form.Label>
+                    <Form.Control value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search..." />
+                </Form.Group>
+            </Form>
             </div>
             <div>
             <Table striped bordered hover size='sm'>
@@ -303,13 +326,15 @@ const Chatrooms = (props) => {
                 </tbody>
             </Table>
             </div>
-            <div className="pagination">
+            <div class="text-center">
                 <Pagination
                 activePage={page}
                 itemsCountPerPage={5}
                 totalItemsCount={props.rooms.length}
                 pageRangeDisplayed={7}
                 onChange={handlePageChange}
+                itemClass="page-item"
+                linkClass="page-link"
                 />
             </div>
         </div>

@@ -61,5 +61,5 @@ päivä | aika | mitä tein
 25.8  | 2    | Kielenvalinnan parannus ja info, käyttäjänimien puhuminen, huoneen bootstrapia. Käyttäjäkuvakkeiden rivitys. Huoneen bootstrap.
 26.8  | 2    | Kuvat uusiksi, Bootstrap, "typing" huoneeseen. Punaista pois konsolista.
 26.8  | 2    | Nimimerkin näyttäminen. Huoneen ja huonelistauksen päivittäminen.
-27.8  | 1    | Huoneiden lisäämisen, järjestämisen ja poistamisen korjaaminen.
-YHT   | 129
+27.8  | 2    | Huoneiden lisäämisen, järjestämisen ja poistamisen korjaaminen. Huonelistauksen bootstrap
+YHT   | 130
