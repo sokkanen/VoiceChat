@@ -1,18 +1,8 @@
 /*User register and User login*/
 
-.user-form { padding:20px; }
+.field {background: rgb(208, 216, 216); }
 
-.user-form .field {font-family: Georgia, 'Times New Roman', Times, serif; font-size: large; padding: 5px; margin:1px; background: rgb(110, 210, 228); }
-
-.user-form .error_field {font-family: Georgia, 'Times New Roman', Times, serif; font-size: large; padding: 5px; margin:1px; background: rgb(226, 122, 122); }
-
-.user-form .error_field label { display:inline-block; width:200px; margin-left:10px; }
-
-.user-form .error_field input { display:inline-block; width: 500px; }
-
-.user-form .field label { display:inline-block; width:200px; margin-left:10px; }
-
-.user-form .field input { display:inline-block; width: 500px; }
+.error_field {background: rgb(226, 122, 122); }
 
 /*New room*/
 

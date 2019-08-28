@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { setNotification } from '../Reducers/NotificationReducer'
 import { connect } from 'react-redux'
+import { Form, Button } from 'react-bootstrap'
+import { setNotification } from '../Reducers/NotificationReducer'
 import Notification from './Notification'
 import './Forms.css'
 
@@ -74,8 +75,8 @@ const NewUserForm = (props) => {
             alert('Invalid email-address')
             setEmailField('error_field')
             return false
-        } else if (username.length < 4 || username.length > 20){
-            alert('Username must be between 4 and 20 characters.')
+        } else if (username.length < 3 || username.length > 15){
+            alert('Username must be between 3 and 15 characters.')
             setUsernameField('error_field')
             return false
         }
@@ -109,34 +110,34 @@ const NewUserForm = (props) => {
     }
 
     return (
+        <div>
         <div style={style}>
-            <div>
             <Notification textColor="#62f442"/>
+        </div>
+            <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
+            <Form onSubmit={createNew}>
+            <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>New User Registration</h4>
+                <Form.Group controlId="username">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" className={usernameField}/>
+                </Form.Group>
+                <Form.Group controlId="email">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" value={email} onChange={handleEmail} placeholder="Enter email" className={emailField}/>
+                </Form.Group>
+                <Form.Group controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" className={passwordField}/>
+                </Form.Group>
+                <Form.Group controlId="password2">
+                    <Form.Label>Retype Password</Form.Label>
+                    <Form.Control type="password" value={password2} onChange={handlePassword2} placeholder="Re-Enter Password" className={password2Field}/>
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Register
+                </Button>
+            </Form>
             </div>
-            <form className="user-form" onSubmit={createNew}>
-                <div className="field">
-                <h4>Register</h4>
-                </div>
-                <div className={usernameField}>
-                    <label>Username:</label>
-                    <input value={username} onChange={handleUsername}></input>
-                </div>
-                <div className={emailField}>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={handleEmail}></input>
-                </div>
-                <div className={passwordField}>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={handlePassword}></input>
-                </div>
-                <div className={password2Field}>
-                    <label>Retype Password:</label>
-                    <input type="password" value={password2} onChange={handlePassword2}></input>
-                </div>
-                <div className="field">
-                    <button type="submit">Register</button>
-                </div>
-            </form>
         </div>
     )
 }
