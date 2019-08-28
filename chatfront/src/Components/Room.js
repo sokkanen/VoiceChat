@@ -1,7 +1,20 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
 import Speech from 'speak-tts'
-import { Spinner, ButtonToolbar, Dropdown, DropdownButton, Button, Badge, Form, Container } from 'react-bootstrap'
+import { 
+  Spinner, 
+  ButtonToolbar, 
+  Dropdown, 
+  DropdownButton, 
+  Button, 
+  Badge, 
+  Form, 
+  InputGroup, 
+  FormControl, 
+  OverlayTrigger,
+  Popover } from 'react-bootstrap'
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
@@ -181,6 +194,18 @@ const Room = (props) => {
       socket.emit('typing', props.room, props.chatnick, true)
     }
 
+    const addEmoji = (emoji) => {
+      setMessage(message + emoji.native)
+    }
+
+    const emojiPopOver = (
+      <Popover id="popover">
+        <Popover.Content>
+          <Picker onSelect={addEmoji} title='' emoji='' />
+        </Popover.Content>
+      </Popover>
+    )
+
     if (props.room === undefined){
         return <div><h4>Please choose a room from "Chatrooms"</h4></div>
     }
@@ -213,28 +238,36 @@ const Room = (props) => {
             <h1>{props.room}</h1>
         <div>
           <ButtonToolbar>
-            <DropdownButton id="dropdown-basic-button" title="Voice select">
+            <DropdownButton id="dropdown-basic-button" variant="outline-primary" title="Voice select">
               {voices.length !== 0 ? voices.map(voice => (
                 <Dropdown.Item eventKey={voice.name + voice.lang} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
               )) : <Dropdown.Item>No voices found</Dropdown.Item>}
             </DropdownButton>
-            <Button onClick={setVisible} variant="info">{buttonMsg}</Button>
-            <Button onClick={setSpeakingNicknames} variant="primary">{speakButtonMsg}</Button>
+            <Button style={{marginLeft: '5px', marginRight: '5px'}}onClick={setVisible} variant="outline-info">{buttonMsg}</Button>
+            <Button onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>
           </ButtonToolbar>
           <h5>Voice: <Badge pill variant="secondary">{voice}</Badge></h5>
         </div>
         <div>
             <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
+            <Form onSubmit={sendMessage}>
+              <InputGroup>
+              <InputGroup.Prepend>
+                <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver}>
+                  <Button variant="outline-info">Emojis</Button>
+                </OverlayTrigger>
+              </InputGroup.Prepend>
+                  <FormControl
+                    onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}
+                  />
+              <InputGroup.Append>
+                  <Button variant="success" type="submit">Send</Button>
+              </InputGroup.Append>
+              </InputGroup>
+            </Form>
         <div>
             <Heads room={props.room}/>
         </div>
-        <Form onSubmit={sendMessage}>
-          <Form.Group>
-            <Form.Label>Type your message</Form.Label>
-            <Form.Control onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}/>
-          </Form.Group>
-          <Button variant="primary" type="submit">Submit</Button>
-        </Form>
       </div>
       </div>
     )

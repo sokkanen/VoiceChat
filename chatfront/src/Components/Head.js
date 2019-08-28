@@ -90,7 +90,7 @@ const Head = (props) => {
             <Card bg="light" border="dark" text="primary">
                 <Card.Header><h5>{chatnick}</h5></Card.Header>
                 <Card.Body>
-                <Card.Img class="rounded-circle img-fluid" src={img}/>
+                <Card.Img class="rounded-circle img-fluid" height="238" src={img}/>
                 <Card.Title><h4><Badge variant="secondary">{props.typing === true ? 'Typing' : 'Idle'}</Badge></h4></Card.Title>
                 </Card.Body>
             </Card>
@@ -101,7 +101,7 @@ const Head = (props) => {
         <Card bg="light" border="dark">
             <Card.Header><h5>{chatnick}</h5></Card.Header>
             <Card.Body>
-            <Card.Img class="rounded-circle img-fluid" src={img}/>
+            <Card.Img class="rounded-circle img-fluid" height="238" src={img}/>
             <Card.Title><h4><Badge variant="light">{props.typing === true ? 'Typing' : 'Idle'}</Badge></h4></Card.Title>
             </Card.Body>
         </Card>

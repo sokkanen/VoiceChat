@@ -83,7 +83,6 @@ const App = (props) =>  {
     return (
       <div class="container">
         <Router>
-
           <Navbar bg="light" expand="lg">
               <Nav class="navbar fixed-top navbar-expand-md" style={style}>
                 <div>
