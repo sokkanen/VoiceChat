@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Nav, Navbar, Badge } from 'react-bootstrap'
+import { Nav, Navbar, Badge, Button } from 'react-bootstrap'
 import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
@@ -95,7 +95,7 @@ const App = (props) =>  {
                   <Link style={style} to="/usrmngmt">{props.user}</Link>
                   <Link style={style} to="/alterface">Custom chatface</Link>
                   <Invites socket={socket}/>
-                  <button onClick={logOutHandler}>LogOut</button> 
+                  <Button variant="outline-warning" style={{marginLeft: '5px'}}onClick={logOutHandler}>LogOut</Button> 
                 </div>
               </Nav>
           </Navbar>

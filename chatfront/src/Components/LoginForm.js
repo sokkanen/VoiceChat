@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Form, Button } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUser } from '../Reducers/UserReducer'
 import { setChatnick } from '../Reducers/ChatnickReducer'
@@ -79,27 +80,27 @@ const LoginForm = (props) => {
     }
 
     return (
+    <div>
         <div style={style}>
-            <div>
             <Notification textColor="#62f442"/>
-            </div>
-            <form className="user-form" onSubmit={handleLogin}>
-                <div className="field">
-                <h4>Login</h4>
-                </div>
-                <div className={usernameField}>
-                    <label>Username</label>
-                    <input value={username} onChange={handleUsername}></input>
-                </div>
-                <div className={passwordField}>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={handlePassword}></input>
-                </div>
-                <div className="field">
-                    <button type="submit">Register</button>
-                </div>
-            </form>
         </div>
+            <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
+        <Form onSubmit={handleLogin}>
+        <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>Login</h4>
+            <Form.Group controlId="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" className={usernameField}/>
+            </Form.Group>
+            <Form.Group controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" className={passwordField}/>
+            </Form.Group>
+            <Button variant="success" type="submit">
+                Login
+            </Button>
+        </Form>
+        </div>
+    </div>
     )
 }
 

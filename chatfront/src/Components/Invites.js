@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import Popup from 'reactjs-popup'
+import { Button } from 'react-bootstrap'
 import { setPrivateRooms } from '../Reducers/PrivateRoomsReducer'
 import { setInvites } from '../Reducers/InvitesReducer'
 
@@ -22,25 +23,27 @@ const Invites = (props) => {
 
     const style = { 
         padding: 10,
-        background: "#6b7574",
+        background: "#c6cfcf",
         color: "white",
         'font-weight': "bold"
     }
 
     return (
-            <Popup trigger={invites.length === 0 ? <button>No new invitations</button> : <button>Click to see new invitations!</button>}modal>
+            <Popup trigger={invites.length === 0 ? 
+            <Button variant="outline-info" disabled>No new invitations</Button> : 
+            <Button variant="outline-success" >Click to see new invitations!</Button>}modal>
                 {close => (
                 <div style= {style}>
-                    <h3>Invitations</h3>
+                    <h3><u>Invitations</u></h3>
                         <ul>
                             {invites.map(i => <li key={i.room_id + i.invitee_id}>
                             <p>You've been invited by {i.inviter} to join '{i.room}'</p>
-                            <button onClick={acceptInvitation(i)}>Accept</button>
-                            <button onClick={declineInvitation(i)}>Decline</button>
+                            <Button variant="outline-success" onClick={acceptInvitation(i)}>Accept</Button>
+                            <Button style={{marginLeft: '5px'}}variant="outline-danger" onClick={declineInvitation(i)}>Decline</Button>
                             </li>)}
                         </ul>
                     <div>
-                    <button onClick={() => {close()}}>OK</button>
+                    <Button variant="outline-primary" onClick={() => {close()}}>OK</Button>
                     </div>
                 </div>
                 )}
