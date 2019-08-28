@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Button } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 import Popup from 'reactjs-popup'
 import settingsImage from '../Images/settings.png'
 
@@ -45,12 +45,16 @@ const InvitePopUp = (props) => {
         return (
             <div>
                 {popUpMessage === "" && props.inviteStatus === ""
-                    ? <div>
-                        <form onSubmit={invite}>
-                        <label>Email or Username to be invited:</label>
-                        <input name="invited"></input>
-                        <button type="submit">Invite!</button>
-                        </form>
+                    ? <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#c3e3da'}}>
+                    <Form onSubmit={invite}>
+                    <Form.Group controlId="invited">
+                        <Form.Label>Email or Username to be invited</Form.Label>
+                        <Form.Control name="invited" placeholder="Email or Username"/>
+                    </Form.Group>
+                    <Button variant="outline-success" type="submit">
+                        Invite
+                    </Button>
+                    </Form>
                     </div>
                     : <div>
                         <h3 style={{ color: 'green' }}>{popUpMessage}</h3>
@@ -65,18 +69,18 @@ const InvitePopUp = (props) => {
         <div>
             <Popup trigger={<Button variant="outline-primary"><img src={settingsImage} width="30" height="30" alt="remove room"></img></Button> } modal>
                 {close => (
-                <div>
-                    <div><h3>Current users</h3></div>
+                <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
+                    <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>Room's users</h4>
                         <ul>
                             {privateRoomUsers.map(user => 
                             user.id === privateRoom.owner_id ?
-                            <li key={user.id}><b>{user.username}</b></li>
-                            : <li key={user.id}>{user.username}</li>)}
+                            <li key={user.id}><b>{user.username} ({user.email})</b></li>
+                            : <li key={user.id}>{user.username} ({user.email})</li>)}
                         </ul>
-                    <div><button onClick={() => setInviteFormVisible(!inviteFormVisible)}><b>Invite more</b></button></div>
+                    <div><Button style={{marginBottom: '5px'}} variant="outline-primary" onClick={() => setInviteFormVisible(!inviteFormVisible)}><b>Invite users</b></Button></div>
                       <InviteForm/>
                     <div>
-                    <button onClick={() => {close()}}>OK</button>
+                    <Button style={{marginTop: '5px'}} variant="outline-primary" onClick={() => {close()}}>OK</Button>
                     </div>
                 </div>
                 )}

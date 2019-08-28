@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Form, Button } from 'react-bootstrap'
 import './Forms.css'
 
 const NewRoomForm = (props) => {
@@ -52,47 +53,47 @@ const NewRoomForm = (props) => {
 
     if (props.user === ''){
         return (
-            <form className="user-form" onSubmit={createNew}>
-                <div className="field">
-                    <h4>Please register to create a new chatroom!</h4>
-                </div>
-            <div className="field">
-                <button disabled={true} type="submit">Create</button>
+            <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
+            <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>Please Login / Register to create a new chatroom.</h4>
+            <Button variant="success" disabled>
+                Create
+            </Button>
             </div>
-        </form>
         )
     }
 
     return (
-        <div>
-            <form className="user-form" onSubmit={createNew}>
-                <div className="field">
-                <h4>Create a new room</h4>
+        <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
+        <Form onSubmit={createNew}>
+        <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>New room creation</h4>
+            <Form.Group controlId="title">
+                <Form.Label>Title / Name</Form.Label>
+                <Form.Control name="title" placeholder="Title / Name"/>
+            </Form.Group>
+            <Form.Group controlId="description">
+                <Form.Label>Additional information:</Form.Label>
+                <Form.Control name="description" as="textarea" rows="3" placeholder="Additional information..."/>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Private</Form.Label>
+                <div key={`private`} className="mb-3">
+                <Form.Check inline label="Yes" type="radio" name="private" value="YES" id={`inline-radio-1`} />
+                <Form.Check inline label="No" type="radio" name="private" value="NO" defaultChecked id={`inline-radio-2`} />
                 </div>
-                <div className="field">
-                    <label>Name:</label>
-                    <input name="title"></input>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>User limit</Form.Label>
+                <div key={`user_limit`} className="mb-3">
+                <Form.Check inline label="2" type="radio" name="user_limit" value="2" id={`radio-1`} />
+                <Form.Check inline label="5" type="radio" name="user_limit" value="5" defaultChecked id={`radio-2`} />
+                <Form.Check inline label="10" type="radio" name="user_limit" value="10" id={`radio-3`} />
+                <Form.Check inline label="999" type="radio" name="user_limit" value="999" id={`radio-4`} />
                 </div>
-                <div className="field">
-                    <label>Additional information:</label>
-                    <textarea name="description" rows="5" cols="50"></textarea>
-                </div>
-                <div className="button_field">
-                    <label>Private:</label>
-                    <input type="radio" name="private" value="YES"></input> Yes
-                    <input type="radio" name="private" value="NO" defaultChecked></input> No
-                </div>
-                <div className="button_field">
-                    <label>User limit:</label>
-                    <input type="radio" name="user_limit" value="2"></input> 2
-                    <input type="radio" name="user_limit" value="5" defaultChecked></input> 5
-                    <input type="radio" name="user_limit" value="10"></input> 10
-                    <input type="radio" name="user_limit" value="999"></input> Unlimited
-                </div>
-                <div className="field">
-                    <button type="submit">Create</button>
-                </div>
-            </form>
+            </Form.Group>
+            <Button variant="success" type="submit">
+                Create
+            </Button>
+        </Form>
         </div>
     )
 }
