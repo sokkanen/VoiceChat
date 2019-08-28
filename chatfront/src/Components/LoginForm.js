@@ -84,7 +84,7 @@ const LoginForm = (props) => {
         <div style={style}>
             <Notification textColor="#62f442"/>
         </div>
-            <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
+        <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
         <Form onSubmit={handleLogin}>
         <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>Login</h4>
             <Form.Group controlId="username">

@@ -15,6 +15,7 @@ const ChatText = ({messages, msgcount, visible}) => {
         height: `${heightCounter()}px`,
         backgroundColor: 'gray',
         color: 'white',
+        padding: '5px'
     }
 
     const messageStyle = {

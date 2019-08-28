@@ -63,4 +63,5 @@ päivä | aika | mitä tein
 26.8  | 2    | Nimimerkin näyttäminen. Huoneen ja huonelistauksen päivittäminen.
 27.8  | 2    | Huoneiden lisäämisen, järjestämisen ja poistamisen korjaaminen. Huonelistauksen bootstrap
 28.8  | 3    | Uuden käyttäjän lomakkeen bootstrap. Bootstrap: App, login, invites, NewUserForm. Emojit
-YHT   | 133
+29.8  | 1    | Notifikaation parannus, rajoitteita viestin pituuteen.
+YHT   | 134

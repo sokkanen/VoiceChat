@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { Alert } from 'react-bootstrap'
 
 const Notification = (props) => {
 
     const textColor = props.textColor
+    const [show, setShow] = useState(true)
 
     const style = {
         margin: '20px',
@@ -14,13 +16,17 @@ const Notification = (props) => {
         fontSize: '30px'
     }
 
-    if (props.notification.length === 0){
+    if (props.notification.length === 0 || !show){
         return (
             <div></div>
         )
     }
-    return <div style={style}>{props.notification}</div>
-
+    return (
+    <div>
+      <Alert variant="success" onClose={() => setShow(!show)} dismissible>
+        <h3>{props.notification}</h3>
+      </Alert>
+    </div>)
 }
 
 const mapStateToProps = (state) => {

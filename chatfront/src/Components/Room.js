@@ -178,7 +178,12 @@ const Room = (props) => {
 
     const sendMessage = async (event) => {
       event.preventDefault()
-      const msg = {
+      if (message.length > 140){
+        notificate(`Maximum length for message is 140 characters. Your message was ${message.length} characters long.`)
+      } else if (message.length === 0){
+        notificate(`Your message must contain at least one character.`)
+      } else {
+        const msg = {
           user: props.chatnick,
           message: message,
           room: props.room
@@ -187,6 +192,7 @@ const Room = (props) => {
       setMessage('')
       props.setTyping(props.chatnick, false)
       socket.emit('typing', props.room, props.chatnick, false)
+      }
     }
 
     const setUserTyping = () => {
@@ -201,7 +207,7 @@ const Room = (props) => {
     const emojiPopOver = (
       <Popover id="popover">
         <Popover.Content>
-          <Picker onSelect={addEmoji} title='' emoji='' />
+          <Picker onSelect={addEmoji} title='Skintone picker' emoji='point_right'/>
         </Popover.Content>
       </Popover>
     )
