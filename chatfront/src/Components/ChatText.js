@@ -1,21 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const ChatText = ({messages, msgcount, visible}) => {
-    if (!visible){
-        return <div></div>
-    }
+const ChatText = ({messages, largeChat, visible}) => {
 
-    const heightCounter = () => {
-        return msgcount * 30;
-    }
+    const chatBoxSize = largeChat ? 0.5 : 0.25
 
     const style = {
         margin: '20px',
         border: '5px solid black',
-        height: `${heightCounter()}px`,
+        height: `${window.innerHeight * chatBoxSize}px`,
         backgroundColor: 'gray',
         color: 'white',
-        padding: '5px'
+        padding: '5px',
+        overflowY: 'scroll',
+        display: 'flex',
+        flexDirection: 'column-reverse'
     }
 
     const messageStyle = {
@@ -28,8 +26,12 @@ const ChatText = ({messages, msgcount, visible}) => {
         display: 'inline' 
     }
 
+    if (!visible){
+        return <div></div>
+    }
+
     return (
-        <div style={style}>
+        <div className="content" style={style}>
             <ul>
                 {messages.map(msg => 
                 <li key={msg.msg + Math.random()}>

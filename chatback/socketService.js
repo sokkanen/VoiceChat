@@ -6,6 +6,7 @@ const server = require('http').createServer(app)
 const io = require('socket.io').listen(server)
 app.use(express.static('build'))
 io.set('origins', '*:*')
+io.set('transports', ['websocket'])
 
 const mongo = require('./database/mongo')
 const query = require('./database/dbQueries')

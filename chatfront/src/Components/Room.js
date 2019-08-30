@@ -34,14 +34,15 @@ const Room = (props) => {
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
     const [speakButtonMsg, SetSpeakButtonMsg] = useState('Speak usernames')
+    const [largeChatButtonMessage, setLargeChatButtonMessage] = useState('Toggle large textchat')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
-    const [count, setCount] = useState(7)
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [textColor, setTextColor] = useState('#62f442')
     const [voices, setVoices] = useState([])
     const [speech, setSpeech] = useState(new Speech())
     const [voice, setVoice] = useState('Default')
+    const [largeChat, setLargeChat] = useState(true)
 
     useEffect(() => {
       if (msg.length !== 0){
@@ -53,9 +54,6 @@ const Room = (props) => {
             msg: msg.message
           }
           msgs.push(ms)
-          if (msgs.length > count){
-            msgs.shift()
-          }
           setMessages(msgs)
           if (speakButtonMsg === 'Speak usernames'){
             speak(msg.message + '.')
@@ -176,6 +174,15 @@ const Room = (props) => {
       }
     }
 
+    const setLarge = () => {
+      setLargeChat(!largeChat)
+      if (largeChatButtonMessage === 'Toggle large textchat'){
+        setLargeChatButtonMessage('Toggle small textchat')
+      } else {
+        setLargeChatButtonMessage('Toggle large textchat')
+      }
+    }
+
     const sendMessage = async (event) => {
       event.preventDefault()
       if (message.length > 140){
@@ -249,13 +256,14 @@ const Room = (props) => {
                 <Dropdown.Item eventKey={voice.name + voice.lang} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
               )) : <Dropdown.Item>No voices found</Dropdown.Item>}
             </DropdownButton>
-            <Button style={{marginLeft: '5px', marginRight: '5px'}}onClick={setVisible} variant="outline-info">{buttonMsg}</Button>
-            <Button onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>
+            <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>
+            <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setVisible} variant="outline-info">{buttonMsg}</Button>
+            <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setLarge} variant="outline-info">{largeChatButtonMessage}</Button>
           </ButtonToolbar>
           <h5>Voice: <Badge pill variant="secondary">{voice}</Badge></h5>
         </div>
         <div>
-            <ChatText messages={messages} msgcount={count} visible={chatBoxVisible}/>
+            <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible}/>
             <Form onSubmit={sendMessage}>
               <InputGroup>
               <InputGroup.Prepend>

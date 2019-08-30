@@ -27,7 +27,9 @@ import UserManagement from './Components/UserManagement'
 const LOCAL = 'ws://localhost:3003'
 const HOST = window.location.origin.replace(/^http/, 'ws')
 let socket
-window.location.origin === 'http://localhost:3000' ? socket = io(LOCAL) : socket = io(HOST)
+window.location.origin === 'http://localhost:3000' ? 
+socket = io(LOCAL, {transports: ['websocket'], upgrade: false}) : 
+socket = io(HOST, {transports: ['websocket'], upgrade: false})
 
 const App = (props) =>  {
   useEffect(() => {

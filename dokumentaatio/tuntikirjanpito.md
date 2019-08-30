@@ -64,4 +64,5 @@ päivä | aika | mitä tein
 27.8  | 2    | Huoneiden lisäämisen, järjestämisen ja poistamisen korjaaminen. Huonelistauksen bootstrap
 28.8  | 3    | Uuden käyttäjän lomakkeen bootstrap. Bootstrap: App, login, invites, NewUserForm. Emojit
 29.8  | 1    | Notifikaation parannus, rajoitteita viestin pituuteen.
-YHT   | 134
+30.8  | 1    | Automaattisesti alasrullaava tekstichatti. Tekstichatin koon valinta.
+YHT   | 135
