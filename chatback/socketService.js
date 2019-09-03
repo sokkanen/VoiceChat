@@ -3,7 +3,10 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
-const io = require('socket.io').listen(server)
+const io = require('socket.io').listen(server, {
+  pingInterval: 10000000,
+  pingTimeout: 500000,
+})
 app.use(express.static('build'))
 io.set('origins', '*:*')
 io.set('transports', ['websocket'])

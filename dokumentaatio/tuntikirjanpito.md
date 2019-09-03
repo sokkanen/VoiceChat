@@ -65,4 +65,5 @@ päivä | aika | mitä tein
 28.8  | 3    | Uuden käyttäjän lomakkeen bootstrap. Bootstrap: App, login, invites, NewUserForm. Emojit
 29.8  | 1    | Notifikaation parannus, rajoitteita viestin pituuteen.
 30.8  | 1    | Automaattisesti alasrullaava tekstichatti. Tekstichatin koon valinta.
-YHT   | 135
+4.9   | 1    | Chathuoneen asettelua, ikkunankoon parempi seuranta (ei valmis), Clientin timeoutin selvittäminen
+YHT   | 136

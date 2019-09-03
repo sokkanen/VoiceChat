@@ -16,6 +16,7 @@ import inviteStatusReducer from './Reducers/InviteStatusReducer';
 import invitesReducer from './Reducers/InvitesReducer';
 import ownFaceReducer from './Reducers/OwnFaceReducer';
 import userInfoReducer from './Reducers/UserInfoReducer';
+import windowSizeReducer from './Reducers/WindowSizeReducer';
 
 const reducer = combineReducers({
   rooms: roomsReducer,
@@ -31,7 +32,8 @@ const reducer = combineReducers({
   inviteStatus: inviteStatusReducer,
   invites: invitesReducer,
   faces: ownFaceReducer,
-  userInfo: userInfoReducer
+  userInfo: userInfoReducer,
+  windowSize: windowSizeReducer
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))

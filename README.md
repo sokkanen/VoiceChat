@@ -30,8 +30,9 @@ Ohjelman keskeiset ominaisuudet:
 
 ### TODO
 
+- Home ja ChatText --> Connected --> Ikkunankoon päivitys App:iin
+- Localstorage toimimaan kunnolla
 - Bootstrap
 - Käyttäjän hallintapaneeli
 - Testejä
 - Käyttäjärajoituksen fiksumpi toteutus
-- Huoneiden poiston päivitys sivutukselle

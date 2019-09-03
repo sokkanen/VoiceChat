@@ -11,8 +11,8 @@ const Heads = (props) => {
     }
 
     return (
-        <div>
-           <CardColumns>
+        <div style={{width: props.windowSize.width * 0.3}}>
+            <CardColumns>
             {props.users
             .map(user => user.chatnick === props.speaking ? 
             <Head 
@@ -31,7 +31,7 @@ const Heads = (props) => {
             />
             )}
             </CardColumns>  
-        </div>
+        </div>  
     )
 }
 
@@ -39,7 +39,8 @@ const mapStateToProps = (state) => {
     return {
       users: state.users,
       letter: state.letter,
-      speaking: state.speaking
+      speaking: state.speaking,
+      windowSize: state.windowSize
     }
   }
   

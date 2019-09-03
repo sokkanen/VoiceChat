@@ -2,12 +2,22 @@ import React, { useState } from 'react'
 
 const ChatText = ({messages, largeChat, visible}) => {
 
+    const [chatWidth, setChatWidth] = useState(window.innerWidth)
+    const [chatHeight, setChatHeight] = useState(window.innerHeight)
+  
+    const handleResize = () => {
+      setChatWidth(window.innerWidth)
+      setChatHeight(window.innerHeight)
+    }
+  
+    window.addEventListener('resize', handleResize)
+    
     const chatBoxSize = largeChat ? 0.5 : 0.25
-
     const style = {
         margin: '20px',
         border: '5px solid black',
-        height: `${window.innerHeight * chatBoxSize}px`,
+        height: `${chatHeight * chatBoxSize}px`,
+        width: `${chatWidth}px`,
         backgroundColor: 'gray',
         color: 'white',
         padding: '5px',

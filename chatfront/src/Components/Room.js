@@ -34,7 +34,7 @@ const Room = (props) => {
     const [chatBoxVisible, setChatBoxVisible] = useState(true)
     const [buttonMsg, setButtonMsg] = useState('Hide textchat')
     const [speakButtonMsg, SetSpeakButtonMsg] = useState('Speak usernames')
-    const [largeChatButtonMessage, setLargeChatButtonMessage] = useState('Toggle large textchat')
+    const [largeChatButtonMessage, setLargeChatButtonMessage] = useState('Toggle small textchat')
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
@@ -263,7 +263,10 @@ const Room = (props) => {
           <h5>Voice: <Badge pill variant="secondary">{voice}</Badge></h5>
         </div>
         <div>
-            <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible}/>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible}/>
+              <Heads room={props.room}/>
+            </div>
             <Form onSubmit={sendMessage}>
               <InputGroup>
               <InputGroup.Prepend>
@@ -279,9 +282,6 @@ const Room = (props) => {
               </InputGroup.Append>
               </InputGroup>
             </Form>
-        <div>
-            <Heads room={props.room}/>
-        </div>
       </div>
       </div>
     )
