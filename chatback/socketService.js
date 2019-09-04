@@ -192,9 +192,13 @@ io.on('connection', (client) => {
       const values = await query.getUser(info.chatnick)
       maxUsers = await query.getPrivateRooms(values[0].id)
       maxUsers = await maxUsers.find(r => r.name === info.room)
-      if (roomUsers.length + 1 >= maxUsers.user_limit){
-        fullRooms.push(info.room)
-        io.emit('full', fullRooms)
+      try {
+        if (roomUsers.length + 1 >= maxUsers.user_limit){
+          fullRooms.push(info.room)
+          io.emit('full', fullRooms)
+        }
+      } catch (error) {
+        console.log(`no user limit for room ${info.room} found`)
       }
     }
     io.to(client.id).emit('room', info.room, roomUsers)

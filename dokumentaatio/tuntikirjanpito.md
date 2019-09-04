@@ -66,4 +66,5 @@ päivä | aika | mitä tein
 29.8  | 1    | Notifikaation parannus, rajoitteita viestin pituuteen.
 30.8  | 1    | Automaattisesti alasrullaava tekstichatti. Tekstichatin koon valinta.
 4.9   | 1    | Chathuoneen asettelua, ikkunankoon parempi seuranta (ei valmis), Clientin timeoutin selvittäminen
-YHT   | 136
+5.9   | 2    | Localstorage toimimaan oikein, virheiden hallintaa bäkkärillä, huoneen ja naamojen säätämistä. Kamerakuva.
+YHT   | 138

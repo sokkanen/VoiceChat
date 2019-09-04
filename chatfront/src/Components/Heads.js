@@ -11,7 +11,7 @@ const Heads = (props) => {
     }
 
     return (
-        <div style={{width: props.windowSize.width * 0.3}}>
+        <div style={{width: props.windowSize.width * 0.3, margin: '15px'}}>
             <CardColumns>
             {props.users
             .map(user => user.chatnick === props.speaking ? 

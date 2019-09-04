@@ -1,21 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import backGroundImage from '../Images/home.png'
 
-const Home = () => {
+const Home = (props) => {
 
-  const [imageWidth, setImageWidth] = useState(window.innerWidth * 0.65)
+  const [imageWidth, setImageWidth] = useState(props.windowSize.width * 0.65)
   
-  const handleResize = () => {
-    setImageWidth(window.innerWidth * 0.65)
-  }
-
-  window.addEventListener('resize', handleResize)
+  useEffect(() => {
+    setImageWidth(props.windowSize.width * 0.65)
+  }, [props.windowSize])
 
   const nonChromeInfo = () => {
     return (
       <div>
         <h5>This application is guaranteed to work with the latest versions of Google Chrome and Chromium -browsers.</h5>
-        <h5>Please consider switching to one of these browsers in order to use all the features of the application.</h5>
+        <h5>Please consider switching to one of these browsers in order to use all the features of the application...</h5>
       </div>
     )
   }
@@ -38,4 +37,18 @@ const Home = () => {
     )
 }
 
-export default Home
+const mapStateToProps = (state) => {
+  return {
+    windowSize: state.windowSize
+  }
+}
+
+const mapDispatchToProps = {
+}
+
+const connectedHome = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)
+
+export default connectedHome

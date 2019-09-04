@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
-const ChatText = ({messages, largeChat, visible}) => {
+const ChatText = ({ messages, largeChat, visible }) => {
 
-    const [chatWidth, setChatWidth] = useState(window.innerWidth)
-    const [chatHeight, setChatHeight] = useState(window.innerHeight)
-  
+    const [chatWidth, setChatWidth] = useState(window.innerWidth / 2)
+    const [chatHeight, setChatHeight] = useState(window.innerHeight * 0.8)
+
     const handleResize = () => {
-      setChatWidth(window.innerWidth)
-      setChatHeight(window.innerHeight)
+      setChatWidth(window.innerWidth / 2)
+      setChatHeight(window.innerHeight * 0.8)
     }
   
     window.addEventListener('resize', handleResize)
@@ -51,5 +51,5 @@ const ChatText = ({messages, largeChat, visible}) => {
         </div>
     )
 }
-
+  
 export default ChatText

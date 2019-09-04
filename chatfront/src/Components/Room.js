@@ -264,24 +264,26 @@ const Room = (props) => {
         </div>
         <div>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible}/>
-              <Heads room={props.room}/>
+              <div>
+                <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible}/>
+                <Form onSubmit={sendMessage}>
+                  <InputGroup>
+                  <InputGroup.Prepend>
+                    <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver}>
+                      <Button variant="outline-info">Emojis</Button>
+                    </OverlayTrigger>
+                  </InputGroup.Prepend>
+                      <FormControl
+                        onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}
+                      />
+                  <InputGroup.Append>
+                      <Button variant="success" type="submit">Send</Button>
+                  </InputGroup.Append>
+                  </InputGroup>
+                </Form>
+              </div>
+                <Heads room={props.room}/>
             </div>
-            <Form onSubmit={sendMessage}>
-              <InputGroup>
-              <InputGroup.Prepend>
-                <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver}>
-                  <Button variant="outline-info">Emojis</Button>
-                </OverlayTrigger>
-              </InputGroup.Prepend>
-                  <FormControl
-                    onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}
-                  />
-              <InputGroup.Append>
-                  <Button variant="success" type="submit">Send</Button>
-              </InputGroup.Append>
-              </InputGroup>
-            </Form>
       </div>
       </div>
     )

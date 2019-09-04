@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { setFaces } from '../Reducers/OwnFaceReducer'
-import defaultFace from '../Images/1default.png'
+import cameraImage from '../Images/camera.png'
 
 const images = [
     'Smile!',
@@ -20,7 +20,7 @@ const images = [
 ]
 
 const Ownface = (props) => {
-    const [image, setImage] = useState(defaultFace)
+    const [image, setImage] = useState(cameraImage)
     const [camera, setCamera] = useState(null)
     const [info, setInfo] = useState('Hi! Welcome to custom chatface builder! Click button to start taking your pictures!')
     const photoRef = React.createRef()
@@ -122,7 +122,7 @@ const Ownface = (props) => {
 
     const stopCamera = async () => {
         await camera.stopCamera()
-        setImage(defaultFace)
+        setImage(cameraImage)
     }
 
     const style = { 

@@ -6,12 +6,14 @@ import { Nav, Navbar, Badge, Button } from 'react-bootstrap'
 import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
-import { logoutUser } from './Reducers/UserReducer'
-import { removeChatnick } from './Reducers/ChatnickReducer'
+import { setInvites } from './Reducers/InvitesReducer'
+import { logoutUser, setUser } from './Reducers/UserReducer'
+import { removeChatnick, setChatnick } from './Reducers/ChatnickReducer'
 import { removePrivateRooms } from './Reducers/PrivateRoomsReducer'
 import { removeFaces } from './Reducers/OwnFaceReducer'
 import { setRoom } from './Reducers/RoomReducer'
-import { removeUserInfo } from './Reducers/UserInfoReducer'
+import { removeUserInfo, setUserInfo } from './Reducers/UserInfoReducer'
+import { setWindow } from './Reducers/WindowSizeReducer'
 import Invites from './Components/Invites'
 import backGroundImage from './Images/home.png'
 import userImage from './Images/user.png'
@@ -32,6 +34,15 @@ socket = io(LOCAL, {transports: ['websocket'], upgrade: false}) :
 socket = io(HOST, {transports: ['websocket'], upgrade: false})
 
 const App = (props) =>  {
+
+  if (window.localStorage.getItem('user')){
+    const userData = JSON.parse(window.localStorage.getItem('user'))
+    props.setUser(userData.username)
+    props.setChatnick(userData.username)
+    props.setUserInfo(userData.email)
+    props.setInvites(userData.invites)
+  }
+
   useEffect(() => {
     socket.emit('requestRooms')
     socket.on('message', (msg) => {
@@ -51,7 +62,17 @@ const App = (props) =>  {
       props.setFullRooms(fullRooms)
     })
   }, [])
-  
+
+  const handleResize = () => {
+    const values = {
+      height: window.innerHeight,
+      width: window.innerWidth
+    }
+    props.setWindow(values)
+  }
+
+  window.addEventListener('resize', handleResize)
+
   const roomByTitle = (title) => props.rooms.find(r => r.title === title)
 
   const style = { 
@@ -187,7 +208,12 @@ const mapDispatchToProps = {
   removeFaces,
   setRoom,
   setFullRooms,
-  removeUserInfo
+  removeUserInfo,
+  setWindow,
+  setUser,
+  setUserInfo,
+  setInvites,
+  setChatnick
 }
 
 const connectedApp = connect(
