@@ -49,9 +49,10 @@ const App = (props) =>  {
       props.newMessage(msg)
     })
     socket.on('imagesSaved', (value) => {
-      value === true ? 
-      window.alert('Your photos are successfully saved!') :
-      window.alert('Error in saving your photos. Please try again.')
+      value === true 
+      ? window.alert('Your photos are successfully saved!')
+      : window.alert('Error in saving your photos. Please try again.')
+      props.removeFaces()
     })
     socket.on('room', (room, roomUsers) => {
       props.setRoom(room)

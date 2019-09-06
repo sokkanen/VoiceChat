@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { setFaces } from '../Reducers/OwnFaceReducer'
+import { Jumbotron, Container, Row, Col, Image, Button, Badge } from 'react-bootstrap'
 import cameraImage from '../Images/camera.png'
+import userImage from '../Images/user.png'
 
 const images = [
     'Smile!',
@@ -20,10 +22,12 @@ const images = [
 ]
 
 const Ownface = (props) => {
-    const [image, setImage] = useState(cameraImage)
+    const [image, setImage] = useState(userImage)
     const [camera, setCamera] = useState(null)
-    const [info, setInfo] = useState('Hi! Welcome to custom chatface builder! Click button to start taking your pictures!')
+    const [info, setInfo] = useState('')
+    const [videoVisible, setVideoVisible] = useState(false)
     const photoRef = React.createRef()
+
     let initial = {
         defaultFace : null,
         aieFace : null,
@@ -43,15 +47,17 @@ const Ownface = (props) => {
         setCamera(cmra)
     }, [])
 
-    const startCamera = async (idealFacingMode, idealResolution) => {
+    const startCamera = async () => {
+        let idealFacingMode = FACING_MODES.USER
+        let idealResolution = { width: 240, height: 240 }
         await camera.startCamera(idealFacingMode, idealResolution)
     }
 
     const takeUserImages = async () => {
+        await setVideoVisible(true)
+        window.scrollTo(0,document.body.scrollHeight);
         setInfo(images[0])
-        let facingMode = FACING_MODES.USER
-        let idealResolution = { width: 240, height: 240 }
-        await startCamera(facingMode, idealResolution)
+        await startCamera()
         const start = (counter) => {
             if(counter < 13){
               setTimeout( async () => {
@@ -59,13 +65,14 @@ const Ownface = (props) => {
                 takePhoto(counter)
                 counter++;
                 if (counter === 13){
-                    if (window.confirm('Press OK if you are happy with your photos. Press Cancel to retake you photos.')){
+                    if (window.confirm('Press OK if you are happy with your photos. Press Calcel to continue without saving your photos.')){
                         stopCamera()
                         props.setFaces(initial)
                         props.socket.emit('userImages', initial, props.user)
                         setInfo('All set!')
                     } else {
-                        takeUserImages()
+                        stopCamera()
+                        setInfo('')
                     }
                 }
                 start(counter)
@@ -122,28 +129,67 @@ const Ownface = (props) => {
 
     const stopCamera = async () => {
         await camera.stopCamera()
-        setImage(cameraImage)
+        setImage(userImage)
     }
 
     const style = { 
         padding: 10,
-        margin: 45
+       
+        marginBottom: 45
     }
 
     return (
-    <div style={style}>
-        <video ref={photoRef} autoPlay={true}/>
-        <img alt="CamPhoto" src={image}/>
-        <h1>{info}</h1>
-        <button onClick={() => takeUserImages()}>Start taking your pictures!</button>
-    </div>
-    );
+        <div style={style}>
+            <Container>
+                <Row>
+                    <Jumbotron fluid>
+                        <Container>
+                            <Row>
+                                <h3>'Hi! Welcome to the custom chatface builder! Click on camera below to start taking your pictures!'</h3>
+                                <p>Please make sure you have your webcam enabled.</p>
+                            </Row>
+                            <Row>
+                                <Col></Col>
+                                <Col>
+                                    <Image onClick={() => takeUserImages()} src={cameraImage} width={props.windowSize.width / 3}/>
+                                </Col>
+                                <Col></Col>
+                            </Row>
+                        </Container>
+                    </Jumbotron> 
+                </Row>
+                <Row>
+                <Col></Col>
+                <Col>
+                {info !== '' 
+                ? <Badge variant="success"><h2>{info}</h2></Badge> 
+                : <Button variant="outline-success" onClick={startCamera}><h3>test your camera!</h3></Button>}
+                </Col>
+                <Col></Col>
+                </Row>
+                    <Row>
+                        <Col>
+                            <h5>Your most recent photo</h5>
+                            <Image src={image} style={{width: 240, height: 240}} rounded />
+                        </Col>
+                        <Col>
+                        </Col>
+                        <Col>
+                            <h5>Live camera feed</h5>
+                            <video ref={photoRef} autoPlay={true}/>
+                            
+                        </Col>
+                    </Row>
+            </Container>
+        </div>
+    )
 }
 
 const mapStateToProps = (state) => {
     return {
       faces: state.faces,
-      user: state.user
+      user: state.user,
+      windowSize: state.windowSize
     }
   }
   

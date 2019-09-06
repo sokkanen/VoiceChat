@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 
 const ChatText = ({ messages, largeChat, visible }) => {
 
-    const [chatWidth, setChatWidth] = useState(window.innerWidth / 2)
+    const [chatWidth, setChatWidth] = useState(window.innerWidth / 3)
     const [chatHeight, setChatHeight] = useState(window.innerHeight * 0.8)
 
     const handleResize = () => {
-      setChatWidth(window.innerWidth / 2)
+      setChatWidth(window.innerWidth / 3)
       setChatHeight(window.innerHeight * 0.8)
     }
   
