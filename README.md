@@ -30,9 +30,10 @@ Ohjelman keskeiset ominaisuudet:
 
 ### TODO
 
-- Home ja ChatText --> Connected --> Ikkunankoon päivitys App:iin
-- Localstorage toimimaan kunnolla
-- Bootstrap
 - Käyttäjän hallintapaneeli
 - Testejä
 - Käyttäjärajoituksen fiksumpi toteutus
+- Chatti rullaamaan alas aina uudesta viestistä.
+- Kuvienoton säätö (Kamera pois -painike, siistimpi rullaus.)
+- Routerin historia
+- Virheet ja turhat riippuvuudet pois.

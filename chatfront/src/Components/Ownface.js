@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
-import { setFaces } from '../Reducers/OwnFaceReducer'
 import { Jumbotron, Container, Row, Col, Image, Button, Badge } from 'react-bootstrap'
 import cameraImage from '../Images/camera.png'
 import userImage from '../Images/user.png'
@@ -67,7 +66,6 @@ const Ownface = (props) => {
                 if (counter === 13){
                     if (window.confirm('Press OK if you are happy with your photos. Press Calcel to continue without saving your photos.')){
                         stopCamera()
-                        props.setFaces(initial)
                         props.socket.emit('userImages', initial, props.user)
                         setInfo('All set!')
                     } else {
@@ -194,7 +192,6 @@ const mapStateToProps = (state) => {
   }
   
   const mapDispatchToProps = {
-      setFaces
   }
   
   const connectedOwnFace = connect(

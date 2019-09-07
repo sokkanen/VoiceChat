@@ -4,7 +4,7 @@ const userReducer = (state = '', action) => {
       case 'SETUSER':
         return action.data
       case 'LOGOUTUSER':
-        window.localStorage.setItem('user', null)
+        window.localStorage.removeItem('user')
         return ''
       default: return state
     }

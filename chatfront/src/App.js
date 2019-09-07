@@ -10,7 +10,6 @@ import { setInvites } from './Reducers/InvitesReducer'
 import { logoutUser, setUser } from './Reducers/UserReducer'
 import { removeChatnick, setChatnick } from './Reducers/ChatnickReducer'
 import { removePrivateRooms } from './Reducers/PrivateRoomsReducer'
-import { removeFaces } from './Reducers/OwnFaceReducer'
 import { setRoom } from './Reducers/RoomReducer'
 import { removeUserInfo, setUserInfo } from './Reducers/UserInfoReducer'
 import { setWindow } from './Reducers/WindowSizeReducer'
@@ -52,7 +51,6 @@ const App = (props) =>  {
       value === true 
       ? window.alert('Your photos are successfully saved!')
       : window.alert('Error in saving your photos. Please try again.')
-      props.removeFaces()
     })
     socket.on('room', (room, roomUsers) => {
       props.setRoom(room)
@@ -95,7 +93,6 @@ const App = (props) =>  {
     props.logoutUser()
     props.removeChatnick()
     props.removePrivateRooms()
-    props.removeFaces()
     props.setUsers([])
     props.setRoom('')
     props.removeUserInfo()
@@ -206,7 +203,6 @@ const mapDispatchToProps = {
   logoutUser,
   removeChatnick,
   removePrivateRooms,
-  removeFaces,
   setRoom,
   setFullRooms,
   removeUserInfo,

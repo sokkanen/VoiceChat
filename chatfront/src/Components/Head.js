@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Image, Badge, Card } from 'react-bootstrap'
+import { Badge, Card } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import defaultFace from '../Images/1default.png'
 import aieFace from '../Images/1aei.png'
@@ -36,33 +36,33 @@ const Head = (props) => {
 
         if (props.images === undefined){
             if (aie.test(letter)){
-                setImg(props.faces.defaultFace === null ? aieFace : props.faces.aieFace)
+                setImg(props.faces.aieFace)
             } else if(bmp.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? bmpFace : props.faces.aieFace)
+                setImg(props.faces.bmpFace)
             } else if (cdgknstxyz.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? cdgknstxyzFace : props.faces.cdgknstxyzFace)
+                setImg(props.faces.cdgknstxyzFace)
             } else if (fv.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? fvFace : props.faces.fvFace)
+                setImg(props.faces.fvFace)
             } else if (j.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? jFace : props.faces.jFace)
+                setImg(props.faces.jFace)
             } else if (l.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? lFace : props.faces.lFace)
+                setImg(props.faces.lFace)
             } else if (o.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? oFace : props.faces.oFace)
+                setImg(props.faces.oFace)
             } else if (qw.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? qwFace : props.faces.qwFace)
+                setImg(props.faces.qwFace)
             } else if (r.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? rFace : props.faces.rFace)
+                setImg(props.faces.rFace)
             } else if (u.test(letter.toLowerCase())){
-                setImg(props.faces.defaultFace === null ? uFace : props.faces.uFace)
+                setImg(props.faces.uFace)
             } else {
-                setImg(props.faces.defaultFace === null ? defaultFace : props.faces.defaultFace)
+                setImg(props.faces.defaultFace)
             }
         } else {
             if (aie.test(letter)){
                 setImg(props.images.aieFace)
             } else if(bmp.test(letter.toLowerCase())){
-                setImg(props.images.aieFace)
+                setImg(props.images.bmpFace)
             } else if (cdgknstxyz.test(letter.toLowerCase())){
                 setImg(props.images.cdgknstxyzFace)
             } else if (fv.test(letter.toLowerCase())){

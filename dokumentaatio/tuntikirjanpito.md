@@ -68,4 +68,5 @@ päivä | aika | mitä tein
 4.9   | 1    | Chathuoneen asettelua, ikkunankoon parempi seuranta (ei valmis), Clientin timeoutin selvittäminen
 5.9   | 2    | Localstorage toimimaan oikein, virheiden hallintaa bäkkärillä, huoneen ja naamojen säätämistä. Kamerakuva.
 6.9   | 2    | Webcam-näkymän totaaliuudistus. Tekstichatin piilottamista paremmaksi (inputin asettelu)
-YHT   | 140
+7.9   | 1    | Oletusnaamojen tallennuksen ja näyttämisen parannus (Reduxiin)
+YHT   | 141
