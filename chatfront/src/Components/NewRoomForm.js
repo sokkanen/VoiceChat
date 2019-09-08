@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Slide } from 'react-reveal'
 import { Form, Button } from 'react-bootstrap'
 import './Forms.css'
 
@@ -53,16 +54,19 @@ const NewRoomForm = (props) => {
 
     if (props.user === ''){
         return (
+            <Slide top>
             <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
             <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>Please Login / Register to create a new chatroom.</h4>
             <Button variant="success" disabled>
                 Create
             </Button>
             </div>
+            </Slide>
         )
     }
 
     return (
+        <Slide top>
         <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
         <Form onSubmit={createNew}>
         <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>New room creation</h4>
@@ -95,6 +99,7 @@ const NewRoomForm = (props) => {
             </Button>
         </Form>
         </div>
+        </Slide>
     )
 }
 

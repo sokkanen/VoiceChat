@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
-import {BrowserRouter as Router,Route, Link, Redirect, withRouter} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Nav, Navbar, Badge, Button } from 'react-bootstrap'
+import { Zoom } from 'react-reveal'
 import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
@@ -121,17 +122,16 @@ const App = (props) =>  {
           </Navbar>
 
             <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/alterface" render={() => <Ownface socket={socket}/>}/>
+            <Route path="/alterface" render={() =>  <Zoom top><Ownface socket={socket}/></Zoom>}/>
             <Route path="/login" render={() => props.user === '' ? 
               <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
               }/>
-            <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
+            <Route exact path="/rooms" render={() => <Zoom top><Chatrooms socket={socket} Link={Link} /></Zoom>}/>
             <Route exact path="/rooms/:title" render={({ match }) => 
               props.chatnick === '' ? <Redirect to="/rooms"/> :
-              <Room room={roomByTitle(match.params.title)} socket={socket} />
+              <Room room={roomByTitle(match.params.title)} socket={socket}/>
             }/>
-            <Route path="/usrmngmt" render={() => <UserManagement socket={socket}/>}/>
-
+            <Route path="/usrmngmt" render={() => <Zoom top><UserManagement socket={socket}/></Zoom>}/>
         </Router>
         <footer className="blockquote-footer">
         <nav class="navbar fixed-bottom navbar-expand-md" style={style}> 
@@ -164,12 +164,12 @@ const App = (props) =>  {
 
       <div class="container">
         <Route exact path="/" render={() => <Home/>}/>
-        <Route path="/register" render={() => <NewUserForm socket={socket}/>}/>
+        <Route path="/register" render={() => <Zoom top><NewUserForm socket={socket}/></Zoom>}/>
         <Route path="/alterface" render={() => <Home/>}/>
         <Route path="/login" render={() => props.user === '' ? 
-        <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
+        <Zoom top><LoginForm socket={socket}/></Zoom>: <Redirect to="/rooms"/>
         }/>
-        <Route exact path="/rooms" render={() => <Chatrooms socket={socket} Link={Link} />}/>
+        <Route exact path="/rooms" render={() => <Zoom top><Chatrooms socket={socket} Link={Link} /></Zoom>}/>
         <Route exact path="/rooms/:title" render={({ match }) => 
           props.chatnick === '' ? <Redirect to="/rooms"/> :
           <Room room={roomByTitle(match.params.title)} socket={socket} />

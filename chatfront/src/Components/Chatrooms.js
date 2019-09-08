@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Pagination from 'react-js-pagination'
-import { Table, Button, Form, InputGroup, Input } from 'react-bootstrap'
+import { Table, Button, Form, InputGroup } from 'react-bootstrap'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setRoom } from '../Reducers/RoomReducer'
 import { setRooms, setFullRooms, removeRoom } from '../Reducers/RoomsReducer'

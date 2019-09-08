@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Badge, Card } from 'react-bootstrap'
+import { Zoom } from 'react-reveal'
 import { connect } from 'react-redux'
 import defaultFace from '../Images/1default.png'
-import aieFace from '../Images/1aei.png'
-import bmpFace from '../Images/1bmp.png'
-import fvFace from '../Images/1fv.png'
-import jFace from '../Images/1j.png'
-import lFace from '../Images/1l.png'
-import oFace from '../Images/1o.png'
-import qwFace from '../Images/1qw.png'
-import rFace from '../Images/1r.png'
-import uFace from '../Images/1u.png'
-import cdgknstxyzFace from '../Images/1cdgknstxyz.png'
 
 const aie = /[aieä]/
 const bmp = /[bmp]/
@@ -87,6 +78,7 @@ const Head = (props) => {
     
     if (registered){
         return (
+            <Zoom bottom>
             <Card bg="light" border="dark" text="primary">
                 <Card.Header>{chatnick}</Card.Header>
                 <Card.Body>
@@ -94,10 +86,12 @@ const Head = (props) => {
                 <Card.Title><Badge variant="secondary">{props.typing === true ? 'Typing' : 'Idle'}</Badge></Card.Title>
                 </Card.Body>
             </Card>
+            </Zoom>
         )  
     }
 
     return (
+        <Zoom bottom>
         <Card bg="light" border="dark">
             <Card.Header>{chatnick}</Card.Header>
             <Card.Body>
@@ -105,6 +99,7 @@ const Head = (props) => {
             <Card.Title><Badge variant="light">{props.typing === true ? 'Typing' : 'Idle'}</Badge></Card.Title>
             </Card.Body>
         </Card>
+        </Zoom>
     )
 }
 

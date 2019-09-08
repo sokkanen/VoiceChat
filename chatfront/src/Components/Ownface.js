@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
-import { Jumbotron, Container, Row, Col, Image, Button, Badge, Card } from 'react-bootstrap'
+import { Jumbotron, Container, Row, Col, Image, Button, Badge, Card, CardColumns } from 'react-bootstrap'
 import { Zoom } from 'react-reveal'
 import cameraImage from '../Images/camera.png'
 import userImage from '../Images/user.png'
 
 const images = [
-    'Smile!',
+    'Just Smile!',
     'Say A!',
     'Say B!',
     'Say C!',
@@ -76,17 +76,21 @@ const Ownface = (props) => {
                 takePhoto(counter)
                 counter++;
                 if (counter === 13){
-                    if (window.confirm('Press OK if you are happy with your photos. Press Calcel to continue without saving your photos.')){
+                    if (window.confirm('Press OK if you are happy with your photos. Press Cancel to continue without saving your photos.')){
                         stopCamera()
                         props.socket.emit('userImages', initial, props.user)
                         setInfo('All set!')
+                        setVideoVisible(false)
+                        window.scrollTo(0,0);
                     } else {
                         stopCamera()
                         setInfo('')
+                        setVideoVisible(false)
+                        window.scrollTo(0,0);
                     }
                 }
                 start(counter)
-              }, 2500)
+              }, 250)
             }
           }
           start(1)
@@ -144,67 +148,61 @@ const Ownface = (props) => {
 
     const style = { 
         padding: 10,
-       
-        marginBottom: 45
+        marginBottom: 45,
+        width: props.windowSize.width * 0.8, 
+        margin: '15px'
     }
 
     return (
         <div style={style}>
-            <Container>
-                <Zoom bottom when={!videoVisible}>
-                <div>
-                <Row>
-                    <Jumbotron fluid>
-                        <Container>
-                            <Row>
-                                <h3>'Hi! Welcome to the custom chatface builder! Click on camera below to start taking your pictures!'</h3>
-                                <p>Please make sure you have your webcam enabled.</p>
-                            </Row>
-                            <Row>
-                                <Col></Col>
-                                <Col>
-                                    <Image onClick={() => takeUserImages()} src={cameraImage} width={props.windowSize.width / 3}/>
-                                </Col>
-                                <Col></Col>
-                            </Row>
-                            <Row>
-                                <Col></Col>
-                                <Col>
-                                    <Button variant="outline-success" onClick={testCamera}><h3>test your camera!</h3></Button>
-                                </Col>
-                                <Col></Col>
-                            </Row>
-                        </Container>
-                    </Jumbotron> 
-                </Row>
-                </div>
-                </Zoom>
-                <Zoom bottom when={videoVisible}>
-                <div>
+            <Zoom bottom when={!videoVisible}>
+            <Jumbotron fluid>
+                <Container>
                     <Row>
-                        <Col>
-                            <Card>
-                                <Card.Body>
-                                <Card.Img src={image} style={{width: 240, height: 240}} rounded />
-                                 <Card.Title>Your most recent photo</Card.Title>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col>
-                        <Badge variant="success"><h2>{info}</h2></Badge> 
-                        </Col>
-                        <Col>
-                            <Card>
-                                <Card.Body>
-                                <video ref={photoRef} autoPlay={true}/>
-                                 <Card.Title>Live camera feed</Card.Title>
-                                </Card.Body>
-                            </Card>
-                        </Col>
+                        <h3>'Hi! Welcome to the custom chatface builder! Click on camera below to start taking your pictures!'</h3>
+                        <p>Please make sure you have your webcam enabled.</p>
                     </Row>
-                    </div>
-                </Zoom>
-            </Container>
+                    <Row>
+                        <Col></Col>
+                        <Col>
+                            <Image onClick={() => takeUserImages()} src={cameraImage} width={props.windowSize.width / 3}/>
+                        </Col>
+                        <Col></Col>
+                    </Row>
+                    <Row>
+                        <Col></Col>
+                        <Col>
+                            <Button variant="outline-success" onClick={testCamera}><h3>test your camera!</h3></Button>
+                        </Col>
+                        <Col></Col>
+                    </Row>
+                </Container>
+            </Jumbotron> 
+            </Zoom>
+            <Zoom top when={videoVisible}>
+                <Jumbotron fluid>
+                <CardColumns>
+                    <Card>
+                        <Card.Body>
+                        <Card.Img src={image} style={{width: 240, height: 240}} rounded />
+                            <Card.Title>Your most recent photo</Card.Title>
+                        </Card.Body>
+                    </Card>
+                    <Card>
+                        <Card.Body>
+                            <Card.Title>Smile and...</Card.Title>
+                            <Badge variant="success"><h2>{info}</h2></Badge>
+                        </Card.Body>
+                    </Card>
+                    <Card>
+                        <Card.Body>
+                        <video ref={photoRef} autoPlay={true}/>
+                            <Card.Title>Live camera feed</Card.Title>
+                        </Card.Body>
+                    </Card>
+                </CardColumns>
+                </Jumbotron>
+            </Zoom>
         </div>
     )
 }

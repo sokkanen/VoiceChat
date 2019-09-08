@@ -4,17 +4,7 @@ import { Alert } from 'react-bootstrap'
 
 const Notification = (props) => {
 
-    const textColor = props.textColor
     const [show, setShow] = useState(true)
-
-    const style = {
-        margin: '20px',
-        border: `5px solid ${textColor}`,
-        height: `50px`,
-        backgroundColor: 'gray',
-        color: textColor,
-        fontSize: '30px'
-    }
 
     if (props.notification.length === 0 || !show){
         return (

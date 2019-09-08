@@ -59,7 +59,7 @@ const LoginForm = (props) => {
             await socket.emit('login', credentials)
     }
 
-    const notificate = (message) => { // TÄMÄ REDUCERIIN!
+    const notificate = (message) => {
         props.setNotification(message)
         setTimeout(() => {
           props.setNotification('')

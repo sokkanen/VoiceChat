@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
+import { Fade } from 'react-reveal'
 import Speech from 'speak-tts'
 import { 
   Spinner, 
@@ -13,7 +14,7 @@ import {
   FormControl, 
   OverlayTrigger,
   Popover,
-  Modal } from 'react-bootstrap'
+  } from 'react-bootstrap'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import { setNotification } from '../Reducers/NotificationReducer'
@@ -245,7 +246,8 @@ const Room = (props) => {
     }
 
     return (
-        <div style={style}>
+      <Fade bottom>
+      <div style={style}>
             <div>
                 <Notification textColor={textColor}/>
             </div>
@@ -310,6 +312,7 @@ const Room = (props) => {
             </div>
       </div>
       </div>
+      </Fade>
     )
 }
 
