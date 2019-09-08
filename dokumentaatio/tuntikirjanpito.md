@@ -69,4 +69,5 @@ päivä | aika | mitä tein
 5.9   | 2    | Localstorage toimimaan oikein, virheiden hallintaa bäkkärillä, huoneen ja naamojen säätämistä. Kamerakuva.
 6.9   | 2    | Webcam-näkymän totaaliuudistus. Tekstichatin piilottamista paremmaksi (inputin asettelu)
 7.9   | 1    | Oletusnaamojen tallennuksen ja näyttämisen parannus (Reduxiin)
-YHT   | 141
+8.9   | 1    | Animaatiokirjasto käyttöön. Webcam-näkymän animaatioita.
+YHT   | 142

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
-import { Jumbotron, Container, Row, Col, Image, Button, Badge } from 'react-bootstrap'
+import { Jumbotron, Container, Row, Col, Image, Button, Badge, Card } from 'react-bootstrap'
+import { Zoom } from 'react-reveal'
 import cameraImage from '../Images/camera.png'
 import userImage from '../Images/user.png'
 
@@ -49,7 +50,18 @@ const Ownface = (props) => {
     const startCamera = async () => {
         let idealFacingMode = FACING_MODES.USER
         let idealResolution = { width: 240, height: 240 }
-        await camera.startCamera(idealFacingMode, idealResolution)
+        const result = await camera.startCamera(idealFacingMode, idealResolution)
+        return result
+    }
+
+    const testCamera = async () => {
+        const success = await startCamera()
+        if (success.active){
+            window.alert('Your camera seem to be working fine.')
+        } else {
+            window.alert(`There's something wrong with your camera. Make sure you have enabled your webcam in your browser.`)
+        }
+        stopCamera()
     }
 
     const takeUserImages = async () => {
@@ -74,7 +86,7 @@ const Ownface = (props) => {
                     }
                 }
                 start(counter)
-              }, 2000)
+              }, 2500)
             }
           }
           start(1)
@@ -139,6 +151,8 @@ const Ownface = (props) => {
     return (
         <div style={style}>
             <Container>
+                <Zoom bottom when={!videoVisible}>
+                <div>
                 <Row>
                     <Jumbotron fluid>
                         <Container>
@@ -153,31 +167,43 @@ const Ownface = (props) => {
                                 </Col>
                                 <Col></Col>
                             </Row>
+                            <Row>
+                                <Col></Col>
+                                <Col>
+                                    <Button variant="outline-success" onClick={testCamera}><h3>test your camera!</h3></Button>
+                                </Col>
+                                <Col></Col>
+                            </Row>
                         </Container>
                     </Jumbotron> 
                 </Row>
-                <Row>
-                <Col></Col>
-                <Col>
-                {info !== '' 
-                ? <Badge variant="success"><h2>{info}</h2></Badge> 
-                : <Button variant="outline-success" onClick={startCamera}><h3>test your camera!</h3></Button>}
-                </Col>
-                <Col></Col>
-                </Row>
+                </div>
+                </Zoom>
+                <Zoom bottom when={videoVisible}>
+                <div>
                     <Row>
                         <Col>
-                            <h5>Your most recent photo</h5>
-                            <Image src={image} style={{width: 240, height: 240}} rounded />
+                            <Card>
+                                <Card.Body>
+                                <Card.Img src={image} style={{width: 240, height: 240}} rounded />
+                                 <Card.Title>Your most recent photo</Card.Title>
+                                </Card.Body>
+                            </Card>
                         </Col>
                         <Col>
+                        <Badge variant="success"><h2>{info}</h2></Badge> 
                         </Col>
                         <Col>
-                            <h5>Live camera feed</h5>
-                            <video ref={photoRef} autoPlay={true}/>
-                            
+                            <Card>
+                                <Card.Body>
+                                <video ref={photoRef} autoPlay={true}/>
+                                 <Card.Title>Live camera feed</Card.Title>
+                                </Card.Body>
+                            </Card>
                         </Col>
                     </Row>
+                    </div>
+                </Zoom>
             </Container>
         </div>
     )
