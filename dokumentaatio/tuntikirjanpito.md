@@ -70,4 +70,5 @@ päivä | aika | mitä tein
 6.9   | 2    | Webcam-näkymän totaaliuudistus. Tekstichatin piilottamista paremmaksi (inputin asettelu)
 7.9   | 1    | Oletusnaamojen tallennuksen ja näyttämisen parannus (Reduxiin)
 8.9   | 3    | Animaatiokirjasto käyttöön. Webcam-näkymän viimeistelyä. Sovelluksen / Komponenttien renderöinnin animaatiot.
-YHT   | 144
+9.9   | 1    | Maltillisemmat animaatiot. Puheohjaus kuvien ottamiseen. Punaista pois konsolista.
+YHT   | 145

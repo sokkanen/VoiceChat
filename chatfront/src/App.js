@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import {BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Nav, Navbar, Badge, Button } from 'react-bootstrap'
-import { Zoom } from 'react-reveal'
+import { Fade } from 'react-reveal'
 import { setRooms, setFullRooms } from './Reducers/RoomsReducer'
 import { newMessage } from './Reducers/MessageReducer'
 import { setUsers } from './Reducers/UsersReducer'
@@ -103,10 +103,10 @@ const App = (props) =>  {
 
   if (props.user){
     return (
-      <div class="container">
+      <div className="container">
         <Router>
           <Navbar bg="light" expand="lg">
-              <Nav class="navbar fixed-top navbar-expand-md" style={style}>
+              <Nav className="navbar fixed-top navbar-expand-md" style={style}>
                 <div>
                   <Link style={style} to="/">
                     <img alt="" src={backGroundImage} width="30" height="30" className="d-inline-block align-top"/>
@@ -121,20 +121,20 @@ const App = (props) =>  {
               </Nav>
           </Navbar>
 
-            <Route exact path="/" render={() => <Home/>}/>
-            <Route path="/alterface" render={() =>  <Zoom top><Ownface socket={socket}/></Zoom>}/>
+            <Route exact path="/" render={() => <Fade big><Home/></Fade>}/>
+            <Route path="/alterface" render={() =>  <Fade big><Ownface socket={socket}/></Fade>}/>
             <Route path="/login" render={() => props.user === '' ? 
               <LoginForm socket={socket}/> : <Redirect to="/rooms"/>
               }/>
-            <Route exact path="/rooms" render={() => <Zoom top><Chatrooms socket={socket} Link={Link} /></Zoom>}/>
+            <Route exact path="/rooms" render={() => <Fade big><Chatrooms socket={socket} Link={Link} /></Fade>}/>
             <Route exact path="/rooms/:title" render={({ match }) => 
               props.chatnick === '' ? <Redirect to="/rooms"/> :
-              <Room room={roomByTitle(match.params.title)} socket={socket}/>
+              <Fade big><Room room={roomByTitle(match.params.title)} socket={socket}/></Fade>
             }/>
-            <Route path="/usrmngmt" render={() => <Zoom top><UserManagement socket={socket}/></Zoom>}/>
+            <Route path="/usrmngmt" render={() => <Fade big><UserManagement socket={socket}/></Fade>}/>
         </Router>
         <footer className="blockquote-footer">
-        <nav class="navbar fixed-bottom navbar-expand-md" style={style}> 
+        <nav className="navbar fixed-bottom navbar-expand-md" style={style}> 
             <em>Joel Sokkanen 2019</em>
         </nav>
         </footer>
@@ -143,11 +143,11 @@ const App = (props) =>  {
   }
 
   return (
-      <div class="container">
+      <div className="container">
         <Router>
 
       <Navbar bg="light" expand="lg">
-        <Nav class="navbar fixed-top navbar-expand-md" style={style}>
+        <Nav className="navbar fixed-top navbar-expand-md" style={style}>
           <div>
             <div>
               <Link style={style} to="/">
@@ -162,24 +162,24 @@ const App = (props) =>  {
         </Nav>
       </Navbar>
 
-      <div class="container">
-        <Route exact path="/" render={() => <Home/>}/>
-        <Route path="/register" render={() => <Zoom top><NewUserForm socket={socket}/></Zoom>}/>
-        <Route path="/alterface" render={() => <Home/>}/>
+      <div className="container">
+        <Route exact path="/" render={() => <Fade big><Home/></Fade>}/>
+        <Route path="/register" render={() => <Fade big><NewUserForm socket={socket}/></Fade>}/>
+        <Route path="/alterface" render={() => <Fade big><Home/></Fade>}/>
         <Route path="/login" render={() => props.user === '' ? 
-        <Zoom top><LoginForm socket={socket}/></Zoom>: <Redirect to="/rooms"/>
+        <Fade big><LoginForm socket={socket}/></Fade>: <Redirect to="/rooms"/>
         }/>
-        <Route exact path="/rooms" render={() => <Zoom top><Chatrooms socket={socket} Link={Link} /></Zoom>}/>
+        <Route exact path="/rooms" render={() => <Fade big><Chatrooms socket={socket} Link={Link} /></Fade>}/>
         <Route exact path="/rooms/:title" render={({ match }) => 
           props.chatnick === '' ? <Redirect to="/rooms"/> :
-          <Room room={roomByTitle(match.params.title)} socket={socket} />
+          <Fade big><Room room={roomByTitle(match.params.title)} socket={socket}/></Fade>
         }/>
-        <Route path="/usrmngmt" render={() => <Home/>}/>
+        <Route path="/usrmngmt" render={() => <Fade big><Home/></Fade>}/>
       </div>
         
         </Router>
         <footer className="blockquote-footer">
-        <nav class="navbar fixed-bottom navbar-expand-md" style={style}> 
+        <nav className="navbar fixed-bottom navbar-expand-md" style={style}> 
             <em>Joel Sokkanen 2019</em>
         </nav>
         </footer>

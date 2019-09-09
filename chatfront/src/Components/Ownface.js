@@ -3,21 +3,22 @@ import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { Jumbotron, Container, Row, Col, Image, Button, Badge, Card, CardColumns } from 'react-bootstrap'
 import { Zoom } from 'react-reveal'
+import Speech from 'speak-tts'
 import cameraImage from '../Images/camera.png'
 import userImage from '../Images/user.png'
 
 const images = [
     'Just Smile!',
-    'Say A!',
-    'Say B!',
-    'Say C!',
-    'Say F!',
-    'Say J!',
-    'Say L!',
-    'Say O!',
-    'Say Q!',
-    'Say R!',
-    'Say U!',
+    `Say 'A'!`,
+    `Say 'B'!`,
+    `Say 'C'!`,
+    `Say 'F'!`,
+    `Say 'J'!`,
+    `Say 'L'!`,
+    `Say 'O'!`,
+    `Say 'Q'!`,
+    `Say 'R'!`,
+    `Say 'U'!`,
     'All set!'
 ]
 
@@ -27,6 +28,8 @@ const Ownface = (props) => {
     const [info, setInfo] = useState('')
     const [videoVisible, setVideoVisible] = useState(false)
     const photoRef = React.createRef()
+
+    const speech = new Speech()
 
     let initial = {
         defaultFace : null,
@@ -73,6 +76,10 @@ const Ownface = (props) => {
             if(counter < 13){
               setTimeout( async () => {
                 setInfo(images[counter])
+                speech.speak({
+                    text: images[counter],
+                    queue: true,
+                })
                 takePhoto(counter)
                 counter++;
                 if (counter === 13){
@@ -90,14 +97,13 @@ const Ownface = (props) => {
                     }
                 }
                 start(counter)
-              }, 250)
+              }, 2500)
             }
           }
           start(1)
     }
 
     const takePhoto = (index) => {
-        console.log(index)
         const config = {
           sizeFactor: 1
         }
@@ -184,7 +190,7 @@ const Ownface = (props) => {
                 <CardColumns>
                     <Card>
                         <Card.Body>
-                        <Card.Img src={image} style={{width: 240, height: 240}} rounded />
+                        <Card.Img src={image} style={{width: 240, height: 240}} />
                             <Card.Title>Your most recent photo</Card.Title>
                         </Card.Body>
                     </Card>

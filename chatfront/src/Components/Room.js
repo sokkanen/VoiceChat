@@ -256,7 +256,7 @@ const Room = (props) => {
           <ButtonToolbar>
             <DropdownButton id="dropdown-basic-button" variant="outline-primary" title="Voice select">
               {voices.length !== 0 ? voices.map(voice => (
-                <Dropdown.Item eventKey={voice.name + voice.lang} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
+                <Dropdown.Item key={voice.name + voice.lang} eventKey={voice.name + voice.lang} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
               )) : <Dropdown.Item>No voices found</Dropdown.Item>}
             </DropdownButton>
             <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>

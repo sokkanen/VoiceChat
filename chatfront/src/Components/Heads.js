@@ -16,6 +16,7 @@ const Heads = (props) => {
             {props.users
             .map(user => user.chatnick === props.speaking ? 
             <Head 
+                key={user.chatnick}
                 letter={props.letter} 
                 chatnick={user.chatnick} 
                 registered={user.registered}
@@ -23,6 +24,7 @@ const Heads = (props) => {
                 typing={user.typing}
             />: 
             <Head 
+                key={user.chatnick}
                 letter='' 
                 chatnick={user.chatnick} 
                 registered={user.registered}

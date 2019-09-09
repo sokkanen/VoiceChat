@@ -95,7 +95,7 @@ const Head = (props) => {
         <Card bg="light" border="dark">
             <Card.Header>{chatnick}</Card.Header>
             <Card.Body>
-            <Card.Img class="rounded-circle img-fluid" src={img}/>
+            <Card.Img className="rounded-circle img-fluid" src={img}/>
             <Card.Title><Badge variant="light">{props.typing === true ? 'Typing' : 'Idle'}</Badge></Card.Title>
             </Card.Body>
         </Card>

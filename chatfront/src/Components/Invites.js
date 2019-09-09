@@ -25,7 +25,7 @@ const Invites = (props) => {
         padding: 10,
         background: "#c6cfcf",
         color: "white",
-        'font-weight': "bold"
+        fontWeight: "bold"
     }
 
     return (
@@ -48,7 +48,6 @@ const Invites = (props) => {
                 </div>
                 )}
             </Popup>
-        
     )
 }
 

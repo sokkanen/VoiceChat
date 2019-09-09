@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Form, Button } from 'react-bootstrap'
+import { Fade } from 'react-reveal'
 import Popup from 'reactjs-popup'
 import settingsImage from '../Images/settings.png'
 
@@ -77,8 +78,16 @@ const InvitePopUp = (props) => {
                             <li key={user.id}><b>{user.username} ({user.email})</b></li>
                             : <li key={user.id}>{user.username} ({user.email})</li>)}
                         </ul>
-                    <div><Button style={{marginBottom: '5px'}} variant="outline-primary" onClick={() => setInviteFormVisible(!inviteFormVisible)}><b>Invite users</b></Button></div>
-                      <InviteForm/>
+                    <div><Button 
+                        style={{marginBottom: '5px'}} 
+                        variant="outline-primary" 
+                        onClick={() => setInviteFormVisible(!inviteFormVisible)}><b>Invite users</b>
+                    </Button></div>
+                    <div>
+                    <Fade big when={inviteFormVisible}>
+                        <InviteForm/>
+                    </Fade>
+                    </div>
                     <div>
                     <Button style={{marginTop: '5px'}} variant="outline-primary" onClick={() => {close()}}>OK</Button>
                     </div>

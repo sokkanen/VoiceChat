@@ -167,7 +167,7 @@ const Chatrooms = (props) => {
                 <NewRoomForm socket={socket} visible={visible}/>
                 <Button variant="outline-info" onClick={newRoomVisible}>{newRoomText}</Button>
             </div>
-            <div class="text-center">
+            <div className="text-center">
                 <h2>Rooms</h2>
             </div>
             <div>
@@ -207,7 +207,7 @@ const Chatrooms = (props) => {
                     )}
                 </tbody>
             </Table>
-                <div class="text-center">
+                <div className="text-center">
                     <Pagination
                     activePage={page}
                     itemsCountPerPage={5}
@@ -242,6 +242,7 @@ const Chatrooms = (props) => {
                             {r.full ? <td>Room is full</td> : <td>{r.description}</td>}
                             <td>
                                 <table>
+                                    <tbody>
                                     <tr>
                                         <td>{props.user ? r.owner_id === JSON.parse(window.localStorage.getItem('user')).id ? 
                                         <Button variant="outline-danger"><img src={removeImage} width="30" height="30" onClick={removeRoom(r)} alt="remove room"></img></Button>
@@ -249,6 +250,7 @@ const Chatrooms = (props) => {
                                         </td>
                                         <td><InvitePopUp currentRoom={r} socket={socket}/></td>
                                     </tr>
+                                    </tbody>
                                 </table>
                             </td>
 
@@ -256,7 +258,7 @@ const Chatrooms = (props) => {
                     )}
                     </tbody>
                     </Table>
-                <div class="text-center">
+                <div className="text-center">
                     <Pagination
                     activePage={privatePage}
                     itemsCountPerPage={5}
@@ -294,7 +296,7 @@ const Chatrooms = (props) => {
                 </InputGroup>
             </Form>
             </div>
-            <div class="text-center">
+            <div className="text-center">
                 <h2>Rooms</h2>
             </div>
             <div>
@@ -326,7 +328,7 @@ const Chatrooms = (props) => {
                 </tbody>
             </Table>
             </div>
-            <div class="text-center">
+            <div className="text-center">
                 <Pagination
                 activePage={page}
                 itemsCountPerPage={5}
