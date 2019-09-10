@@ -71,4 +71,5 @@ päivä | aika | mitä tein
 7.9   | 1    | Oletusnaamojen tallennuksen ja näyttämisen parannus (Reduxiin)
 8.9   | 3    | Animaatiokirjasto käyttöön. Webcam-näkymän viimeistelyä. Sovelluksen / Komponenttien renderöinnin animaatiot.
 9.9   | 1    | Maltillisemmat animaatiot. Puheohjaus kuvien ottamiseen. Punaista pois konsolista.
-YHT   | 145
+10.9  | 2    | Käyttäjähallinnan rakentamista. Virhekenttien korjauksen aloitus (kaikki lomakkeet.)
+YHT   | 147
