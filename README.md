@@ -17,6 +17,9 @@ Ohjelma on rakennettu stackille  React - NodeJS - Postgresql / MongoDb.
 Ohjelman keskeiset ominaisuudet:
 
 - Keskustelu muiden käyttäjien kanssa tekstin välityksellä
+	- Emojit
+	- Keskustelijan värinvalinta
+	- Käyttäjänimien puhuminen
 - Keskustelu muiden käyttäjien kanssa selaimen tekstistä puheeksi ominaisuudella.
 	- Interaktiivinen puhuva pää / hymiö (Animoitu puhe)
 - Keskusteluhuoneet
@@ -27,13 +30,13 @@ Ohjelman keskeiset ominaisuudet:
 	- Personoitava puhuva pää (Kuvat webcamilla)
 	- Yksityishuoneet
 	- Kutsuminen yksityishuoneeseen
+	- Omien tietojen luku, muokkaus ja tilin poistaminen
 
 ### TODO
 
-- Käyttäjän hallintapaneeli
+- Käyttäjän hallintapaneelin viimeistely
 - Testejä
 - Käyttäjärajoituksen fiksumpi toteutus
-- Chatti rullaamaan alas aina uudesta viestistä.
-- Kuvienoton säätö (Kamera pois -painike, siistimpi rullaus.)
 - Routerin historia
 - Virheet ja turhat riippuvuudet pois.
+- Värinvalinta per keskustelija --> Värinvalinnan välittäminen muille.

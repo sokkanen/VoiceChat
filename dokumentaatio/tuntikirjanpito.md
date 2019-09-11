@@ -72,4 +72,5 @@ päivä | aika | mitä tein
 8.9   | 3    | Animaatiokirjasto käyttöön. Webcam-näkymän viimeistelyä. Sovelluksen / Komponenttien renderöinnin animaatiot.
 9.9   | 1    | Maltillisemmat animaatiot. Puheohjaus kuvien ottamiseen. Punaista pois konsolista.
 10.9  | 2    | Käyttäjähallinnan rakentamista. Virhekenttien korjauksen aloitus (kaikki lomakkeet.)
-YHT   | 147
+11.9  | 2    | Tekstichatti käyttämään puhekuplia. Värinvalinnan 1. esiversio.
+YHT   | 149

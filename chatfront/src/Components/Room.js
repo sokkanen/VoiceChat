@@ -17,6 +17,7 @@ import {
   } from 'react-bootstrap'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
+import { CompactPicker } from 'react-color'
 import { setNotification } from '../Reducers/NotificationReducer'
 import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
@@ -45,18 +46,19 @@ const Room = (props) => {
     const [speech, setSpeech] = useState(new Speech())
     const [voice, setVoice] = useState('Default')
     const [largeChat, setLargeChat] = useState(true)
+    const [userColor, setUserColor] = useState('powderblue')
 
     useEffect(() => {
       if (msg.length !== 0){
         if (msg.room === props.room){
           console.log('message: ', msg.message, ' from: ', msg.user)
-          const msgs = messages
+          const msgs = messages.reverse()
           const ms = {
             user: msg.user, 
             msg: msg.message
           }
           msgs.push(ms)
-          setMessages(msgs)
+          setMessages(msgs.reverse())
           if (speakButtonMsg === 'Speak usernames'){
             speak(msg.message + ' ')
           } else {
@@ -213,11 +215,23 @@ const Room = (props) => {
       setMessage(message + emoji.native)
     }
 
+    const handleColorChange = (color) => {
+      setUserColor(color.hex)
+    }
+
     const emojiPopOver = (
       <Popover id="popover">
         <Popover.Content>
           <Picker onSelect={addEmoji} title='Skintone picker' emoji='point_right'/>
         </Popover.Content>
+      </Popover>
+    )
+
+    const colorPickerPopOver = (
+      <Popover id="popover">
+      <Popover.Content>
+        <CompactPicker onChange={ handleColorChange }/>
+      </Popover.Content>
       </Popover>
     )
 
@@ -260,6 +274,11 @@ const Room = (props) => {
               )) : <Dropdown.Item>No voices found</Dropdown.Item>}
             </DropdownButton>
             <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>
+
+            <OverlayTrigger trigger="click" placement="bottom" overlay={colorPickerPopOver}>
+            <Button style={{marginLeft: '5px', marginRight: '5px'}} variant="outline-primary">Select Color</Button>
+            </OverlayTrigger>
+
             <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setVisible} variant="outline-info">{buttonMsg}</Button>
             <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setLarge} variant="outline-info">{largeChatButtonMessage}</Button>
           </ButtonToolbar>
@@ -268,7 +287,7 @@ const Room = (props) => {
         <div>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <div>
-                <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible}/>
+                <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible} userColor={userColor}/>
                 {chatBoxVisible ? 
                   <Form onSubmit={sendMessage}>
                   <InputGroup>
