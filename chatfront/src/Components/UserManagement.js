@@ -70,11 +70,11 @@ const UserManagement = (props) => {
     margin: 45
   }
 
-  const field = {
+  const errorfield = {
     background: "rgb(208, 216, 216)"
   }
 
-  const errorfield = {
+  const field = {
     background: "rgb(226, 122, 122)"
   }
 
@@ -104,7 +104,7 @@ const UserManagement = (props) => {
             <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>User information</h4>
                 <Form.Group controlId="username">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control value={username} disabled="true" style={field}/>
+                    <Form.Control value={username} disabled="true" className="field"/>
                 </Form.Group>
                 <Form.Group controlId="email">
                     <Form.Label>Email address</Form.Label>

@@ -73,4 +73,5 @@ päivä | aika | mitä tein
 9.9   | 1    | Maltillisemmat animaatiot. Puheohjaus kuvien ottamiseen. Punaista pois konsolista.
 10.9  | 2    | Käyttäjähallinnan rakentamista. Virhekenttien korjauksen aloitus (kaikki lomakkeet.)
 11.9  | 2    | Tekstichatti käyttämään puhekuplia. Värinvalinnan 1. esiversio.
-YHT   | 149
+12.9  | 1    | Värinvalinta omalle tekstikuplalle toimii ja välittyy muille.
+YHT   | 150

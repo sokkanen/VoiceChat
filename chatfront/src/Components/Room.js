@@ -19,7 +19,7 @@ import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import { CompactPicker } from 'react-color'
 import { setNotification } from '../Reducers/NotificationReducer'
-import { setUsers, addUserToUsers, removeUserFromUsers } from '../Reducers/UsersReducer'
+import { setUsers, addUserToUsers, removeUserFromUsers, setUserColor } from '../Reducers/UsersReducer'
 import { setLetter } from '../Reducers/LetterReducer'
 import { setSpeaking } from '../Reducers/SpeakingReducer'
 import { setTyping } from '../Reducers/UsersReducer'
@@ -46,7 +46,6 @@ const Room = (props) => {
     const [speech, setSpeech] = useState(new Speech())
     const [voice, setVoice] = useState('Default')
     const [largeChat, setLargeChat] = useState(true)
-    const [userColor, setUserColor] = useState('powderblue')
 
     useEffect(() => {
       if (msg.length !== 0){
@@ -99,11 +98,17 @@ const Room = (props) => {
           props.setTyping(username, onOff)
         }
       })
+      socket.on('usercolor', (room, chatnick, color) => {
+        if (room === props.room){
+          props.setUserColor(chatnick, color)
+        }
+      })
       return() => {
         socket.off('left')
         socket.off('join')
         socket.off('disconnected')
         socket.off('typing')
+        socket.off('usercolor')
       }
     }, [props])
 
@@ -216,7 +221,8 @@ const Room = (props) => {
     }
 
     const handleColorChange = (color) => {
-      setUserColor(color.hex)
+      props.setUserColor(props.chatnick, color)
+      socket.emit('usercolor', props.room, props.chatnick, color)
     }
 
     const emojiPopOver = (
@@ -275,8 +281,8 @@ const Room = (props) => {
             </DropdownButton>
             <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>
 
-            <OverlayTrigger trigger="click" placement="bottom" overlay={colorPickerPopOver}>
-            <Button style={{marginLeft: '5px', marginRight: '5px'}} variant="outline-primary">Select Color</Button>
+            <OverlayTrigger trigger="focus" placement="bottom" overlay={colorPickerPopOver}>
+            <Button style={{marginLeft: '5px', marginRight: '5px'}} variant="outline-primary">Select Bubble Color</Button>
             </OverlayTrigger>
 
             <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setVisible} variant="outline-info">{buttonMsg}</Button>
@@ -287,7 +293,7 @@ const Room = (props) => {
         <div>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <div>
-                <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible} userColor={userColor}/>
+                <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible} users={props.users}/>
                 {chatBoxVisible ? 
                   <Form onSubmit={sendMessage}>
                   <InputGroup>
@@ -356,7 +362,8 @@ const mapDispatchToProps = {
   setSpeaking,
   newMessage,
   setRoom,
-  setTyping
+  setTyping,
+  setUserColor
 }
 
 const connectedRoom = connect(mapStateToProps, mapDispatchToProps)(Room)

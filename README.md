@@ -39,4 +39,3 @@ Ohjelman keskeiset ominaisuudet:
 - Käyttäjärajoituksen fiksumpi toteutus
 - Routerin historia
 - Virheet ja turhat riippuvuudet pois.
-- Värinvalinta per keskustelija --> Värinvalinnan välittäminen muille.

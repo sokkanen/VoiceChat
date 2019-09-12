@@ -277,6 +277,10 @@ io.on('connection', (client) => {
   client.on('typing', (room, chatnick, onOff) => {
     client.broadcast.emit('typing', room, chatnick, onOff)
   })
+  client.on('usercolor', (room, chatnick, color) => {
+    users = users.map(user => user.chatnick === chatnick ? { ...user, color: color.hex } : user)
+    client.broadcast.emit('usercolor', room, chatnick, color)
+  })
 })
 
 const listen = () => {

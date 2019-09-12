@@ -8,6 +8,8 @@ const usersReducer = (state = [], action) => {
       case 'REMOVEUSERFROMUSERS':
         const removedUsers = state.filter(u => u.id !== action.data)
         return removedUsers
+      case 'SETCOLOR':
+        return state.map(user => user.chatnick === action.data ? {...user, color: action.color.hex} : user)
       case 'SETTYPING':
         return state.map(user => user.chatnick === action.data ? {...user, typing: action.typing} : user)
       default: return state
@@ -49,6 +51,16 @@ const usersReducer = (state = [], action) => {
         type: 'SETTYPING',
         data: chatnick,
         typing: typing
+        })
+    }
+  }
+
+  export const setUserColor = (chatnick, color) => {
+    return async dispatch => {
+      dispatch ({
+        type: 'SETCOLOR',
+        data: chatnick,
+        color: color
         })
     }
   }

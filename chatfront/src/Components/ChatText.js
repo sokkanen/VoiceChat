@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import './Forms.css'
 
-const ChatText = ({ messages, largeChat, visible, userColor }) => {
+const ChatText = ({ messages, largeChat, visible, users }) => {
 
     const [chatWidth, setChatWidth] = useState(window.innerWidth / 3)
     const [chatHeight, setChatHeight] = useState(window.innerHeight * 0.8)
@@ -35,8 +35,17 @@ const ChatText = ({ messages, largeChat, visible, userColor }) => {
     }
 
     const userStyle = {
-        color: userColor,
         display: 'inline'
+    }
+
+    const returnUserColor = (chatnick) => {
+        const user = users.find(user => user.chatnick === chatnick)
+        if (user === undefined){
+            return 'powderblue'
+        } else if (user.color === undefined){
+            return 'powderblue'
+        }
+        return user.color
     }
 
     if (!visible){
@@ -50,7 +59,7 @@ const ChatText = ({ messages, largeChat, visible, userColor }) => {
                     <Container>
                         <Row>
                             <Col md="auto">
-                                <div class="userballoon" style={{border: `4px solid ${userColor}`}}>
+                                <div class="userballoon" style={{border: `4px solid ${returnUserColor(msg.user)}`}}>
                                     <p style={userStyle}>{msg.user}:</p>
                                 </div>
                             </Col>
