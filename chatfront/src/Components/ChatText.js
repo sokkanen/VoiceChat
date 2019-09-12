@@ -55,7 +55,7 @@ const ChatText = ({ messages, largeChat, visible, users }) => {
     return (
         <div className="content" style={style}>
                 {messages.map(msg => 
-                <div>
+                <div key={msg}>
                     <Container>
                         <Row>
                             <Col md="auto">

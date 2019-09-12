@@ -254,6 +254,34 @@ const updateImagesIdtoUser = async (username, images_id) => {
   return result.rowCount === 1 ? true : false
 }
 
+const updateUserInfo = async (updateInfo, token) => {
+  const verified = jwt.verify(token, process.env.TOKENSECRET)
+  if (!verified.id || !token){
+    console.log(verified)
+    console.log('verification failed')
+    return false
+  }
+  const sql = ('SELECT * FROM chatter WHERE username = $1;')
+  const values = [updateInfo.username]
+  const returnvalue = await client.query(sql, values)
+  const validated = await validatePassword(updateInfo.password, returnvalue.rows[0].passhash)
+  if (returnvalue.rowCount !== 1 || !validated){
+    return false
+  }
+  if (updateInfo.newPassword.length > 0){
+    const hash = await createHash(updateInfo.newPassword)
+    const sql = ('UPDATE Chatter SET email = $1, passhash = $2 WHERE username = $3')
+    const values = [updateInfo.email, hash, updateInfo.username]
+    const result = await client.query(sql, values)
+    return result.rowCount === 1 ? true : false
+  } else {
+    const sql = ('UPDATE Chatter SET email = $1 WHERE username = $2')
+    const values = [updateInfo.email, updateInfo.username]
+    const result = await client.query(sql, values)
+    return result.rowCount === 1 ? true : false
+  }
+}
+
 module.exports = {
   addNewUser,
   login,
@@ -269,5 +297,6 @@ module.exports = {
   removeRoom,
   searchForUserImagesId,
   updateImagesIdtoUser,
-  getUser
+  getUser,
+  updateUserInfo
 }

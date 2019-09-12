@@ -61,6 +61,20 @@ const App = (props) =>  {
     socket.on('full', (fullRooms) => {
       props.setFullRooms(fullRooms)
     })
+    socket.on('userUpdate', (result) => {
+      if (result){
+        window.alert('User information updated successfully.')
+      } else {
+        window.alert('Verification failed. User information not updated.')
+      }
+    })
+    socket.on('deleteUser', (result) => {
+      if (result){
+        window.alert('User account deleted successfully.')
+      } else {
+        window.alert('Verification failed. User account not deleted.')
+      }
+    })
   }, [])
 
   const handleResize = () => {

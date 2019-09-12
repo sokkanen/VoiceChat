@@ -281,6 +281,18 @@ io.on('connection', (client) => {
     users = users.map(user => user.chatnick === chatnick ? { ...user, color: color.hex } : user)
     client.broadcast.emit('usercolor', room, chatnick, color)
   })
+  client.on('userUpdate', async (updateInfo, token) => {
+    const result = await query.updateUserInfo(updateInfo, token)
+    io.to(client.id).emit('userUpdate', result)
+
+  })
+  client.on('deleteUser', (username, token, password) => {
+    console.log(username)
+    console.log(token)
+    console.log(password)
+    const result = false
+    io.to(client.id).emit('deleteUser', result)
+  })
 })
 
 const listen = () => {
