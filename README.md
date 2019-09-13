@@ -36,6 +36,6 @@ Ohjelman keskeiset ominaisuudet:
 
 - Käyttäjän poistaminen backendissä
 - Testejä
-- Käyttäjärajoituksen fiksumpi toteutus
+- Huoneen käyttäjärajoituksen fiksumpi toteutus
 - Routerin historia
 - Virheet ja turhat riippuvuudet pois.

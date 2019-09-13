@@ -103,6 +103,7 @@ const UserManagement = (props) => {
         setPassword('')
         setNewPassword('')
         setNewPassword2('')
+        setConfirmDisabled(true)
     }
   }
 

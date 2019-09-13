@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
+import { useBeforeunload } from 'react-beforeunload'
 import { Fade } from 'react-reveal'
 import Speech from 'speak-tts'
 import { 
@@ -103,14 +104,20 @@ const Room = (props) => {
           props.setUserColor(chatnick, color)
         }
       })
+      window.addEventListener("beforeunload", onUnload)
       return() => {
         socket.off('left')
         socket.off('join')
         socket.off('disconnected')
         socket.off('typing')
         socket.off('usercolor')
+        window.removeEventListener("beforeunload", onUnload)
       }
     }, [props])
+
+    const onUnload = (event) => {
+      socket.emit('unload')
+    }
 
     // Speech
 
@@ -266,56 +273,36 @@ const Room = (props) => {
     }
 
     return (
+
       <Fade bottom>
-      <div style={style}>
-            <div>
-                <Notification textColor={textColor}/>
-            </div>
-            <h1>{props.room}</h1>
-        <div>
-          <ButtonToolbar>
-            <DropdownButton id="dropdown-basic-button" variant="outline-primary" title="Voice select">
-              {voices.length !== 0 ? voices.map(voice => (
-                <Dropdown.Item key={voice.name + voice.lang} eventKey={voice.name + voice.lang} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
-              )) : <Dropdown.Item>No voices found</Dropdown.Item>}
-            </DropdownButton>
-            <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>
-
-            <OverlayTrigger trigger="focus" placement="bottom" overlay={colorPickerPopOver}>
-            <Button style={{marginLeft: '5px', marginRight: '5px'}} variant="outline-primary">Select Bubble Color</Button>
-            </OverlayTrigger>
-
-            <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setVisible} variant="outline-info">{buttonMsg}</Button>
-            <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setLarge} variant="outline-info">{largeChatButtonMessage}</Button>
-          </ButtonToolbar>
-          <h5>Voice: <Badge pill variant="secondary">{voice}</Badge></h5>
-        </div>
-        <div>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={style}>
               <div>
-                <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible} users={props.users}/>
-                {chatBoxVisible ? 
-                  <Form onSubmit={sendMessage}>
-                  <InputGroup>
-                  <InputGroup.Prepend>
-                    <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver}>
-                      <Button variant="outline-info">Emojis</Button>
-                    </OverlayTrigger>
-                  </InputGroup.Prepend>
-                      <FormControl
-                        onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}
-                      />
-                  <InputGroup.Append>
-                      <Button variant="success" type="submit">Send</Button>
-                  </InputGroup.Append>
-                  </InputGroup>
-                  </Form>
-                  : null
-                }
+                  <Notification textColor={textColor}/>
               </div>
+              <h1>{props.room}</h1>
+          <div>
+            <ButtonToolbar>
+              <DropdownButton id="dropdown-basic-button" variant="outline-primary" title="Voice select">
+                {voices.length !== 0 ? voices.map(voice => (
+                  <Dropdown.Item key={voice.name + voice.lang} eventKey={voice.name + voice.lang} onClick={initializeSpeech(voice)} >{voice.name}</Dropdown.Item>
+                )) : <Dropdown.Item>No voices found</Dropdown.Item>}
+              </DropdownButton>
+              <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>
+
+              <OverlayTrigger trigger="focus" placement="bottom" overlay={colorPickerPopOver}>
+              <Button style={{marginLeft: '5px', marginRight: '5px'}} variant="outline-primary">Select Bubble Color</Button>
+              </OverlayTrigger>
+
+              <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setVisible} variant="outline-info">{buttonMsg}</Button>
+              <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setLarge} variant="outline-info">{largeChatButtonMessage}</Button>
+            </ButtonToolbar>
+            <h5>Voice: <Badge pill variant="secondary">{voice}</Badge></h5>
+          </div>
+          <div>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div>
-                  <Heads room={props.room}/>
-                  {!chatBoxVisible ? 
+                  <ChatText messages={messages} largeChat={largeChat} visible={chatBoxVisible} users={props.users}/>
+                  {chatBoxVisible ? 
                     <Form onSubmit={sendMessage}>
                     <InputGroup>
                     <InputGroup.Prepend>
@@ -334,9 +321,30 @@ const Room = (props) => {
                     : null
                   }
                 </div>
-            </div>
-      </div>
-      </div>
+                  <div>
+                    <Heads room={props.room}/>
+                    {!chatBoxVisible ? 
+                      <Form onSubmit={sendMessage}>
+                      <InputGroup>
+                      <InputGroup.Prepend>
+                        <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver}>
+                          <Button variant="outline-info">Emojis</Button>
+                        </OverlayTrigger>
+                      </InputGroup.Prepend>
+                          <FormControl
+                            onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}
+                          />
+                      <InputGroup.Append>
+                          <Button variant="success" type="submit">Send</Button>
+                      </InputGroup.Append>
+                      </InputGroup>
+                      </Form>
+                      : null
+                    }
+                  </div>
+              </div>
+        </div>
+        </div>
       </Fade>
     )
 }

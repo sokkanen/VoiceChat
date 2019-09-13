@@ -74,4 +74,5 @@ päivä | aika | mitä tein
 10.9  | 2    | Käyttäjähallinnan rakentamista. Virhekenttien korjauksen aloitus (kaikki lomakkeet.)
 11.9  | 2    | Tekstichatti käyttämään puhekuplia. Värinvalinnan 1. esiversio.
 12.9  | 2    | Värinvalinta omalle tekstikuplalle toimii ja välittyy muille. Käyttäjähallinnan päivitys; päivitys toimii, poistamisen frontti.
-YHT   | 151
+13.9  | 1    | Client disconnect ei aina toimi Herokussa --> Backup -metodi ja käyttäjän poistumisen varmistus. 
+YHT   | 152

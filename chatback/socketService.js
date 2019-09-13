@@ -290,8 +290,16 @@ io.on('connection', (client) => {
     console.log(username)
     console.log(token)
     console.log(password)
-    const result = false
+    const result = false // TÄHÄN POSTGRES JA MONGO
     io.to(client.id).emit('deleteUser', result)
+  })
+  // Client disconnected in HEROKU does not alway trigger the removal of user from room. This is the backup method.
+  client.on('unload', () => {
+    console.log('unload for ', client.id)
+    let usr = users.find(u => u.id === client.id)
+    freeRoom(usr, true)
+    users = users.filter(u => u.id !== client.id)
+    io.emit('disconnected', usr)
   })
 })
 
