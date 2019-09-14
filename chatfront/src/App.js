@@ -61,15 +61,16 @@ const App = (props) =>  {
     socket.on('full', (fullRooms) => {
       props.setFullRooms(fullRooms)
     })
-    socket.on('userUpdate', (result) => {
-      if (result){
-        window.alert('User information updated successfully.')
-      } else {
+    socket.on('userUpdate', (result, email) => {
+      if (result === false){
         window.alert('Verification failed. User information not updated.')
+      } else {
+        props.setUserInfo(email)
+        window.alert('User information updated successfully.')
       }
     })
     socket.on('deleteUser', (result) => {
-      if (result){
+      if (result === true){
         window.alert('User account deleted successfully.')
       } else {
         window.alert('Verification failed. User account not deleted.')

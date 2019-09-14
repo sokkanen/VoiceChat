@@ -34,7 +34,6 @@ Ohjelman keskeiset ominaisuudet:
 
 ### TODO
 
-- Käyttäjän poistaminen backendissä
 - Testejä
 - Huoneen käyttäjärajoituksen fiksumpi toteutus
 - Routerin historia

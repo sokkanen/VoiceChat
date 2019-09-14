@@ -60,6 +60,32 @@ const addNewUser = async (username, email, password) => {
   }
 }
 
+const removeUser = async (username) => {
+  try {
+    await client.query('BEGIN')
+    const user = await getUser(username)
+    const sql = ('DELETE FROM Invite WHERE chatter_id = $1 OR inviter = $2 OR room_id IN (SELECT id FROM room WHERE owner_id = $1)')
+    const values = [user[0].id, username]
+    let res = await client.query(sql, values)
+    const sql2 = ('DELETE FROM Room_chatter WHERE chatter_id = $1 OR room_id IN (SELECT id FROM room WHERE owner_id = $1)')
+    const values2 = [user[0].id]
+    res = await client.query(sql2, values2)
+    const sql3 = ('DELETE FROM Room WHERE owner_id = $1')
+    const values3 = [user[0].id]
+    res = await client.query(sql3, values3)
+    const sql4 = ('DELETE FROM Chatter WHERE id = $1')
+    const values4 = [user[0].id]
+    res = await client.query(sql4, values4)
+    res = await client.query('COMMIT')
+    console.log(`user ${username} deleted successfully.`)
+    return true
+  } catch (error) {
+    console.log(error)
+    await client.query('ROLLBACK')
+    return false
+  }
+}
+
 const login = async (credentials) => {
   const sql = ('SELECT * FROM chatter WHERE username = $1;')
   const values = [credentials.username]
@@ -255,17 +281,7 @@ const updateImagesIdtoUser = async (username, images_id) => {
 }
 
 const updateUserInfo = async (updateInfo, token) => {
-  const verified = jwt.verify(token, process.env.TOKENSECRET)
-  if (!verified.id || !token){
-    console.log(verified)
-    console.log('verification failed')
-    return false
-  }
-  const sql = ('SELECT * FROM chatter WHERE username = $1;')
-  const values = [updateInfo.username]
-  const returnvalue = await client.query(sql, values)
-  const validated = await validatePassword(updateInfo.password, returnvalue.rows[0].passhash)
-  if (returnvalue.rowCount !== 1 || !validated){
+  if (!verificateAndValidate(updateInfo.username, token, updateInfo.password)){
     return false
   }
   if (updateInfo.newPassword.length > 0){
@@ -273,13 +289,33 @@ const updateUserInfo = async (updateInfo, token) => {
     const sql = ('UPDATE Chatter SET email = $1, passhash = $2 WHERE username = $3')
     const values = [updateInfo.email, hash, updateInfo.username]
     const result = await client.query(sql, values)
-    return result.rowCount === 1 ? true : false
-  } else {
-    const sql = ('UPDATE Chatter SET email = $1 WHERE username = $2')
-    const values = [updateInfo.email, updateInfo.username]
-    const result = await client.query(sql, values)
-    return result.rowCount === 1 ? true : false
+    if (result.rowCount !== 1){
+      return false
+    }
   }
+  const sql = ('UPDATE Chatter SET email = $1 WHERE username = $2')
+  const values = [updateInfo.email, updateInfo.username]
+  const result = await client.query(sql, values)
+  console.log(result)
+  return result.rowCount === 1 ? true : false
+}
+
+const verificateAndValidate = async (username, token, password) => {
+  const verified = jwt.verify(token, process.env.TOKENSECRET)
+  if (!verified.id || !token){
+    console.log(verified)
+    console.log('verification failed')
+    return false
+  }
+  const sql = ('SELECT * FROM chatter WHERE username = $1;')
+  const values = [username]
+  const returnvalue = await client.query(sql, values)
+  const validated = await validatePassword(password, returnvalue.rows[0].passhash)
+  if (returnvalue.rowCount !== 1 || !validated){
+    console.log('validation failed')
+    return false
+  }
+  return true
 }
 
 module.exports = {
@@ -298,5 +334,7 @@ module.exports = {
   searchForUserImagesId,
   updateImagesIdtoUser,
   getUser,
-  updateUserInfo
+  updateUserInfo,
+  removeUser,
+  verificateAndValidate
 }

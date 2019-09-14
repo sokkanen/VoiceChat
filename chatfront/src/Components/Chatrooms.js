@@ -102,6 +102,7 @@ const Chatrooms = (props) => {
 
     const joinRoomHandler = (event) => {
         event.preventDefault()
+        props.setUsers([])
         const registered = props.user !== "" ? true : false
         const joinRoomInfo = {
             id: socket.id,

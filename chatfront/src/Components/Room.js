@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
-import { useBeforeunload } from 'react-beforeunload'
 import { Fade } from 'react-reveal'
 import Speech from 'speak-tts'
 import { 

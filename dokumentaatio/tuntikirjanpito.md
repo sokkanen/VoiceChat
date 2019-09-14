@@ -75,4 +75,5 @@ päivä | aika | mitä tein
 11.9  | 2    | Tekstichatti käyttämään puhekuplia. Värinvalinnan 1. esiversio.
 12.9  | 2    | Värinvalinta omalle tekstikuplalle toimii ja välittyy muille. Käyttäjähallinnan päivitys; päivitys toimii, poistamisen frontti.
 13.9  | 1    | Client disconnect ei aina toimi Herokussa --> Backup -metodi ja käyttäjän poistumisen varmistus. 
-YHT   | 152
+14.9	| 2    | Käyttäjätilin poistaminen (Postgres-transaktio ja Mongo). Palaute poistosta. Huoneeseen liittymisen parannus.
+YHT   | 154

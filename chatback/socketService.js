@@ -45,6 +45,27 @@ const addNewUser = async (newUser) => {
   }
 }
 
+const removeUser = async (user, token, password) => {
+  const verificateAndValidateResult = await query.verificateAndValidate(user, token, password)
+  if (verificateAndValidateResult === false){
+    return false
+  } else {
+    let images_id = await query.searchForUserImagesId(user)
+    if (images_id !== null){
+      images_id = mongo.castStringToObjectId(images_id)
+      UserImage.findOneAndRemove({ '_id': images_id })
+        .then(() => {
+          console.log('images deleted')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+    const result = await query.removeUser(user, token, password)
+    return result
+  }
+}
+
 const changeRoom = async (user) => {
   const result = await findUserImages(user.chatnick)
   if (result){
@@ -253,15 +274,18 @@ io.on('connection', (client) => {
       : values.success = await query.insertInvitation(chatterId, invitation.roomId, invitation.inviter)
     io.to(client.id).emit('invitation', values)
   })
+
   client.on('acceptInvitation', async (invitation) => {
     await query.acceptInvitation(invitation)
     let privateRooms = await query.getPrivateRooms(invitation.invitee_id)
     privateRooms = await query.getPrivateRoomUsers(privateRooms)
     io.to(client.id).emit('updatedPrivateRooms', privateRooms)
   })
+
   client.on('declineInvitation', async (invitation) => {
     await query.removeInvitation(invitation)
   })
+
   client.on('removeRoom', async (room, token) => {
     const id = await query.removeRoom(room, token)
     if (id === false){
@@ -271,28 +295,30 @@ io.on('connection', (client) => {
     }
 
   })
+
   client.on('userImages', async (images, user) => {
     saveOrUpdateImages(client.id, images, user)
   })
+
   client.on('typing', (room, chatnick, onOff) => {
     client.broadcast.emit('typing', room, chatnick, onOff)
   })
+
   client.on('usercolor', (room, chatnick, color) => {
     users = users.map(user => user.chatnick === chatnick ? { ...user, color: color.hex } : user)
     client.broadcast.emit('usercolor', room, chatnick, color)
   })
+
   client.on('userUpdate', async (updateInfo, token) => {
     const result = await query.updateUserInfo(updateInfo, token)
-    io.to(client.id).emit('userUpdate', result)
+    io.to(client.id).emit('userUpdate', result, updateInfo.email)
+  })
 
+  client.on('deleteUser', async (user, token, password) => {
+    const res = await removeUser(user, token, password)
+    io.to(client.id).emit('deleteUser', res)
   })
-  client.on('deleteUser', (username, token, password) => {
-    console.log(username)
-    console.log(token)
-    console.log(password)
-    const result = false // TÄHÄN POSTGRES JA MONGO
-    io.to(client.id).emit('deleteUser', result)
-  })
+
   // Client disconnected in HEROKU does not alway trigger the removal of user from room. This is the backup method.
   client.on('unload', () => {
     console.log('unload for ', client.id)
@@ -301,6 +327,7 @@ io.on('connection', (client) => {
     users = users.filter(u => u.id !== client.id)
     io.emit('disconnected', usr)
   })
+
 })
 
 const listen = () => {

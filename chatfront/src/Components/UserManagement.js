@@ -97,7 +97,6 @@ const UserManagement = (props) => {
             newPassword: newPassword,
             email: email
         }
-        console.log(password)
         const token = JSON.parse(window.localStorage.getItem('user')).token
         socket.emit('userUpdate', updatedInfo, token)
         setPassword('')
