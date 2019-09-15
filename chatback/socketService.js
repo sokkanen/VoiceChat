@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+const schedule = require('node-schedule');
 const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
@@ -19,10 +20,25 @@ const UserImage = require('./models/userImage')
 let users = []
 let rooms = []
 let fullRooms = []
+let clients = []
 
 app.get('*', (req, res) => {
   res.redirect('/')
 })
+
+// Runs a job of checking client health once per minute.
+const job = schedule.scheduleJob('*/1 * * * *', () => {
+  checkAndReconnectClients()
+})
+
+const checkAndReconnectClients = () => {
+  clients.forEach(client => {
+    if (!client.connected || client.disconnected){
+      console.log(`Client ${client.id} not responsive. Re-opening client.`)
+      client.open()
+    }
+  })
+}
 
 const addNewUser = async (newUser) => {
   const result = await findUserImages(newUser.chatnick)
@@ -175,7 +191,7 @@ const findUserImages = async (username) => {
 
 io.on('connection', (client) => {
   console.log('Client connected')
-
+  clients.push(client)
   client.on('newMessage', (message) => {
     io.emit('message', message)
   })
@@ -230,6 +246,8 @@ io.on('connection', (client) => {
     freeRoom(usr, true)
     users = users.filter(u => u.id !== client.id)
     io.emit('disconnected', usr)
+    console.log(clients.indexOf(client))
+    clients.splice(clients.indexOf(client), 1)
     console.log('Client disconnected')
   })
 

@@ -22,32 +22,32 @@ const Head = (props) => {
     const registered = props.registered
 
     const [img, setImg] = useState(props.faces.defaultFace === null ? defaultFace : props.faces.defaultFace)
+    const faces = props.faces
+
     useEffect(() => {
-
-
         if (props.images === undefined){
             if (aie.test(letter)){
-                setImg(props.faces.aieFace)
+                setImg(faces.aieFace)
             } else if(bmp.test(letter.toLowerCase())){
-                setImg(props.faces.bmpFace)
+                setImg(faces.bmpFace)
             } else if (cdgknstxyz.test(letter.toLowerCase())){
-                setImg(props.faces.cdgknstxyzFace)
+                setImg(faces.cdgknstxyzFace)
             } else if (fv.test(letter.toLowerCase())){
-                setImg(props.faces.fvFace)
+                setImg(faces.fvFace)
             } else if (j.test(letter.toLowerCase())){
-                setImg(props.faces.jFace)
+                setImg(faces.jFace)
             } else if (l.test(letter.toLowerCase())){
-                setImg(props.faces.lFace)
+                setImg(faces.lFace)
             } else if (o.test(letter.toLowerCase())){
-                setImg(props.faces.oFace)
+                setImg(faces.oFace)
             } else if (qw.test(letter.toLowerCase())){
-                setImg(props.faces.qwFace)
+                setImg(faces.qwFace)
             } else if (r.test(letter.toLowerCase())){
-                setImg(props.faces.rFace)
+                setImg(faces.rFace)
             } else if (u.test(letter.toLowerCase())){
-                setImg(props.faces.uFace)
+                setImg(faces.uFace)
             } else {
-                setImg(props.faces.defaultFace)
+                setImg(faces.defaultFace)
             }
         } else {
             if (aie.test(letter)){
@@ -74,7 +74,7 @@ const Head = (props) => {
                 setImg(props.images.defaultFace)
             }
         }
-    }, [letter, props.faces, props.images])
+    }, [letter, faces, props.images])
     
     if (registered){
         return (
