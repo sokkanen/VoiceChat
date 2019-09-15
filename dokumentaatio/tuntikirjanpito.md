@@ -76,5 +76,5 @@ päivä | aika | mitä tein
 12.9  | 2    | Värinvalinta omalle tekstikuplalle toimii ja välittyy muille. Käyttäjähallinnan päivitys; päivitys toimii, poistamisen frontti.
 13.9  | 1    | Client disconnect ei aina toimi Herokussa --> Backup -metodi ja käyttäjän poistumisen varmistus. 
 14.9	| 2    | Käyttäjätilin poistaminen (Postgres-transaktio ja Mongo). Palaute poistosta. Huoneeseen liittymisen parannus.
-15.9  | 1    | Ajastettu tehtävä kaatuneiden clienttien herättämiseen. 
-YHT   | 155
+15.9  | 3    | Ajastettu tehtävä kaatuneiden clienttien herättämiseen. Backendin testiympäristön rakentamista. 
+YHT   | 157

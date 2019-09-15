@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const schedule = require('node-schedule');
+const schedule = require('node-schedule')
 const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
@@ -191,7 +191,9 @@ const findUserImages = async (username) => {
 
 io.on('connection', (client) => {
   console.log('Client connected')
+  console.log(client)
   clients.push(client)
+
   client.on('newMessage', (message) => {
     io.emit('message', message)
   })
@@ -353,4 +355,9 @@ const listen = () => {
   console.log('server on port', process.env.PORT)
 }
 
-module.exports = { listen }
+const stopServer = () => {
+  server.close(() => {
+  })
+}
+
+module.exports = { listen, io, stopServer }
