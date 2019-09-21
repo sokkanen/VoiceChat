@@ -14,6 +14,8 @@ import { removePrivateRooms } from './Reducers/PrivateRoomsReducer'
 import { setRoom } from './Reducers/RoomReducer'
 import { removeUserInfo, setUserInfo } from './Reducers/UserInfoReducer'
 import { setWindow } from './Reducers/WindowSizeReducer'
+import { setFaces } from './Reducers/OwnFaceReducer'
+import { initialize } from './Images/Converter'
 import Invites from './Components/Invites'
 import backGroundImage from './Images/home.png'
 import userImage from './Images/user.png'
@@ -115,6 +117,11 @@ const App = (props) =>  {
     socket.emit('logout')
     window.localStorage.removeItem('user')
   }
+
+  const faces = initialize().then((faces) => {
+    props.setFaces(faces)
+  })
+  
 
   if (props.user){
     return (
@@ -225,7 +232,8 @@ const mapDispatchToProps = {
   setUser,
   setUserInfo,
   setInvites,
-  setChatnick
+  setChatnick,
+  setFaces
 }
 
 const connectedApp = connect(

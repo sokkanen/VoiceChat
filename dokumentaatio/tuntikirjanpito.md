@@ -79,4 +79,5 @@ päivä | aika | mitä tein
 15.9  | 3    | Ajastettu tehtävä kaatuneiden clienttien herättämiseen. Backendin testiympäristön rakentamista. 
 21.9  | 2    | Bäkkärin testiympäristön rakentamista. Clientin mock. Konsolin parempi mock.
 21.9  | 1    | Lisää testejä bäkkiin. Frontin lomakkeiden, objektien avainten ja useStaten korjausta. 
-YHT   | 160
+21.9  | 2    | Converter kuville. Oletus-chatkuvat --> Base64: Verkkoversion chatin sujuvoittaminen.
+YHT   | 162
