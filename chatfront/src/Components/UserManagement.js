@@ -133,7 +133,7 @@ const UserManagement = (props) => {
             <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>User information</h4>
                 <Form.Group controlId="username">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control value={username} disabled="true" style={{background: "rgb(208, 216, 216)"}}/>
+                    <Form.Control value={username} disabled={true} style={{background: "rgb(208, 216, 216)"}}/>
                 </Form.Group>
                 <Form.Group controlId="email">
                     <Form.Label>Email address</Form.Label>

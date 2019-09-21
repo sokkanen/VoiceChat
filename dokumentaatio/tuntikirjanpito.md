@@ -78,4 +78,5 @@ päivä | aika | mitä tein
 14.9	| 2    | Käyttäjätilin poistaminen (Postgres-transaktio ja Mongo). Palaute poistosta. Huoneeseen liittymisen parannus.
 15.9  | 3    | Ajastettu tehtävä kaatuneiden clienttien herättämiseen. Backendin testiympäristön rakentamista. 
 21.9  | 2    | Bäkkärin testiympäristön rakentamista. Clientin mock. Konsolin parempi mock.
-YHT   | 159
+21.9  | 1    | Lisää testejä bäkkiin. Frontin lomakkeiden, objektien avainten ja useStaten korjausta. 
+YHT   | 160

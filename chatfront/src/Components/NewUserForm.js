@@ -5,6 +5,14 @@ import { setNotification } from '../Reducers/NotificationReducer'
 import Notification from './Notification'
 import './Forms.css'
 
+const errorfield = {
+    background: "rgb(226, 122, 122)"
+}
+    
+const field = {
+    background: "rgb(240, 247, 247)"
+}
+
 const NewUserForm = (props) => {
 
     const socket = props.socket
@@ -13,10 +21,10 @@ const NewUserForm = (props) => {
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
     const [email, setEmail] = useState('')
-    const [usernameField, setUsernameField] = useState('field')
-    const [passwordField, setPasswordField] = useState('field')
-    const [password2Field, setPassword2Field] = useState('field')
-    const [emailField, setEmailField] = useState('field')
+    const [usernameField, setUsernameField] = useState(field)
+    const [passwordField, setPasswordField] = useState(field)
+    const [password2Field, setPassword2Field] = useState(field)
+    const [emailField, setEmailField] = useState(field)
 
     useEffect(() => {
         socket.on('newUserRegister', (success, id, username) => {
@@ -36,7 +44,7 @@ const NewUserForm = (props) => {
             setEmail('')
         } else {
             alert('Please choose another username')
-            setUsernameField('error_field')
+            setUsernameField(errorfield)
             setUsername('')
         }
     }
@@ -53,7 +61,7 @@ const NewUserForm = (props) => {
         }
     }
 
-    const notificate = (message) => { // TÄMÄ REDUCERIIN!
+    const notificate = (message) => {
         props.setNotification(message)
         setTimeout(() => {
           props.setNotification('')
@@ -63,27 +71,27 @@ const NewUserForm = (props) => {
     const validate = () => {
         if (password !== password2){
             alert('Passwords must match')
-            setPasswordField('error_field')
-            setPassword2Field('error_field')
+            setPasswordField(errorfield)
+            setPassword2Field(errorfield)
             return false
         } else if (password.length < 5){
             alert('Password must be at least 5 characters long')
-            setPasswordField('error_field')
-            setPassword2Field('error_field')
+            setPasswordField(errorfield)
+            setPassword2Field(errorfield)
             return false
         } else if (!email.includes('.') || !email.includes('@')) {
             alert('Invalid email-address')
-            setEmailField('error_field')
+            setEmailField(errorfield)
             return false
         } else if (username.length < 3 || username.length > 15){
             alert('Username must be between 3 and 15 characters.')
-            setUsernameField('error_field')
+            setUsernameField(errorfield)
             return false
         }
-        setUsernameField('field')
-        setEmailField('field')
-        setPasswordField('field')
-        setPassword2Field('field')
+        setUsernameField(field)
+        setEmailField(field)
+        setPasswordField(field)
+        setPassword2Field(field)
         return true 
         
     }
@@ -119,19 +127,19 @@ const NewUserForm = (props) => {
             <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>New User Registration</h4>
                 <Form.Group controlId="username">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" className={usernameField}/>
+                    <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" style={usernameField}/>
                 </Form.Group>
                 <Form.Group controlId="email">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" value={email} onChange={handleEmail} placeholder="Enter email" className={emailField}/>
+                    <Form.Control type="email" value={email} onChange={handleEmail} placeholder="Enter email" style={emailField}/>
                 </Form.Group>
                 <Form.Group controlId="password">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" className={passwordField}/>
+                    <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" style={passwordField}/>
                 </Form.Group>
                 <Form.Group controlId="password2">
                     <Form.Label>Retype Password</Form.Label>
-                    <Form.Control type="password" value={password2} onChange={handlePassword2} placeholder="Re-Enter Password" className={password2Field}/>
+                    <Form.Control type="password" value={password2} onChange={handlePassword2} placeholder="Re-Enter Password" style={password2Field}/>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Register

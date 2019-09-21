@@ -55,16 +55,16 @@ const ChatText = ({ messages, largeChat, visible, users }) => {
     return (
         <div className="content" style={style}>
                 {messages.map(msg => 
-                <div key={msg}>
+                <div key={msg.user + msg.msg + Math.random()}>
                     <Container>
                         <Row>
                             <Col md="auto">
-                                <div class="userballoon" style={{border: `4px solid ${returnUserColor(msg.user)}`}}>
+                                <div className="userballoon" style={{border: `4px solid ${returnUserColor(msg.user)}`}}>
                                     <p style={userStyle}>{msg.user}:</p>
                                 </div>
                             </Col>
                             <Col md="auto">
-                                <div class="bubble triangle">
+                                <div className="bubble triangle">
                                     <p style={messageStyle}>{msg.msg}</p>
                                 </div>
                             </Col>

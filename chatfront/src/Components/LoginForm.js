@@ -11,12 +11,20 @@ import './Forms.css'
 
 const LoginForm = (props) => {
 
+    const errorfield = {
+      background: "rgb(226, 122, 122)"
+    }
+      
+    const field = {
+      background: "rgb(240, 247, 247)"
+    }
+
     const socket = props.socket
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [usernameField, setUsernameField] = useState('field')
-    const [passwordField, setPasswordField] = useState('field')
+    const [usernameField, setUsernameField] = useState(field)
+    const [passwordField, setPasswordField] = useState(field)
 
     useEffect(() => {
         socket.on('login', (success, id, user) => {
@@ -24,6 +32,7 @@ const LoginForm = (props) => {
                 loginValidator(success, user)
             }
         })
+
         return() => {
             socket.off('login')
         }
@@ -39,11 +48,9 @@ const LoginForm = (props) => {
             props.setChatnick(user.username)
             props.setInvites(user.invites)
             await notificate(welcome)
-            setUsername('')
-            setPassword('')
         } else {
-            setUsernameField('error_field')
-            setPasswordField('error_field')
+            setUsernameField(errorfield)
+            setPasswordField(errorfield)
             setUsername('')
             setPassword('')
             alert('Wrong username or password')
@@ -89,11 +96,11 @@ const LoginForm = (props) => {
         <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>Login</h4>
             <Form.Group controlId="username">
                 <Form.Label>Username</Form.Label>
-                <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" className={usernameField}/>
+                <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" style={usernameField}/>
             </Form.Group>
             <Form.Group controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" className={passwordField}/>
+                <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" style={passwordField}/>
             </Form.Group>
             <Button variant="success" type="submit">
                 Login

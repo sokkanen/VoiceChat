@@ -247,7 +247,7 @@ io.on('connection', (client) => {
     freeRoom(usr, true)
     users = users.filter(u => u.id !== client.id)
     io.emit('disconnected', usr)
-    console.log(clients.indexOf(client))
+    console.log('idx: ', clients.indexOf(client))
     clients.splice(clients.indexOf(client), 1)
     console.log('Client disconnected')
   })
@@ -312,7 +312,6 @@ io.on('connection', (client) => {
     } else {
       roomUpdater(id)
     }
-
   })
 
   client.on('userImages', async (images, user) => {

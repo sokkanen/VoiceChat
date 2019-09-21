@@ -336,5 +336,7 @@ module.exports = {
   getUser,
   updateUserInfo,
   removeUser,
-  verificateAndValidate
+  verificateAndValidate,
+  createHash,
+  validatePassword
 }
