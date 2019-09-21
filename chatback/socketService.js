@@ -191,7 +191,6 @@ const findUserImages = async (username) => {
 
 io.on('connection', (client) => {
   console.log('Client connected')
-  console.log(client)
   clients.push(client)
 
   client.on('newMessage', (message) => {

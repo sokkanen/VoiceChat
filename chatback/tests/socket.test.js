@@ -1,46 +1,47 @@
 /* eslint-disable indent */
 /* eslint-disable no-undef */
 const server = require('../socketService')
-const client = require('socket.io-client')
-let socket
+let socket = require('./clientMock')
 
 beforeAll((done) => {
-  jest.setTimeout(30000)
+  jest.setTimeout(7000)
+  jest.spyOn(console, 'log').mockImplementation(() => {})
   server.listen()
-  global.console = {
-    warn: jest.fn(),
-    log: jest.fn()
-  }
   done()
 })
 
 afterAll((done) => {
   server.stopServer()
+  console.log.mockRestore()
   done()
 })
 
 afterEach((done) => {
-  if (socket.connected) {
-    socket.disconnect()
-  }
+  socket.disconnect()
+  console.log.mockClear()
   done()
 })
 
 beforeEach((done) => {
-    socket = client('http://localhost:3003', {
-    'reconnection delay': 0,
-    'reopen delay': 0,
-    'force new connection': true,
-    transports: ['websocket'],
-    })
-    socket.on('connect', () => {
-        done()
-    })
+  socket.connect(done)
 })
 
 describe('tests socket.io', () => {
-  test('client connects', async () => {
-    jest.setTimeout(2500)
-    expect(global.console.log).toHaveBeenCalledWith('Client connected')
+
+  test('client connects', (done) => {
+    setTimeout(() => {
+      expect(console.log.mock.calls.length).toBe(2)
+      expect(console.log).toHaveBeenCalledWith('Client connected')
+      done()
+    }, 200)
+  })
+
+  test('client disconnects', (done) => {
+    setTimeout(() => {
+      expect(console.log.mock.calls.length).toBe(2)
+      expect(console.log).toHaveBeenCalledWith('Client disconnected')
+      done()
+    }, 200)
   })
 })
+

@@ -77,4 +77,5 @@ päivä | aika | mitä tein
 13.9  | 1    | Client disconnect ei aina toimi Herokussa --> Backup -metodi ja käyttäjän poistumisen varmistus. 
 14.9	| 2    | Käyttäjätilin poistaminen (Postgres-transaktio ja Mongo). Palaute poistosta. Huoneeseen liittymisen parannus.
 15.9  | 3    | Ajastettu tehtävä kaatuneiden clienttien herättämiseen. Backendin testiympäristön rakentamista. 
-YHT   | 157
+21.9  | 2    | Bäkkärin testiympäristön rakentamista. Clientin mock. Konsolin parempi mock.
+YHT   | 159
