@@ -37,4 +37,6 @@ Ohjelman keskeiset ominaisuudet:
 - Testejä
 - Huoneen käyttäjärajoituksen fiksumpi toteutus
 - Routerin historia
-- Virheet ja turhat riippuvuudet pois.
+- Mute-painike naamalle
+- Omien kuvien näkymän parannus (ehdollinen renderöinti)
+- Käyttöohje 
