@@ -328,7 +328,7 @@ const Room = (props) => {
                   }
                 </div>
                   <div>
-                    <Heads room={props.room} socket={props.socket}/>
+                    <Heads room={props.room}/>
                     {!chatBoxVisible ? 
                       <Form onSubmit={sendMessage}>
                       <InputGroup>

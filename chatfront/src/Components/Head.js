@@ -89,7 +89,26 @@ const Head = (props) => {
         return (
             <Zoom bottom>
             <Card bg="light" border="dark" text="primary">
-                <Card.Header>{chatnick}</Card.Header>
+                <Card.Header>
+                    <Container>
+                        <Row>
+                            {chatnick}
+                        </Row>
+                        <Row>
+                            <Col>
+                            </Col>
+                            <Col>
+                            <Button 
+                                variant="outline-warning" 
+                                size="sm" 
+                                onClick={muteHandler}>
+                                    <Image src={muted ? mute : unmute} fluid>
+                                    </Image>
+                            </Button>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Card.Header>
                 <Card.Body>
                 <Card.Img class="rounded-circle img-fluid" src={img}/>
                 <Card.Title><Badge variant="secondary">{props.typing === true ? 'Typing' : 'Idle'}</Badge></Card.Title>
