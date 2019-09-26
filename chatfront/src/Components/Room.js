@@ -58,10 +58,13 @@ const Room = (props) => {
           }
           msgs.push(ms)
           setMessages(msgs.reverse())
-          if (speakButtonMsg === 'Speak usernames'){
-            speak(msg.message + ' ')
-          } else {
-            speak(msg.user + ': ' + msg.message + ' ')
+          const muted = props.users.find(user => user.chatnick === msg.user).muted
+          if (!muted){
+            if (speakButtonMsg === 'Speak usernames'){
+              speak(msg.message + ' ')
+            } else {
+              speak(msg.user + ': ' + msg.message + ' ')
+            }
           }
           props.setSpeaking(msg.user)
           forceUpdate()
@@ -103,6 +106,9 @@ const Room = (props) => {
           props.setUserColor(chatnick, color)
         }
       })
+      socket.on('mute', (muteInfo) => {
+        console.log(muteInfo)
+      })
       window.addEventListener("beforeunload", onUnload)
       return() => {
         socket.off('left')
@@ -110,6 +116,7 @@ const Room = (props) => {
         socket.off('disconnected')
         socket.off('typing')
         socket.off('usercolor')
+        socket.off('mute')
         window.removeEventListener("beforeunload", onUnload)
       }
     }, [props])
@@ -321,7 +328,7 @@ const Room = (props) => {
                   }
                 </div>
                   <div>
-                    <Heads room={props.room}/>
+                    <Heads room={props.room} socket={props.socket}/>
                     {!chatBoxVisible ? 
                       <Form onSubmit={sendMessage}>
                       <InputGroup>

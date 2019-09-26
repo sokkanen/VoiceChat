@@ -12,6 +12,8 @@ const usersReducer = (state = [], action) => {
         return state.map(user => user.chatnick === action.data ? {...user, color: action.color.hex} : user)
       case 'SETTYPING':
         return state.map(user => user.chatnick === action.data ? {...user, typing: action.typing} : user)
+      case 'SETMUTED':
+        return state.map(user => user.chatnick === action.chatnick ? {...user, muted: action.muted} : user)
       default: return state
     }
   }
@@ -61,6 +63,16 @@ const usersReducer = (state = [], action) => {
         type: 'SETCOLOR',
         data: chatnick,
         color: color
+        })
+    }
+  }
+
+  export const setMuted = (chatnick, muted) => {
+    return async dispatch => {
+      dispatch ({
+        type: 'SETMUTED',
+        chatnick: chatnick,
+        muted: muted
         })
     }
   }

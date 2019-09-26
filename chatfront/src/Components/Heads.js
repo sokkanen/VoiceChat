@@ -22,6 +22,7 @@ const Heads = (props) => {
                 registered={user.registered}
                 images={user.images}
                 typing={user.typing}
+                room={props.room}
             />: 
             <Head 
                 key={user.chatnick}
@@ -30,6 +31,7 @@ const Heads = (props) => {
                 registered={user.registered}
                 images={user.images}
                 typing={user.typing}
+                room={props.room}
             />
             )}
             </CardColumns>  

@@ -80,4 +80,5 @@ päivä | aika | mitä tein
 21.9  | 2    | Bäkkärin testiympäristön rakentamista. Clientin mock. Konsolin parempi mock.
 21.9  | 1    | Lisää testejä bäkkiin. Frontin lomakkeiden, objektien avainten ja useStaten korjausta. 
 21.9  | 2    | Converter kuville. Oletus-chatkuvat --> Base64: Verkkoversion chatin sujuvoittaminen.
-YHT   | 162
+26.9  | 1    | Mute-painike chattinaamoille.
+YHT   | 163

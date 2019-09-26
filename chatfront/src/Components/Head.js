@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Badge, Card } from 'react-bootstrap'
+import { Badge, Card, Button, Image, Container, Row, Col } from 'react-bootstrap'
 import { Zoom } from 'react-reveal'
 import { connect } from 'react-redux'
+import { setMuted } from '../Reducers/UsersReducer'
 import defaultFace from '../Images/1default.png'
+import mute from '../Images/mute.png'
+import unmute from '../Images/unmute.png'
 
 const aie = /[aieä]/
 const bmp = /[bmp]/
@@ -22,6 +25,7 @@ const Head = (props) => {
     const registered = props.registered
 
     const [img, setImg] = useState(props.faces.defaultFace === null ? defaultFace : props.faces.defaultFace)
+    const [muted, setMuted] = useState(false)
     const faces = props.faces
 
     useEffect(() => {
@@ -75,6 +79,11 @@ const Head = (props) => {
             }
         }
     }, [letter, faces, props.images])
+
+    const muteHandler = () => {
+        setMuted(!muted)
+        props.setMuted(props.chatnick, !muted)
+    }
     
     if (registered){
         return (
@@ -93,10 +102,30 @@ const Head = (props) => {
     return (
         <Zoom bottom>
         <Card bg="light" border="dark">
-            <Card.Header>{chatnick}</Card.Header>
+            <Card.Header>
+                <Container>
+                    <Row>
+                        {chatnick}
+                    </Row>
+                    <Row>
+                        <Col>
+                        </Col>
+                        <Col>
+                        <Button 
+                            variant="outline-warning" 
+                            size="sm" 
+                            onClick={muteHandler}>
+                                <Image src={muted ? mute : unmute} fluid>
+                                </Image>
+                        </Button>
+                        </Col>
+                        
+                    </Row>
+                </Container>
+            </Card.Header>
             <Card.Body>
-            <Card.Img className="rounded-circle img-fluid" src={img}/>
-            <Card.Title><Badge variant="light">{props.typing === true ? 'Typing' : 'Idle'}</Badge></Card.Title>
+                <Card.Img className="rounded-circle img-fluid" src={img}/>
+                <Card.Title><Badge variant="light">{props.typing === true ? 'Typing' : 'Idle'}</Badge></Card.Title>
             </Card.Body>
         </Card>
         </Zoom>
@@ -108,8 +137,12 @@ const mapStateToProps = (state) => {
       user: state.user,
       faces: state.faces
     }
-  }
+}
+
+const mapDispatchToProps = {
+    setMuted
+}
   
-const connectedHead = connect(mapStateToProps, null)(Head)
+const connectedHead = connect(mapStateToProps, mapDispatchToProps)(Head)
   
 export default connectedHead

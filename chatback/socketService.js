@@ -47,14 +47,16 @@ const addNewUser = async (newUser) => {
     const updatedUser = {
       ...newUser,
       images: images,
-      typing: false
+      typing: false,
+      muted: false
     }
     users.push(updatedUser)
     io.emit('join', updatedUser)
   } else {
     const newUserWithTyping = {
       ...newUser,
-      typing: false
+      typing: false,
+      muted: false
     }
     users.push(newUserWithTyping)
     io.emit('join', newUserWithTyping)
