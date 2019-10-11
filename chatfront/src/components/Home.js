@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import backGroundImage from '../Images/home.png'
+import backGroundImage from '../images/home.png'
 
 const Home = (props) => {
 

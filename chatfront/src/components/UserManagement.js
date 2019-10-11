@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Button, ButtonToolbar, Form } from 'react-bootstrap'
-import { setUsers } from '../Reducers/UsersReducer'
-import { logoutUser } from '../Reducers/UserReducer'
-import { removeChatnick } from '../Reducers/ChatnickReducer'
-import { removePrivateRooms } from '../Reducers/PrivateRoomsReducer'
-import { setRoom } from '../Reducers/RoomReducer'
-import { removeUserInfo } from '../Reducers/UserInfoReducer'
+import { setUsers } from '../reducers/UsersReducer'
+import { logoutUser } from '../reducers/UserReducer'
+import { removeChatnick } from '../reducers/ChatnickReducer'
+import { removePrivateRooms } from '../reducers/PrivateRoomsReducer'
+import { setRoom } from '../reducers/RoomReducer'
+import { removeUserInfo } from '../reducers/UserInfoReducer'
 import './Forms.css'
 
 const errorfield = {

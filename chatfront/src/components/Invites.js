@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux'
 import Popup from 'reactjs-popup'
 import { Button } from 'react-bootstrap'
-import { setPrivateRooms } from '../Reducers/PrivateRoomsReducer'
-import { setInvites } from '../Reducers/InvitesReducer'
+import { setPrivateRooms } from '../reducers/PrivateRoomsReducer'
+import { setInvites } from '../reducers/InvitesReducer'
 
 
 const Invites = (props) => {

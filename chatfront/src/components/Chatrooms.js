@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Pagination from 'react-js-pagination'
 import { Table, Button, Form, InputGroup } from 'react-bootstrap'
-import { setNotification } from '../Reducers/NotificationReducer'
-import { setRoom } from '../Reducers/RoomReducer'
-import { setRooms, setFullRooms, removeRoom } from '../Reducers/RoomsReducer'
-import { setPrivateRooms, setFullPrivateRooms, removePrivateRoom } from '../Reducers/PrivateRoomsReducer'
-import { setChatnick} from '../Reducers/ChatnickReducer'
-import { setInviteStatus } from '../Reducers/InviteStatusReducer'
-import { setUsers } from '../Reducers/UsersReducer'
+import { setNotification } from '../reducers/NotificationReducer'
+import { setRoom } from '../reducers/RoomReducer'
+import { setRooms, setFullRooms, removeRoom } from '../reducers/RoomsReducer'
+import { setPrivateRooms, setFullPrivateRooms, removePrivateRoom } from '../reducers/PrivateRoomsReducer'
+import { setChatnick} from '../reducers/ChatnickReducer'
+import { setInviteStatus } from '../reducers/InviteStatusReducer'
+import { setUsers } from '../reducers/UsersReducer'
 import InvitePopUp from './InvitePopUp'
 import './Forms.css'
 import NewRoomForm from './NewRoomForm'
 import Notification from './Notification'
-import removeImage from '../Images/remove.png'
+import removeImage from '../images/remove.png'
 
 const Chatrooms = (props) => {
     const [visible, setVisible] = useState(false)
@@ -116,12 +116,16 @@ const Chatrooms = (props) => {
 
     const setChatNickname = (event) => {
         event.preventDefault()
-        if (event.target.chatnick.value.length < 16 && event.target.chatnick.value.length > 2){
-            socket.emit('checkChatnick', event.target.chatnick.value)
-        } else {
+        if (!event.target.chatnick){
             alert('Nickname must be between 3 and 15 characters.')
+        } else {
+            if (event.target.chatnick.value.length < 16 && event.target.chatnick.value.length > 2){
+                socket.emit('checkChatnick', event.target.chatnick.value)
+            } else {
+                alert('Nickname must be between 3 and 15 characters.')
+            }
+            event.target.chatnick.value = ''
         }
-        event.target.chatnick.value = ''
     }
 
     const removeRoom = (room) => () => {
@@ -289,7 +293,7 @@ const Chatrooms = (props) => {
                     type="text"
                     name="chatnick"
                     id="chatnick"
-                    placeholder="Enter nickname (or Register / Login)"
+                    placeholder="Nickname (or Register / Login)"
                     />
                     <InputGroup.Append>
                     <Button type="submit" variant="outline-success">Set nickname</Button>

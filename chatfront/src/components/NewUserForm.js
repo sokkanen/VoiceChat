@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Form, Button } from 'react-bootstrap'
-import { setNotification } from '../Reducers/NotificationReducer'
+import { setNotification } from '../reducers/NotificationReducer'
 import Notification from './Notification'
 import './Forms.css'
 

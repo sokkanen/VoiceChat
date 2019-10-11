@@ -37,5 +37,4 @@ Ohjelman keskeiset ominaisuudet:
 - Testejä
 - Huoneen käyttäjärajoituksen fiksumpi toteutus
 - Routerin historia
-- Omien kuvien näkymän parannus (ehdollinen renderöinti)
 - Käyttöohje 

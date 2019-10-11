@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { Jumbotron, Container, Row, Col, Image, Button, Badge, Card, CardColumns } from 'react-bootstrap'
-import { Zoom } from 'react-reveal'
+import { Zoom } from 'react-reveal'
 import Speech from 'speak-tts'
-import cameraImage from '../Images/camera.png'
-import userImage from '../Images/user.png'
+import cameraImage from '../images/camera.png'
+import userImage from '../images/user.png'
 
 const images = [
     'Just Smile!',
@@ -169,18 +169,14 @@ const Ownface = (props) => {
                         <p>Please make sure you have your webcam enabled.</p>
                     </Row>
                     <Row>
-                        <Col></Col>
                         <Col>
-                            <Image onClick={() => takeUserImages()} src={cameraImage} width={props.windowSize.width / 3}/>
+                            <Image onClick={() => takeUserImages()} src={cameraImage} width={props.windowSize.width / 5}/>
                         </Col>
-                        <Col></Col>
                     </Row>
                     <Row>
-                        <Col></Col>
                         <Col>
                             <Button variant="outline-success" onClick={testCamera}><h3>test your camera!</h3></Button>
                         </Col>
-                        <Col></Col>
                     </Row>
                 </Container>
             </Jumbotron> 

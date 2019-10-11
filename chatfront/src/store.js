@@ -2,21 +2,21 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk';
 
-import roomReducer from './Reducers/RoomReducer'
-import roomsReducer from './Reducers/RoomsReducer'
-import notificationReducer from './Reducers/NotificationReducer'
-import userReducer from './Reducers/UserReducer'
-import usersReducer from './Reducers/UsersReducer'
-import letterReducer from './Reducers/LetterReducer'
-import speakingReducer from './Reducers/SpeakingReducer'
-import messageReducer from './Reducers/MessageReducer'
-import chatnickReducer from './Reducers/ChatnickReducer';
-import privateRoomsReducer from './Reducers/PrivateRoomsReducer';
-import inviteStatusReducer from './Reducers/InviteStatusReducer';
-import invitesReducer from './Reducers/InvitesReducer';
-import ownFaceReducer from './Reducers/OwnFaceReducer';
-import userInfoReducer from './Reducers/UserInfoReducer';
-import windowSizeReducer from './Reducers/WindowSizeReducer';
+import roomReducer from './reducers/RoomReducer'
+import roomsReducer from './reducers/RoomsReducer'
+import notificationReducer from './reducers/NotificationReducer'
+import userReducer from './reducers/UserReducer'
+import usersReducer from './reducers/UsersReducer'
+import letterReducer from './reducers/LetterReducer'
+import speakingReducer from './reducers/SpeakingReducer'
+import messageReducer from './reducers/MessageReducer'
+import chatnickReducer from './reducers/ChatnickReducer';
+import privateRoomsReducer from './reducers/PrivateRoomsReducer';
+import inviteStatusReducer from './reducers/InviteStatusReducer';
+import invitesReducer from './reducers/InvitesReducer';
+import ownFaceReducer from './reducers/OwnFaceReducer';
+import userInfoReducer from './reducers/UserInfoReducer';
+import windowSizeReducer from './reducers/WindowSizeReducer';
 
 const reducer = combineReducers({
   rooms: roomsReducer,

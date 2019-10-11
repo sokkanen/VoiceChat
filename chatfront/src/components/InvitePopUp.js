@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Button } from 'react-bootstrap'
 import { Fade } from 'react-reveal'
 import Popup from 'reactjs-popup'
-import settingsImage from '../Images/settings.png'
+import settingsImage from '../images/settings.png'
 
 const InvitePopUp = (props) => {
 

@@ -82,4 +82,5 @@ päivä | aika | mitä tein
 21.9  | 2    | Converter kuville. Oletus-chatkuvat --> Base64: Verkkoversion chatin sujuvoittaminen.
 26.9  | 1    | Mute-painike chattinaamoille.
 11.10 | 1    | Bugikorjauksia
-YHT   | 164
+11.10 | 3    | Kameran kanssa taistelua. Frontin testien aloitusta.
+YHT   | 167

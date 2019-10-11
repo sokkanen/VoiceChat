@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Badge, Card, Button, Image, Container, Row, Col } from 'react-bootstrap'
 import { Zoom } from 'react-reveal'
 import { connect } from 'react-redux'
-import { setMuted } from '../Reducers/UsersReducer'
-import defaultFace from '../Images/1default.png'
-import mute from '../Images/mute.png'
-import unmute from '../Images/unmute.png'
+import { setMuted } from '../reducers/UsersReducer'
+import defaultFace from '../images/1default.png'
+import mute from '../images/mute.png'
+import unmute from '../images/unmute.png'
 
 const aie = /[aieä]/
 const bmp = /[bmp]/
