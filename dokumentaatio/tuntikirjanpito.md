@@ -81,4 +81,5 @@ päivä | aika | mitä tein
 21.9  | 1    | Lisää testejä bäkkiin. Frontin lomakkeiden, objektien avainten ja useStaten korjausta. 
 21.9  | 2    | Converter kuville. Oletus-chatkuvat --> Base64: Verkkoversion chatin sujuvoittaminen.
 26.9  | 1    | Mute-painike chattinaamoille.
-YHT   | 163
+11.10 | 1    | Bugikorjauksia
+YHT   | 164

@@ -58,12 +58,14 @@ const Room = (props) => {
           }
           msgs.push(ms)
           setMessages(msgs.reverse())
-          const muted = props.users.find(user => user.chatnick === msg.user).muted
-          if (!muted){
-            if (speakButtonMsg === 'Speak usernames'){
-              speak(msg.message + ' ')
-            } else {
-              speak(msg.user + ': ' + msg.message + ' ')
+          if (props.users.length > 0 ){
+            const muted = props.users.find(user => user.chatnick === msg.user).muted
+            if (!muted){
+              if (speakButtonMsg === 'Speak usernames'){
+                speak(msg.message + ' ')
+              } else {
+                speak(msg.user + ': ' + msg.message + ' ')
+              }
             }
           }
           props.setSpeaking(msg.user)

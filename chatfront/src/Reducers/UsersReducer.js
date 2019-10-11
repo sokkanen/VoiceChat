@@ -1,8 +1,16 @@
+const uniqueByKeepLastUser = (array, key) => {
+  return [
+      ...new Map(
+          array.map(x => [key(x), x])
+      ).values()
+  ]
+}
 
 const usersReducer = (state = [], action) => {
     switch (action.type) {
       case 'SETUSERS':
-        return action.data
+        // Remove possible duplicates by id.
+        return uniqueByKeepLastUser(action.data, user => user.id)
       case 'ADDUSERTOUSERS':
         return state.concat(action.data)
       case 'REMOVEUSERFROMUSERS':

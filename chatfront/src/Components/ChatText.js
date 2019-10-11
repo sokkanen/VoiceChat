@@ -14,7 +14,7 @@ const ChatText = ({ messages, largeChat, visible, users }) => {
   
     window.addEventListener('resize', handleResize)
     
-    const chatBoxSize = largeChat ? 0.5 : 0.25
+    const chatBoxSize = largeChat ? 0.75 : 0.5
     
     const style = {
         margin: '15px',
