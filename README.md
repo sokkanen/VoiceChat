@@ -35,4 +35,5 @@ Ohjelman keskeiset ominaisuudet:
 ### TODO
 
 - Lisää testikattavuutta
-- Käyttöohje 
+- Käyttöohje
+- 'Typing' -toiminnallisuuden parantaminen
