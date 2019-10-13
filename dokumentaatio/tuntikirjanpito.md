@@ -83,4 +83,5 @@ päivä | aika | mitä tein
 26.9  | 1    | Mute-painike chattinaamoille.
 11.10 | 1    | Bugikorjauksia
 11.10 | 3    | Kameran kanssa taistelua. Frontin testien aloitusta.
-YHT   | 167
+13.10 | 2    | Lisää testejä frontille.
+YHT   | 169

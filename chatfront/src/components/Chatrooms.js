@@ -25,7 +25,7 @@ const Chatrooms = (props) => {
 
     const socket = props.socket
     const Link = props.Link
-  
+
     useEffect(() => {
       if (props.user){
         socket.emit('requestRooms', JSON.parse(window.localStorage.getItem('user')).id)
@@ -244,7 +244,7 @@ const Chatrooms = (props) => {
                         <tr key={r.name}>
                             {r.full ? <td>{r.name}</td> : <td onClick={joinRoomHandler}><Link name={r.name} to={`/rooms/${r.name}`}>{r.name}</Link></td>}
                             <td>{r.user_limit}</td>
-                            {r.full ? <td>Room is full</td> : <td>{r.description}</td>}
+                            {r.full === true ? <td>Room is full</td> : <td>{r.description}</td>}
                             <td>
                                 <table>
                                     <tbody>
@@ -294,6 +294,7 @@ const Chatrooms = (props) => {
                     name="chatnick"
                     id="chatnick"
                     placeholder="Nickname (or Register / Login)"
+                    className="chatnick"
                     />
                     <InputGroup.Append>
                     <Button type="submit" variant="outline-success">Set nickname</Button>
@@ -328,7 +329,7 @@ const Chatrooms = (props) => {
                     .map(r => <tr key={r.name}>
                         <td><p>{r.name}</p></td>
                         <td><p>{r.user_limit}</p></td>
-                        <td>{r.description}</td>
+                        {r.full ? <td>Room is Full</td> : <td>{r.description}</td>}
                     </tr>)}
                 </tbody>
             </Table>
