@@ -125,8 +125,8 @@ const App = (props) =>  {
 
   if (props.user){
     return (
+      <Router>
       <div className="container">
-        <Router>
           <Navbar bg="light" expand="lg">
               <Nav className="navbar fixed-top navbar-expand-md" style={style}>
                 <div>
@@ -154,20 +154,20 @@ const App = (props) =>  {
               <Fade big><Room room={roomByTitle(match.params.title)} socket={socket}/></Fade>
             }/>
             <Route path="/usrmngmt" render={() => <Fade big><UserManagement socket={socket}/></Fade>}/>
-        </Router>
+        
         <footer className="blockquote-footer">
         <nav className="navbar fixed-bottom navbar-expand-md" style={style}> 
             <em>Joel Sokkanen 2019</em>
         </nav>
         </footer>
       </div>
+      </Router>
     )
   }
 
   return (
+    <Router>
       <div className="container">
-        <Router>
-
       <Navbar bg="light" expand="lg">
         <Nav className="navbar fixed-top navbar-expand-md" style={style}>
           <div>
@@ -198,15 +198,13 @@ const App = (props) =>  {
         }/>
         <Route path="/usrmngmt" render={() => <Fade big><Home/></Fade>}/>
       </div>
-        
-        </Router>
         <footer className="blockquote-footer">
         <nav className="navbar fixed-bottom navbar-expand-md" style={style}> 
             <em>Joel Sokkanen 2019</em>
         </nav>
         </footer>
       </div>
-    
+    </Router>
   )
 }
 

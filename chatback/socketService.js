@@ -34,7 +34,7 @@ const job = schedule.scheduleJob('*/1 * * * *', () => {
 const checkAndReconnectClients = () => {
   clients.forEach(client => {
     if (!client.connected || client.disconnected){
-      console.log(`Client ${client.id} not responsive. Re-opening client.`)
+      console.log(`Client ${client.id} not responsive. Re-opening connection to client.`)
       client.open()
     }
   })
@@ -249,7 +249,6 @@ io.on('connection', (client) => {
     freeRoom(usr, true)
     users = users.filter(u => u.id !== client.id)
     io.emit('disconnected', usr)
-    console.log('idx: ', clients.indexOf(client))
     clients.splice(clients.indexOf(client), 1)
     console.log('Client disconnected')
   })

@@ -34,7 +34,5 @@ Ohjelman keskeiset ominaisuudet:
 
 ### TODO
 
-- Testejä
-- Huoneen käyttäjärajoituksen fiksumpi toteutus
-- Routerin historia
+- Lisää testikattavuutta
 - Käyttöohje 

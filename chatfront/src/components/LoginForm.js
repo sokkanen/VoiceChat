@@ -93,14 +93,14 @@ const LoginForm = (props) => {
         </div>
         <div style={{border:'5px solid #cecece', padding: '20px', backgroundColor: '#dfe7eb'}}>
         <Form onSubmit={handleLogin}>
-        <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>Login</h4>
+        <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>Login with credentials</h4>
             <Form.Group controlId="username">
                 <Form.Label>Username</Form.Label>
-                <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" style={usernameField}/>
+                <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" style={usernameField} className="username"/>
             </Form.Group>
             <Form.Group controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" style={passwordField}/>
+                <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" style={passwordField} className="password"/>
             </Form.Group>
             <Button variant="success" type="submit">
                 Login

@@ -69,7 +69,7 @@ const Ownface = (props) => {
 
     const takeUserImages = async () => {
         await setVideoVisible(true)
-        window.scrollTo(0,document.body.scrollHeight);
+        window.scrollTo(0, document.querySelector('.scroller').scrollHeight);
         setInfo(images[0])
         await startCamera()
         const start = (counter) => {
@@ -160,7 +160,7 @@ const Ownface = (props) => {
     }
 
     return (
-        <div style={style}>
+        <div style={style} className="scroller">
             <Zoom bottom when={!videoVisible}>
             <Jumbotron fluid>
                 <Container>
@@ -182,28 +182,28 @@ const Ownface = (props) => {
             </Jumbotron> 
             </Zoom>
             <Zoom top when={videoVisible}>
-                <Jumbotron fluid>
-                <CardColumns>
-                    <Card>
-                        <Card.Body>
-                        <Card.Img src={image} style={{width: 240, height: 240}} />
-                            <Card.Title>Your most recent photo</Card.Title>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Smile and...</Card.Title>
-                            <Badge variant="success"><h2>{info}</h2></Badge>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Body>
-                        <video ref={photoRef} autoPlay={true}/>
-                            <Card.Title>Live camera feed</Card.Title>
-                        </Card.Body>
-                    </Card>
-                </CardColumns>
-                </Jumbotron>
+                <Container>
+                    <Row>
+                        <Card style={{ width: props.windowSize.width * 0.3 }}>
+                            <Card.Body>
+                            <Card.Img src={image} style={{width: 240, height: 240}} />
+                                <Card.Title>Your most recent photo</Card.Title>
+                            </Card.Body>
+                        </Card>
+                        <Card style={{ width: props.windowSize.width * 0.3 }}>
+                            <Card.Body>
+                                <Card.Title>Smile and...</Card.Title>
+                                <Badge variant="success"><h2>{info}</h2></Badge>
+                            </Card.Body>
+                        </Card>
+                        <Card style={{ width: props.windowSize.width * 0.3 }}>
+                            <Card.Body>
+                            <video ref={photoRef} autoPlay={true}/>
+                                <Card.Title>Live camera feed</Card.Title>
+                            </Card.Body>
+                        </Card>
+                    </Row>
+                </Container>
             </Zoom>
         </div>
     )
