@@ -85,4 +85,5 @@ päivä | aika | mitä tein
 11.10 | 3    | Kameran kanssa taistelua. Frontin testien aloitusta.
 13.10 | 2    | Lisää testejä frontille.
 13.10 | 1    | Testejä. Kuvakaappauksen parannusta. README päivitys.
-YHT   | 170
+13.10 | 2    | Lisää testejä frontille.
+YHT   | 172

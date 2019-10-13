@@ -127,19 +127,19 @@ const NewUserForm = (props) => {
             <h4 style={{border:'2px solid #8bc9e8', padding: '20px'}}>New User Registration</h4>
                 <Form.Group controlId="username">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" style={usernameField}/>
+                    <Form.Control value={username} onChange={handleUsername} placeholder="Enter username" style={usernameField} className="username"/>
                 </Form.Group>
                 <Form.Group controlId="email">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" value={email} onChange={handleEmail} placeholder="Enter email" style={emailField}/>
+                    <Form.Control type="email" value={email} onChange={handleEmail} placeholder="Enter email" style={emailField} className="email"/>
                 </Form.Group>
                 <Form.Group controlId="password">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" style={passwordField}/>
+                    <Form.Control type="password" value={password} onChange={handlePassword} placeholder="Enter Password" style={passwordField} className="password"/>
                 </Form.Group>
                 <Form.Group controlId="password2">
                     <Form.Label>Retype Password</Form.Label>
-                    <Form.Control type="password" value={password2} onChange={handlePassword2} placeholder="Re-Enter Password" style={password2Field}/>
+                    <Form.Control type="password" value={password2} onChange={handlePassword2} placeholder="Re-Enter Password" style={password2Field} className="password2"/>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Register
