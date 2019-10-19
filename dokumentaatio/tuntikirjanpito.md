@@ -86,4 +86,5 @@ päivä | aika | mitä tein
 13.10 | 2    | Lisää testejä frontille.
 13.10 | 1    | Testejä. Kuvakaappauksen parannusta. README päivitys.
 13.10 | 2    | Lisää testejä frontille.
-YHT   | 172
+19.10 | 1    | Testit frontin Room-komponentille.
+YHT   | 173

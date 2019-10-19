@@ -11,10 +11,6 @@ const NewRoomForm = (props) => {
 
     const createNew = async (event) => {
         event.preventDefault()
-
-
-        console.log(event.target.title)
-
         if (validate(event.target)){
             const room = {
                 title: event.target.title.value,

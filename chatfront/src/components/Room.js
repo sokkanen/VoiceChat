@@ -219,6 +219,7 @@ const Room = (props) => {
           message: message,
           room: props.room
       }
+      console.log(msg)
       await socket.emit('newMessage', msg)
       setMessage('')
       props.setTyping(props.chatnick, false)
@@ -319,7 +320,12 @@ const Room = (props) => {
                       </OverlayTrigger>
                     </InputGroup.Prepend>
                         <FormControl
-                          onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}
+                          onClick={setUserTyping} 
+                          type="text" 
+                          placeholder="Your message" 
+                          className="submit-form"
+                          value={message} 
+                          onChange={(event) => setMessage(event.target.value)}
                         />
                     <InputGroup.Append>
                         <Button variant="success" type="submit">Send</Button>
@@ -332,7 +338,7 @@ const Room = (props) => {
                   <div>
                     <Heads room={props.room}/>
                     {!chatBoxVisible ? 
-                      <Form onSubmit={sendMessage}>
+                      <Form onSubmit={sendMessage} className="submit-form">
                       <InputGroup>
                       <InputGroup.Prepend>
                         <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver}>
@@ -340,7 +346,12 @@ const Room = (props) => {
                         </OverlayTrigger>
                       </InputGroup.Prepend>
                           <FormControl
-                            onClick={setUserTyping} type="text" placeholder="Your message" value={message} onChange={(event) => setMessage(event.target.value)}
+                            onClick={setUserTyping} 
+                            type="text" 
+                            placeholder="Your message" 
+                            className="submit-form"
+                            value={message} 
+                            onChange={(event) => setMessage(event.target.value)}
                           />
                       <InputGroup.Append>
                           <Button variant="success" type="submit">Send</Button>
