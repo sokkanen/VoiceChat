@@ -198,10 +198,6 @@ const searchForEmailOrUsername = async (searchPhrase) => {
 }
 
 const insertInvitation = async (chatterId, roomId, inviter) => {
-  /*const verified = jwt.verify(user.token, process.env.TOKENSECRET)
-    if (!verified.id || !user.token){
-        return false
-    }*/
   try {
     const sql = ('INSERT INTO Invite(chatter_id, room_id, inviter) VALUES ($1, $2, $3)')
     const values = [chatterId, roomId, inviter]

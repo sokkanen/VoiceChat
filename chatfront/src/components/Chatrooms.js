@@ -129,7 +129,6 @@ const Chatrooms = (props) => {
     }
 
     const removeRoom = (room) => () => {
-        console.log(room)
         if (window.confirm(`Do you really want to remove ${room.name}`)){
             const token = JSON.parse(window.localStorage.getItem('user')).token
             socket.emit('removeRoom', room, token)

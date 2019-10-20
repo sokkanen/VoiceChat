@@ -109,9 +109,6 @@ const Room = (props) => {
           props.setUserColor(chatnick, color)
         }
       })
-      socket.on('mute', (muteInfo) => {
-        console.log(muteInfo)
-      })
       window.addEventListener("beforeunload", onUnload)
 
       const typeTimer = setInterval(() => {
@@ -149,7 +146,6 @@ const Room = (props) => {
         setSpeech(sph)
         setVoice(voice.name)
         window.alert(`Current voice changed to ${voice.name}`)
-        console.log('Voice changed')
       } catch (error) {
         console.log(error)
       }
@@ -226,7 +222,6 @@ const Room = (props) => {
           message: message,
           room: props.room
       }
-      console.log(msg)
       await socket.emit('newMessage', msg)
       setMessage('')
       props.setTyping(props.chatnick, false)
@@ -262,22 +257,6 @@ const Room = (props) => {
       props.setUserColor(props.chatnick, color)
       socket.emit('usercolor', props.room, props.chatnick, color)
     }
-
-    const emojiPopOver = (
-      <Popover id="popover">
-        <Popover.Content>
-          <Picker onSelect={addEmoji} title='Skintone picker' emoji='point_right'/>
-        </Popover.Content>
-      </Popover>
-    )
-
-    const colorPickerPopOver = (
-      <Popover id="popover">
-      <Popover.Content>
-        <CompactPicker onChange={ handleColorChange }/>
-      </Popover.Content>
-      </Popover>
-    )
 
     if (props.room === undefined){
         return <div><h4>Please choose a room from "Chatrooms"</h4></div>
@@ -320,7 +299,7 @@ const Room = (props) => {
               </DropdownButton>
               <Button style={{marginLeft: '5px', marginRight: '5px'}} onClick={setSpeakingNicknames} variant="outline-primary">{speakButtonMsg}</Button>
 
-              <OverlayTrigger trigger="focus" placement="bottom" overlay={colorPickerPopOver}>
+              <OverlayTrigger trigger="focus" placement="bottom" overlay={colorPickerPopOver(handleColorChange)}>
               <Button style={{marginLeft: '5px', marginRight: '5px'}} variant="outline-primary">Select Bubble Color</Button>
               </OverlayTrigger>
 
@@ -337,7 +316,7 @@ const Room = (props) => {
                     <Form onSubmit={sendMessage}>
                     <InputGroup>
                     <InputGroup.Prepend>
-                      <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver}>
+                      <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver(addEmoji)}>
                         <Button variant="outline-info">Emojis</Button>
                       </OverlayTrigger>
                     </InputGroup.Prepend>
@@ -362,7 +341,7 @@ const Room = (props) => {
                       <Form onSubmit={sendMessage} className="submit-form">
                       <InputGroup>
                       <InputGroup.Prepend>
-                        <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver}>
+                        <OverlayTrigger trigger="click" placement="right" overlay={emojiPopOver(addEmoji)}>
                           <Button variant="outline-info">Emojis</Button>
                         </OverlayTrigger>
                       </InputGroup.Prepend>
@@ -386,6 +365,26 @@ const Room = (props) => {
         </div>
       </Fade>
     )
+}
+
+const emojiPopOver = (handler) => {
+  return (
+    <Popover id="popover">
+      <Popover.Content>
+        <Picker onSelect={handler} title='Skintone picker' emoji='point_right'/>
+      </Popover.Content>
+    </Popover>
+  )
+}
+
+const colorPickerPopOver = (handler) => {
+  return (
+    <Popover id="popover">
+    <Popover.Content>
+      <CompactPicker onChange={handler}/>
+    </Popover.Content>
+    </Popover>
+  )
 }
 
 const mapStateToProps = (state) => {

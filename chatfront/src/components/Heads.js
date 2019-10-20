@@ -5,11 +5,6 @@ import Head from './Head'
 
 const Heads = (props) => {
 
-    const helperArray = []
-    for(let i=0;i<Math.ceil(props.users.length / 5);i++){
-        helperArray.push(i+1)
-    }
-
     return (
         <div style={{width: props.windowSize.width * 0.3, margin: '15px'}}>
             <CardColumns>
