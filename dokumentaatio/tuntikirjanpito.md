@@ -87,4 +87,5 @@ päivä | aika | mitä tein
 13.10 | 1    | Testejä. Kuvakaappauksen parannusta. README päivitys.
 13.10 | 2    | Lisää testejä frontille.
 19.10 | 1    | Testit frontin Room-komponentille.
-YHT   | 173
+20.10 | 1    | Typing-ominaisuuden fiksumpi toteutus (päivitysaika ja ajastettu tarkastus)
+YHT   | 174

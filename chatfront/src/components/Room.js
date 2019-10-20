@@ -39,6 +39,7 @@ const Room = (props) => {
     const [speakButtonMsg, SetSpeakButtonMsg] = useState('Speak usernames')
     const [largeChatButtonMessage, setLargeChatButtonMessage] = useState('Toggle small textchat')
     const [message, setMessage] = useState('')
+    const [messageLastModified, setMessageLastModified] = useState(0)
     const [messages, setMessages] = useState([])
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [textColor, setTextColor] = useState('#62f442')
@@ -112,6 +113,11 @@ const Room = (props) => {
         console.log(muteInfo)
       })
       window.addEventListener("beforeunload", onUnload)
+
+      const typeTimer = setInterval(() => {
+        isStillTyping()
+      }, 2000);
+
       return() => {
         socket.off('left')
         socket.off('join')
@@ -120,6 +126,7 @@ const Room = (props) => {
         socket.off('usercolor')
         socket.off('mute')
         window.removeEventListener("beforeunload", onUnload)
+        clearInterval(typeTimer)
       }
     }, [props])
 
@@ -227,9 +234,24 @@ const Room = (props) => {
       }
     }
 
-    const setUserTyping = () => {
-      props.setTyping(props.chatnick, true)
-      socket.emit('typing', props.room, props.chatnick, true)
+    const isStillTyping = () => {
+      const now = new Date().getTime()
+        if (now - messageLastModified > 2000 && now - messageLastModified !== now){
+          props.setTyping(props.chatnick, false)
+          socket.emit('typing', props.room, props.chatnick, false)
+        }
+    }
+
+    const setUserTyping = (value) => {
+      props.setTyping(props.chatnick, value)
+      socket.emit('typing', props.room, props.chatnick, value)
+    }
+
+    const handleMessageInput = (msg) => {
+      const now = new Date().getTime()
+      setMessageLastModified(now)
+      setMessage(msg)
+      setUserTyping(true)
     }
 
     const addEmoji = (emoji) => {
@@ -320,12 +342,11 @@ const Room = (props) => {
                       </OverlayTrigger>
                     </InputGroup.Prepend>
                         <FormControl
-                          onClick={setUserTyping} 
                           type="text" 
                           placeholder="Your message" 
                           className="submit-form"
                           value={message} 
-                          onChange={(event) => setMessage(event.target.value)}
+                          onChange={(event) => handleMessageInput(event.target.value)}
                         />
                     <InputGroup.Append>
                         <Button variant="success" type="submit">Send</Button>
@@ -346,12 +367,11 @@ const Room = (props) => {
                         </OverlayTrigger>
                       </InputGroup.Prepend>
                           <FormControl
-                            onClick={setUserTyping} 
                             type="text" 
                             placeholder="Your message" 
                             className="submit-form"
                             value={message} 
-                            onChange={(event) => setMessage(event.target.value)}
+                            onChange={(event) => handleMessageInput(event.target.value)}
                           />
                       <InputGroup.Append>
                           <Button variant="success" type="submit">Send</Button>

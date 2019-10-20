@@ -36,4 +36,3 @@ Ohjelman keskeiset ominaisuudet:
 
 - Lisää testikattavuutta
 - Käyttöohje
-- 'Typing' -toiminnallisuuden parantaminen
