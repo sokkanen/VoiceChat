@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
-import { Jumbotron, Container, Row, Col, Image, Button, Badge, Card, CardColumns } from 'react-bootstrap'
+import { Jumbotron, Container, Row, Col, Image, Button, Badge, Card } from 'react-bootstrap'
 import { Zoom } from 'react-reveal'
 import Speech from 'speak-tts'
 import cameraImage from '../images/camera.png'
@@ -165,7 +165,7 @@ const Ownface = (props) => {
             <Jumbotron fluid>
                 <Container>
                     <Row>
-                        <h3>'Hi! Welcome to the custom chatface builder! Click on camera below to start taking your pictures!'</h3>
+                        <h3>'Welcome to the custom chatface builder! Click on camera below to start taking your pictures!'</h3>
                         <p>Please make sure you have your webcam enabled.</p>
                     </Row>
                     <Row>

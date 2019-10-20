@@ -89,4 +89,5 @@ päivä | aika | mitä tein
 19.10 | 1    | Testit frontin Room-komponentille.
 20.10 | 1    | Typing-ominaisuuden fiksumpi toteutus (päivitysaika ja ajastettu tarkastus)
 20.10 | 1    | Koodin siistimistä 
-YHT   | 175
+20.10 | 1    | Testien korjaus, frontin socket omaan luokkaansa, pikkuviilauksia.
+YHT   | 176

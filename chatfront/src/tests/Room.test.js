@@ -85,7 +85,7 @@ describe('Chatrooms tests', () => {
         'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz' + 
         'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'}})
         fireEvent.click(button)
-        expect(window.alert).not.toBeCalled()
+        expect(window.alert).toBeCalledWith("typing", "Testihuone")
     })
 
     test('Both users are rendered', () => {

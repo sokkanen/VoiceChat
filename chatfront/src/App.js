@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import io from 'socket.io-client';
 import {BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import socket from './Socket'
 import { Nav, Navbar, Badge, Button } from 'react-bootstrap'
 import { Fade } from 'react-reveal'
 import { setRooms, setFullRooms } from './reducers/RoomsReducer'
@@ -27,13 +27,6 @@ import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import Ownface from './components/Ownface'
 import UserManagement from './components/UserManagement'
-
-const LOCAL = 'ws://localhost:3003'
-const HOST = window.location.origin.replace(/^http/, 'ws')
-let socket
-window.location.origin === 'http://localhost:3000' ? 
-socket = io(LOCAL, {transports: ['websocket'], upgrade: false}) : 
-socket = io(HOST, {transports: ['websocket'], upgrade: false})
 
 const App = (props) =>  {
 
@@ -108,14 +101,16 @@ const App = (props) =>  {
   }
 
   const logOutHandler = () => {
-    props.logoutUser()
-    props.removeChatnick()
-    props.removePrivateRooms()
-    props.setUsers([])
-    props.setRoom('')
-    props.removeUserInfo()
-    socket.emit('logout')
-    window.localStorage.removeItem('user')
+    if (window.confirm('Are you sure?')){
+      props.logoutUser()
+      props.removeChatnick()
+      props.removePrivateRooms()
+      props.setUsers([])
+      props.setRoom('')
+      props.removeUserInfo()
+      socket.emit('logout')
+      window.localStorage.removeItem('user')
+    }
   }
 
   const faces = initialize().then((faces) => {
