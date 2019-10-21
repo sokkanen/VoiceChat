@@ -52,26 +52,32 @@ const Room = (props) => {
       if (msg.length !== 0){
         if (msg.room === props.room){
           console.log('message: ', msg.message, ' from: ', msg.user)
-          const msgs = messages.reverse()
-          const ms = {
-            user: msg.user, 
-            msg: msg.message
-          }
-          msgs.push(ms)
-          setMessages(msgs.reverse())
-          if (props.users.length > 0 ){
-            const muted = props.users.find(user => user.chatnick === msg.user).muted
-            if (!muted){
-              if (speakButtonMsg === 'Speak usernames'){
-                speak(msg.message + ' ')
-              } else {
-                speak(msg.user + ': ' + msg.message + ' ')
+          if (props.users.find(user => user.chatnick === msg.user) === undefined){
+            window.alert('An error occurred. Please Logout, Login and join the room again.')
+          } else {
+            const msgs = messages.reverse()
+            const ms = {
+              user: msg.user, 
+              msg: msg.message
+            }
+            msgs.push(ms)
+            setMessages(msgs.reverse())
+            if (props.users.length > 0 ){
+              const muteUser = props.users.find(user => user.chatnick === msg.user)
+              if (muteUser !== undefined){
+                if (!muteUser.muted){
+                  if (speakButtonMsg === 'Speak usernames'){
+                    speak(msg.message + ' ')
+                  } else {
+                    speak(msg.user + ': ' + msg.message + ' ')
+                  }
+                }
               }
             }
+            props.setSpeaking(msg.user)
+            forceUpdate()
+            props.newMessage('')
           }
-          props.setSpeaking(msg.user)
-          forceUpdate()
-          props.newMessage('')
         }
       }
       socket.on('disconnected', async (user) => {

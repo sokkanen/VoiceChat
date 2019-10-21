@@ -244,7 +244,6 @@ const removeRoom = async (room, token) => {
     return false
   }
   try {
-    await client.query('BEGIN')
     const sql2 = ('DELETE FROM Room_chatter WHERE room_id = $1')
     const values2 = [room.id]
     await client.query(sql2, values2)
@@ -254,7 +253,6 @@ const removeRoom = async (room, token) => {
     const sql = ('DELETE FROM Room WHERE id = $1 AND owner_id = $2')
     const values = [room.id, room.owner_id]
     await client.query(sql, values)
-    await client.query('COMMIT')
     return verified.id
   } catch (error) {
     console.log('Error in accepting invitation.')

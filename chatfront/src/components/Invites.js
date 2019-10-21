@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Popup from 'reactjs-popup'
 import { Button } from 'react-bootstrap'
 import { setPrivateRooms } from '../reducers/PrivateRoomsReducer'
-import { setInvites } from '../reducers/InvitesReducer'
+import { acceptInvitation, declineInvitation } from '../reducers/InvitesReducer'
 
 
 const Invites = (props) => {
@@ -13,12 +13,21 @@ const Invites = (props) => {
 
     const acceptInvitation = (invitation) => () => {
         socket.emit('acceptInvitation', invitation)
-        props.setInvites(invites.filter(i => i.room_id !== invitation.room_id))
+        props.acceptInvitation(invitation)
+        removeInvitationFromLocalStorage(invitation)
     }
 
     const declineInvitation = (invitation) => () => {
         socket.emit('declineInvitation', invitation)
-        props.setInvites(invites.filter(i => i.room_id !== invitation.room_id))
+        props.declineInvitation(invitation)
+        removeInvitationFromLocalStorage(invitation)
+    }
+
+    const removeInvitationFromLocalStorage = (invitation) => {
+        const userData = JSON.parse(window.localStorage.getItem('user'))
+        const localInvitations = userData.invites.filter(i => i.room_id !== invitation.room_id)
+        const newUser = {...userData, invites: localInvitations}
+        window.localStorage.setItem('user', JSON.stringify(newUser))
     }
 
     const style = { 
@@ -61,7 +70,8 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = {
     setPrivateRooms,
-    setInvites
+    acceptInvitation,
+    declineInvitation
   }
   
   const connectedInvites = connect(mapStateToProps, mapDispatchToProps)(Invites)

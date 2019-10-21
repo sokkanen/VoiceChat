@@ -108,6 +108,7 @@ const App = (props) =>  {
       props.setUsers([])
       props.setRoom('')
       props.removeUserInfo()
+      props.setInvites([])
       socket.emit('logout')
       window.localStorage.removeItem('user')
     }

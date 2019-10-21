@@ -75,7 +75,7 @@ päivä | aika | mitä tein
 11.9  | 2    | Tekstichatti käyttämään puhekuplia. Värinvalinnan 1. esiversio.
 12.9  | 2    | Värinvalinta omalle tekstikuplalle toimii ja välittyy muille. Käyttäjähallinnan päivitys; päivitys toimii, poistamisen frontti.
 13.9  | 1    | Client disconnect ei aina toimi Herokussa --> Backup -metodi ja käyttäjän poistumisen varmistus. 
-14.9	| 2    | Käyttäjätilin poistaminen (Postgres-transaktio ja Mongo). Palaute poistosta. Huoneeseen liittymisen parannus.
+14.9  | 2    | Käyttäjätilin poistaminen (Postgres-transaktio ja Mongo). Palaute poistosta. Huoneeseen liittymisen parannus.
 15.9  | 3    | Ajastettu tehtävä kaatuneiden clienttien herättämiseen. Backendin testiympäristön rakentamista. 
 21.9  | 2    | Bäkkärin testiympäristön rakentamista. Clientin mock. Konsolin parempi mock.
 21.9  | 1    | Lisää testejä bäkkiin. Frontin lomakkeiden, objektien avainten ja useStaten korjausta. 
@@ -90,4 +90,5 @@ päivä | aika | mitä tein
 20.10 | 1    | Typing-ominaisuuden fiksumpi toteutus (päivitysaika ja ajastettu tarkastus)
 20.10 | 1    | Koodin siistimistä 
 20.10 | 1    | Testien korjaus, frontin socket omaan luokkaansa, pikkuviilauksia.
-YHT   | 176
+21.10 | 2    | Käyttöohjeen aloittaminen. Bugikorjauksia.
+YHT   | 178
