@@ -42,7 +42,7 @@ Tervetulonäkymä
 
 Tervetulonäkymästä on mahdollista siirtyä Chatrooms-, New User- ja Login - näkymiin.
 
-![Tervetulonäkymä][vc1.png]
+![Tervetulonäkymä][https://github.com/sokkanen/VoiceChat/blob/master/dokumentaatio/images/vc1.png]
 
 Chatrooms
 --
@@ -50,10 +50,10 @@ Chatrooms
 Chatrooms-näkymässä voi luoda uusia chathuoneita *Create A New Room - painikkeella*, Liittyä olemassaoleviin huoneiseen klikkaamalla niiden nimiä, hallinnoida privaattihuoneiden käyttäjiä ja poistaa omia huoneita.   
 (Kuvassa kirjautuneena käyttäjä "FooBar")
 
-![Chatrooms][vc2.png]
+![Chatrooms][https://github.com/sokkanen/VoiceChat/blob/master/dokumentaatio/images/vc2.png]
 
 Click to see new invitations - painikkeesta näkee käyttäjälle tulleet yksityishuonekutsut.
 
-Tervetulonäkymä
+....
 --
-![Tervetulonäkymä][vc1.png]
+![Näkymä][https://github.com/sokkanen/VoiceChat/blob/master/dokumentaatio/images/vc3.png]
