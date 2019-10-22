@@ -8,6 +8,10 @@ Ohjelman tämänhetkinen versio löytyy osoitteesta https://synthchat.herokuapp.
 
 [Tuntikirjanpito](https://github.com/sokkanen/VoiceChat/blob/master/dokumentaatio/tuntikirjanpito.md)
 
+#### Käyttöohje
+
+[Käyttöohje](https://github.com/sokkanen/VoiceChat/blob/master/dokumentaatio/ohje.md)
+
 ### Yleistä
 
 VoiceChat on selaimen puhesyntetisaattoria käyttävä chat -ohjelma.
@@ -31,8 +35,3 @@ Ohjelman keskeiset ominaisuudet:
 	- Yksityishuoneet
 	- Kutsuminen yksityishuoneeseen
 	- Omien tietojen luku, muokkaus ja tilin poistaminen
-
-### TODO
-
-- Lisää testikattavuutta
-- Käyttöohje
