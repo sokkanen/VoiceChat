@@ -44,8 +44,12 @@ Tervetulonäkymästä on mahdollista siirtyä Chatrooms-, New User- ja Login - n
 
 ### Chatrooms (Rekisteröidyn käyttäjän näkymä - Rajoitettuna myös rekisteröitymättömälle) 
 
+Chatrooms-näkymässä voi luoda uusia chathuoneita *Create A New Room - painikkeella*, Liittyä olemassaoleviin huoneiseen klikkaamalla niiden nimiä, hallinnoida privaattihuoneiden käyttäjiä ja poistaa omia huoneita.  
 
-Chatrooms-näkymässä voi luoda uusia chathuoneita *Create A New Room - painikkeella*, Liittyä olemassaoleviin huoneiseen klikkaamalla niiden nimiä, hallinnoida privaattihuoneiden käyttäjiä ja poistaa omia huoneita.   
+Sekä julkiset, että yksityiset huoneet sivutetaan niin, että yhdellä sivulla on enintään 5 huonetta.
+
+Huoneita on mahdollista hakea *Search* - kentästä.
+
 (Kuvassa kirjautuneena käyttäjä "FooBar")
 
 ![Chatrooms](./images/vc2.png)
