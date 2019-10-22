@@ -2,7 +2,7 @@
 
 ### Demo
 
-Ohjelman tämänhetkinen versio löytyy osoitteesta https://synthchat.herokuapp.com/
+Ohjelman viimeisin versio löytyy osoitteesta https://synthchat.herokuapp.com/
 
 #### Tuntikirjanpito
 
