@@ -237,7 +237,7 @@ const Chatrooms = (props) => {
                     </thead>
                     <tbody>
                     {props.privateRooms
-                        .filter(r => r.name.toLowerCase().includes(search))
+                        .filter(r => r.name.toLowerCase().includes(search.toLowerCase()))
                         .slice((privatePage-1) * 5, ((privatePage-1) * 5) + 5)
                         .map(r =>
                         <tr key={r.name}>
@@ -323,7 +323,7 @@ const Chatrooms = (props) => {
                 </thead>
                 <tbody>
                     {props.rooms
-                    .filter(r => r.name.toLowerCase().includes(search))
+                    .filter(r => r.name.toLowerCase().includes(search.toLowerCase()))
                     .slice((page-1) * 5, ((page-1) * 5) + 5)
                     .map(r => <tr key={r.name}>
                         <td><p>{r.name}</p></td>
