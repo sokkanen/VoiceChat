@@ -35,8 +35,6 @@ Rekisteröityneelle käyttäjälle on tarjolla ohjelman laajennetut ominaisuudet
 ## Ohjelman käyttäminen
 --
 
----
-
 ### Tervetulonäkymä
 --
 
@@ -153,6 +151,8 @@ Kuvien ottamisen jälkeen käyttäjä voi varmistaa, että on tyytyväinen kuvii
 Kuvien tallentumisesta tietokantaan annetaan käyttäjälle ilmoitus.
 
 ![PhotosSaved](./images/vc11.png)
+
+---
 
 ## Tuleviin versioihin jääneet parannukset
 --
