@@ -23,7 +23,7 @@ const createTables = () => {
     .catch(error => {
       console.log(error)
     })
-  client.query('CREATE TABLE IF NOT EXISTS chatter (id varchar(48) PRIMARY KEY, username varchar(64) NOT NULL UNIQUE, email varchar(128) NOT NULL, passhash varchar(128) NOT NULL, images_id varchar(32));')
+  client.query('CREATE TABLE IF NOT EXISTS chatter (id varchar(48) PRIMARY KEY, username varchar(64) NOT NULL UNIQUE, email varchar(128) NOT NULL UNIQUE, passhash varchar(128) NOT NULL, images_id varchar(32));')
     .catch(error => {
       console.log(error.message)
     })

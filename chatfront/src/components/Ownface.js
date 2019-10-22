@@ -60,7 +60,7 @@ const Ownface = (props) => {
     const testCamera = async () => {
         const success = await startCamera()
         if (success.active){
-            window.alert('Your camera seem to be working fine.')
+            window.alert('Your camera seems to be working fine.')
         } else {
             window.alert(`There's something wrong with your camera. Make sure you have enabled your webcam in your browser.`)
         }
@@ -187,7 +187,7 @@ const Ownface = (props) => {
                         <Card style={{ width: props.windowSize.width * 0.3 }}>
                             <Card.Body>
                             <Card.Img src={image} style={{width: 240, height: 240}} />
-                                <Card.Title>Your most recent photo</Card.Title>
+                                <Card.Title>Most recent photo</Card.Title>
                             </Card.Body>
                         </Card>
                         <Card style={{ width: props.windowSize.width * 0.3 }}>

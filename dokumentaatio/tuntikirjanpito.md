@@ -91,4 +91,5 @@ päivä | aika | mitä tein
 20.10 | 1    | Koodin siistimistä 
 20.10 | 1    | Testien korjaus, frontin socket omaan luokkaansa, pikkuviilauksia.
 21.10 | 2    | Käyttöohjeen aloittaminen. Bugikorjauksia.
-YHT   | 178
+22.10 | 2    | Käyttöohje, typoja, mongon uusi parametri.
+YHT   | 180
