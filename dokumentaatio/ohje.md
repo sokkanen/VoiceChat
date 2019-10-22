@@ -1,8 +1,8 @@
-##Voicechat - Ohje##
+## Voicechat - Ohje
 --
 Voicechat on selaimen puhesyntetisaattoria käyttävä chat-ohjelma. Voicechatissa jokaista keskustelijaa edustaa animoitu puhuva-pää, joka puhuu käyttäjän viestit. Voicechat ei tallenna käyttäjien keskusteluhistoriaa.
 
-###Rekisteröitymätön käyttäjä###
+### Rekisteröitymätön käyttäjä
 --
 Rekisteröitymättömälle käyttäjälle on tarjolla ohjelman perustoiminnallisuudet. 
 
@@ -12,7 +12,7 @@ Rekisteröitymättömälle käyttäjälle on tarjolla ohjelman perustoiminnallis
 
 Rekisteröitymätön käyttäjä ei voi valita itselleen varattua nimimerkkiä, eli rekisteröityneen käyttäjän käyttäjätunnusta. 
 
-###Rekisteröitynyt käyttäjä###
+### Rekisteröitynyt käyttäjä
 --
 Rekisteröityneelle käyttäjälle on tarjolla ohjelman laajennetut ominaisuudet. 
 
@@ -32,19 +32,19 @@ Rekisteröityneelle käyttäjälle on tarjolla ohjelman laajennetut ominaisuudet
 
 ---
 
-##Ohjelman käyttäminen###
+## Ohjelman käyttäminen
 --
 
 ---
 
-###Tervetulonäkymä###
+### Tervetulonäkymä
 --
 
 Tervetulonäkymästä on mahdollista siirtyä Chatrooms-, New User- ja Login - näkymiin. Tervetulonäkymään pääsee klikkaamalla vasemman ylälaidan puhekupla-ikonia.
 
 ![Tervetulonäkymä](./images/vc1.png)
 
-###Chatrooms (Rekisteröidyn käyttäjän näkymä)###
+### Chatrooms (Rekisteröidyn käyttäjän näkymä - Rajoitettuna myös rekisteröitymättömälle) 
 --
 
 Chatrooms-näkymässä voi luoda uusia chathuoneita *Create A New Room - painikkeella*, Liittyä olemassaoleviin huoneiseen klikkaamalla niiden nimiä, hallinnoida privaattihuoneiden käyttäjiä ja poistaa omia huoneita.   
@@ -70,7 +70,7 @@ Uuden huoneen luominen tapahtuu *Create a New Room* - painikkeesta. Huoneelle on
 
 ---
 
-###Chathuone###
+### Chathuone
 --
 
 Klikkaamalla huoneen nimeä chatrooms -näkymästä pääsee huoneeseen keskustelemaan. Huoneessa on rullaava tekstichatti sekä jokaista käyttäjää vastaavat puhuvat päät.
@@ -91,7 +91,7 @@ Huoneen toiminnallisuudet:
 
 ---
 
-###Login###
+### Login
 --
 
 Kirjautumisnäkymässä voi kirjautua aiemmin luodulla käyttäjätunnuksella. Lomake antaa visuaalisen palautteen, mikäli kirjautumista yritetään väärällä käyttäjätunnus / salasana - yhdistelmällä.
@@ -102,7 +102,7 @@ Ohjelmasta voidaan kirjautua ulos *LogOut* - painikkeesta.
 
 ![PhotosSaved](./images/vc13.png)
 
-###New user###
+### New user
 --
 
 Uuden käyttäjän näkymästä voi luoda ohjelmaan uuden käyttäjän.
@@ -118,7 +118,7 @@ Lomake antaa visuaalisen palautteen virheellisistä kentistä.
 
 ![PhotosSaved](./images/vc14.png)
 
-###User management (Rekisteröityneen käyttäjän näkymä)###
+### User management (Rekisteröityneen käyttäjän näkymä)
 --
 
 Käyttäjähallintaan pääsee klikkaamalla omaa nimimerkkiä ohjelman yläpalkista. 
@@ -131,7 +131,7 @@ Mikäli käyttäjätilin poistamista yritetään väärällä salasanalla, kirja
 
 ![UserManagement](./images/vc6.png)
 
-###Custom chatface (Rekisteröityneen käyttäjän näkymä)###
+### Custom chatface (Rekisteröityneen käyttäjän näkymä)
 --
 
 Näkymässä on mahdollista luoda oma puhuva pää chattiin oletuspään tilalle. 
@@ -154,7 +154,7 @@ Kuvien tallentumisesta tietokantaan annetaan käyttäjälle ilmoitus.
 
 ![PhotosSaved](./images/vc11.png)
 
-##Tuleviin versioihin jääneet parannukset##
+## Tuleviin versioihin jääneet parannukset
 --
 - Sähköpostin hyödyntäminen ilmoituksiin
 - Kaikkien otettujen kuvien esittäminen
